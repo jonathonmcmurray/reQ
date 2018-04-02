@@ -1,0 +1,11 @@
+{
+  "headers": {
+    "Accept": "*/*", 
+    "Connection": "close", 
+    "Custom": "with custom", 
+    "Headers": "values", 
+    "Host": "httpbin.org", 
+    "User-Agent": "kdb+/3.5"
+  }
+}
+
