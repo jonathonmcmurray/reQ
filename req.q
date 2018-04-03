@@ -1,6 +1,6 @@
 \d .req
 
-sturl:{(":"=first x)_x:$[11=type x;string;]x}                                       //convert URL to string
+sturl:{(":"=first x)_x:$[-11=type x;string;]x}                                      //convert URL to string
 hsurl:{hsym $[10=type x;`$;]x}                                                      //convert URL to hsym
 prsu:{.Q.hap[x z]y}[$[.z.K<3.6;hsurl;sturl]]                                        //parse URL, string for 3.6+, hsym for below
 prot:prsu[0]                                                                        //get protocol from URL
