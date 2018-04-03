@@ -13,6 +13,10 @@ While each script can be used as a "library" for the given service, it may be
 necessary to modify these slightly in order to ensure file paths are correct
 etc. depending on the layout of your code.
 
+Also note that there is minimal/no error checking & handling in these scripts in
+order to maintain simplicity - this should be added as required when using any
+of this code in your own scripts.
+
 ### Config files
 
 The config files are simple key-value pairs like so:
@@ -71,3 +75,48 @@ AquaQ #50170
 Downloading input for 2017 day 16 to: :/home/jmcmurray/git/reQ/p16
 
 ```
+
+## GitHub (`github.q`)
+
+This script provides a very simple example of accessing the GitHub API. It 
+contains a single function, for retrieving a basic summary of a GitHub repo.
+
+In terms of config, the only value required here is an authorisation token for
+the GitHub API, to be placed in `github.cfg`.
+
+In standalone mode, it uses positional arguments to provide the repo
+information, which can be either in the `user/repo` format or `user repo`. For
+example:
+
+```
+$ q examples/github.q AquaQAnalytics/TorQ
+KDB+ 3.5 2017.11.30 Copyright (C) 1993-2017 Kx Systems
+l64/ 8()core 16048MB jmcmurray homer.aquaq.co.uk 127.0.1.1 EXPIRE 2018.06.30
+AquaQ #50170
+
+name            | "TorQ"
+owner           | "AquaQAnalytics"
+html_url        | "https://github.com/AquaQAnalytics/TorQ"
+description     | "kdb+ production framework.  Read the doc:
+http://aquaqanalytics.github.io/TorQ/.  Join the group!"
+size            | 13394f
+stargazers_count| 111f
+watchers_count  | 111f
+
+$ q examples/github.q jonathonmcmurray kdbslack
+KDB+ 3.5 2017.11.30 Copyright (C) 1993-2017 Kx Systems
+l64/ 8()core 16048MB jmcmurray homer.aquaq.co.uk 127.0.1.1 EXPIRE 2018.06.30
+AquaQ #50170
+
+name            | "kdbslack"
+owner           | "jonathonmcmurray"
+html_url        | "https://github.com/jonathonmcmurray/kdbslack"
+description     | "A framework for a KDB back end to a Slack bot"
+size            | 79f
+stargazers_count| 1f
+watchers_count  | 1f
+```
+
+The same function can be used by loading the script within a q session/script
+and calling `.gh.repo[user;repo]` where `user` & `repo` are strings, and the
+return is the dictionary.
