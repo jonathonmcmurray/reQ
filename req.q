@@ -20,7 +20,7 @@ hu:.h.hug .Q.an,"-.~"                                                           
 proxy:{[h] /h-host for request
   /* get proxy address if needed for this hostname */
   p:(^/)`$getenv`$(floor\)("HTTP";"NO"),\:"_PROXY";                                 //check HTTP_PROXY & NO_PROXY env vars, upper & lower case - fill so p[0] is http_, p[1] is no_
-  t:max(first ":"vs h)like/:{(("."=first x)#"*"),x}@'"," vs string p 1;             //check if host is in NO_PROXY env var
+  t:max(first ":"vs h)like/:{(("."=first x)#"*"),x}each"," vs string p 1;           //check if host is in NO_PROXY env var
   t:not null[first p]|t;                                                            //check if HTTP_PROXY is defined & host isn't in NO_PROXY
   :(t;p 0);                                                                         //return boolean of whether to use proxy & proxy address
  }
@@ -39,7 +39,7 @@ headers:{[us;pr;hd;p] /us-username,pr-proxy,hd-custom headers,p-payload
 
 enchd:{[d] /d-dictionary of headers
   /* convert KDB dictionary to HTTP headers */
-  :("\r\n" sv ": " sv/:flip (key;get)@\:d),"\r\n\r\n";                              //encode headers dict to HTTP headers
+  :("\r\n" sv ": " sv/:flip (key;value)@\:d),"\r\n\r\n";                            //encode headers dict to HTTP headers
  }
 
 buildquery:{[m;pr;u;h;d;p] /m-method,pr-proxy,u-url,h-host,d-headers dict,p-payload
@@ -59,12 +59,11 @@ formatresp:{[r] /r-raw response
   :(d;p[1]);                                                                        //return header dict & reponse body
  } 
 
-hu:.h.hug .Q.an,"-.~"                                                               //URI escaping for non-safe chars, RFC-3986
 
 urlencode:{[d] /d-dictionary
-  k:key d;v:get d;                                                                  //split dictionary into keys & values
-  v:enlist@'hu@'@[v;where 10<>type@'v;string];                                      //string any values that aren't stringed,escape any chars that need it
-  k:enlist@'$[all 10=type@'k;k;string k];                                           //if keys are strings, string them
+  k:key d;v:value d;                                                                //split dictionary into keys & values
+  v:enlist each hu each @[v;where 10<>type each v;string];                          //string any values that aren't stringed,escape any chars that need it
+  k:enlist each $[all 10=type each k;k;string k];                                   //if keys are strings, string them
   :"&" sv "=" sv' k,'v;                                                             //return urlencoded form of dictionary
  }
 
@@ -89,10 +88,10 @@ send:{[m;u;hd;p] /m-method,u-url,hd-headers,p-payload
  }
 
 parseresp:{[r]
-  $[r[0][`$"Content-Type"]~.h.ty`json;.j.k;] r[1]
+  $[r[0][`$"Content-Type"]like .h.ty[`json],"*";.j.k;] r[1]
  }
 
-.req.get:{parseresp send[`GET;x;y;()]}                                                   //get - projection with no payload & GET method
-.req.post:{parseresp send[`POST;x;y;z]}                                                  //post - project with POST method
+.req.get:{parseresp send[`GET;x;y;()]}                                              //get - projection with no payload & GET method
+.req.post:{parseresp send[`POST;x;y;z]}                                             //post - project with POST method
 
 \d .
