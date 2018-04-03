@@ -1,9 +1,8 @@
 \d .req
 
-prsu:$[.z.K<3.6;                                                                    //in 3.6+ .Q.hap takes a string
-        {.Q.hap[hsym $[10=type y;`$y;y]]x};                                         //parse URL, return one element
-        {.Q.hap[$[11=type y;string[y];y]]x}                                         //parse URL, return one element TODO: could be hsym, detect & trim
-     ];
+sturl:{(":"=first x)_x:$[11=type x;string;]x}                                       //convert URL to string
+hsurl:{hsym $[10=type x;`$;]x}                                                      //convert URL to hsym
+prsu:{.Q.hap[x z]y}[$[.z.K<3.6;hsurl;sturl]]                                        //parse URL, string for 3.6+, hsym for below
 prot:prsu[0]                                                                        //get protocol from URL
 user:prsu[1]                                                                        //get username from URL
 host:prsu[2]                                                                        //get hostname from URL
@@ -44,7 +43,7 @@ enchd:{[d] /d-dictionary of headers
 
 buildquery:{[m;pr;u;h;d;p] /m-method,pr-proxy,u-url,h-host,d-headers dict,p-payload
   /* construct full HTTP query string */
-  r:string[m]," ",$[pr 0;u;endp[u]]," HTTP/1.1\r\n",                                //method & endpoint TODO: u can be a hsym, detect and trim, string
+  r:string[m]," ",$[pr 0;sturl u;endp[u]]," HTTP/1.1\r\n",                          //method & endpoint
        "Host: ",h,"\r\n",                                                           //add host string
        enchd[d],                                                                    //add headers
        $[count p;p;""];                                                             //add payload if present
