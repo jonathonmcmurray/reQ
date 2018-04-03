@@ -1,5 +1,10 @@
 # reQ Examples
 
+#### Index
+
+* [Advent of Code](#advent-of-code-aocq)
+* [GitHub](#github-githubq)
+
 Within this directory are a number of examples of usage for the reQ library. 
 Each example consists of a Q script, which can function standalone or as a 
 library loaded within other Q scripts. There is also a `.cfg` file for each
