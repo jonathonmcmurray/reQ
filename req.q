@@ -60,6 +60,7 @@ formatresp:{[r] /r-raw response
 
 
 urlencode:{[d] /d-dictionary
+  /* encode a KDB dictionary as a URL encoded string */
   k:key d;v:value d;                                                                //split dictionary into keys & values
   v:enlist each hu each @[v;where 10<>type each v;string];                          //string any values that aren't stringed,escape any chars that need it
   k:enlist each $[all 10=type each k;k;string k];                                   //if keys are strings, string them
@@ -67,7 +68,13 @@ urlencode:{[d] /d-dictionary
  }
 
 urldecode:{[x] /x-urlencoded string
+  /* convert a URL encoded string to a KDB dictionary */
   :(!/)"S=&"0:.h.uh ssr[x;"+";" "];                                                 //parse incoming request into dict, replace escaped chars
+ }
+
+okstatus:{[x] /x-reponse (headers;body)
+  /* throw a signal if not HTTP OK status */
+  if[200<>x[0]`status;'string x[0]`status];                                         //signal if bad status FIX: handle different status codes - descriptive signals
  }
 
 send:{[m;u;hd;p] /m-method,u-url,hd-headers,p-payload
@@ -82,15 +89,16 @@ send:{[m;u;hd;p] /m-method,u-url,hd-headers,p-payload
   if[r[0][`status] within 300 399;                                                  //if status is 3XX, redirect FIX: not all 3XX are redirects?
      lo:$["/"=r[0][`Location]0;prot[u],user[u],host[u],r[0]`Location;r[0]`Location]; //detect if relative or absolute redirect
      :.z.s[m;lo;hd;p]];                                                             //perform redirections if needed
-  if[not r[0][`status]=200;'string r[0]`status];                                    //signal if bad status FIX: handle different status codes - descriptive signals
   :r;
  }
 
 parseresp:{[r]
-  $[r[0][`$"Content-Type"]like .h.ty[`json],"*";.j.k;] r[1]
+  /* detect JSON reponse & parse into KDB data structure */
+  / TODO - add handling for other data types? /
+  :$[r[0][`$"Content-Type"]like .h.ty[`json],"*";.j.k;] r[1];                       //check for JSON, parse if so
  }
 
-.req.get:{parseresp send[`GET;x;y;()]}                                              //get - projection with no payload & GET method
-.req.post:{parseresp send[`POST;x;y;z]}                                             //post - project with POST method
+.req.get:{parseresp okstatus send[`GET;x;y;()]}                                     //get - projection with no payload & GET method
+.req.post:{parseresp okstatus send[`POST;x;y;z]}                                    //post - project with POST method
 
 \d .
