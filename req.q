@@ -74,7 +74,7 @@ urldecode:{[x] /x-urlencoded string
 
 okstatus:{[x] /x-reponse (headers;body)
   /* throw a signal if not HTTP OK status */
-  if[200<>x[0]`status;'string x[0]`status];                                         //signal if bad status FIX: handle different status codes - descriptive signals
+  if[not x[0][`status] within 200 299;'string x[0]`status];                         //signal if bad status FIX: handle different status codes - descriptive signals
   :x;                                                                               //return response if it's not bad
  }
 

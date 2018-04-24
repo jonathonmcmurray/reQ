@@ -4,12 +4,13 @@
 
 * [Advent of Code](#advent-of-code-aocq)
 * [GitHub](#github-githubq)
+* [JIRA](#jira-jiraq)
 
 Within this directory are a number of examples of usage for the reQ library. 
-Each example consists of a Q script, which can function standalone or as a 
-library loaded within other Q scripts. There is also a `.cfg` file for each
-example containing various configuration details (e.g. authorisation token,
-session cookie etc.).
+Each example consists of a Q script, which can (often) function standalone or 
+(always) as a library loaded within other Q scripts. There is also a `.cfg` 
+file for each example containing various configuration details (e.g. 
+authorisation token, session cookie etc.).
 
 Also present is a script named `util.q` consisting of any small utilities used
 throughout the examples (e.g. for loading config file etc.).
@@ -125,3 +126,40 @@ watchers_count  | 1f
 The same function can be used by loading the script within a q session/script
 and calling `.gh.repo[user;repo]` where `user` & `repo` are strings, and the
 return is the dictionary.
+
+## JIRA (`jira.q`)
+
+This script contains several functions for interacting with Atlassian JIRA REST
+API - for more details of the API, see [the official docs](https://docs.atlassian.com/jira/REST/server/).
+
+The provided functions give access to a list of the projects within a JIRA 
+workspace and the ability to create an issue within a given project.
+
+For config, the required values are `url` (the URL of your JIRA instance) and
+`user` (the user:pass combination for logging into JIRA).
+
+A few examples:
+
+```
+C:\Users\jonat\git\reQ (master)
+λ q examples\jira.q
+KDB+ 3.5 2017.03.28 Copyright (C) 1993-2017 Kx Systems
+w32/ 4()core 4095MB jonat laptop-o8a8co1o 192.168.56.1 NONEXPIRE
+
+q).jira.getprojects[]
+name              key  id
+------------------------------
+"Example Project" "EP" "10000"
+q).jira.createissue[`EP;"Nasty bug";"There's a super nasty bug.\n\nIt needs fixed.";`Bug;`MrManager;`Devin;`bug`critical]
+"http://localhost:8080/rest/api/2/issue/10020"
+```
+
+For `.jira.createissue`, the args are (in order):
+
+* `project` - passed by "key", can be string or symbol
+* `summary` - title for JIRA issue
+* `description` - body for JIRA issue
+* `issuetype` - Bug, Task etc. - can be string or symbol
+* `reporter` - username of person reporting
+* `assignee` - username of person being assigned
+* `labels` - labels to add to the JIRA ticket
