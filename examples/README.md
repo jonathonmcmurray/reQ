@@ -167,7 +167,7 @@ q).jira.getprojects[]
 name              key  id
 ------------------------------
 "Example Project" "EP" "10000"
-q).jira.createissue[`EP;"Nasty bug";"There's a super nasty bug.\n\nIt needs fixed.";`Bug;`MrManager;`Devin;`bug`critical]
+q).jira.createissue[`EP;"Nasty bug";"There's a super nasty bug.\n\nIt needs fixed.";`Bug;`Devin;`bug`critical]
 "http://localhost:8080/rest/api/2/issue/10020"
 ```
 
@@ -177,6 +177,5 @@ For `.jira.createissue`, the args are (in order):
 * `summary` - title for JIRA issue
 * `description` - body for JIRA issue
 * `issuetype` - Bug, Task etc. - can be string or symbol
-* `reporter` - username of person reporting
 * `assignee` - username of person being assigned
 * `labels` - labels to add to the JIRA ticket
