@@ -17,9 +17,18 @@ repo:{[u;r]
   :@[r;`owner;@[;`login]];                                                          //return summary of repo details
  }
 
+createissue:{[u;r;title;body;labels]
+  ul:url,"repos/",u,"/",r,"/issues";                                                //build URL
+  hd:("Authorization";"Content_Type")!("token ",cfg`token;.req.ty`json);            //build HTTP headers
+  labels:$[-11=t:type labels;(),labels;10=t;enlist labels;labels];                  //ensure list of syms/strings
+  d:`title`body`labels!(title;body;labels);                                         //build input object
+  r:.req.post[ul;hd;.j.j d];                                                        //perform API request
+  :r`html_url;                                                                      //return URL of new issue
+ }
+
 \d .
 
-if[.gh.int&.z.x[0] like "*/*";
+if[.gh.int&first .z.x[0] like "*/*";
    show .gh.repo . "/" vs .z.x 0;
    exit 0;
   ];

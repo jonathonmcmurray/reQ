@@ -127,6 +127,23 @@ The same function can be used by loading the script within a q session/script
 and calling `.gh.repo[user;repo]` where `user` & `repo` are strings, and the
 return is the dictionary.
 
+The other function available is `.gh.createissue` to add an issue on a repo. For 
+example:
+
+```
+q)\l examples/github.q
+q).gh.createissue["user";"repo";"There's a big ol' bug";"We have a critical bug here, it's a big deal.\n\nNeeds fixed";`bug]
+"https://github.com/jonathonmcmurray/qsyancor/issues/1"
+```
+
+The args are (in order):
+
+* `user` - the username of the owner of the repo
+* `repo` - name of the repo
+* `title` - title for the issue
+* `body` - body for the issue
+* `labels` - labels for the issue (can be list of syms or strings, or a single sym/string)
+
 ## JIRA (`jira.q`)
 
 This script contains several functions for interacting with Atlassian JIRA REST
