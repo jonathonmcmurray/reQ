@@ -133,7 +133,7 @@ example:
 ```
 q)\l examples/github.q
 q).gh.createissue["user";"repo";"There's a big ol' bug";"We have a critical bug here, it's a big deal.\n\nNeeds fixed";`bug]
-"https://github.com/jonathonmcmurray/qsyancor/issues/1"
+"https://github.com/user/repo/issues/1"
 ```
 
 The args are (in order):
