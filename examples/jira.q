@@ -11,14 +11,12 @@ cfg:.utl.cfg`jira                                                               
 int:.z.f like "*jira.q";                                                            //check if jira.q on cmd line - if not, library funcs
 url:.req.prot[cfg`url],cfg[`user],"@",.req.host[cfg`url],"/rest/api/2/";            //base URL to use
 
-/createissue:{[project;summary;description;issuetype;reporter;assignee;labels]
 createissue:{[project;summary;description;issuetype;assignee;labels]
   d:enlist[`]!enlist(::);                                                           //create null key to prevent casting type of dict
   d[`project]:enlist[`key]!enlist project;                                          //add project key
   d[`summary]:summary;                                                              //title of issue
   d[`issuetype]:enlist[`name]!enlist issuetype;                                     //type by name (`Task `Bug etc.)
   d[`assignee]:enlist[`name]!enlist assignee;                                       //username to assign to
-//  d[`reporter]:enlist[`name]!enlist reporter;                                       //username reporting
   d[`description]:description;                                                      //body of issue
   d[`labels]:labels;                                                                //labels
   d:enlist[`]_d;                                                                    //remove null key
