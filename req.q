@@ -62,7 +62,7 @@ formatresp:{[r] /r-raw response
 urlencode:{[d] /d-dictionary
   /* encode a KDB dictionary as a URL encoded string */
   k:key d;v:value d;                                                                //split dictionary into keys & values
-  v:enlist each hu each @[v;where 10<>type each v;string];                          //string any values that aren't stringed,escape any chars that need it
+  v:enlist each hu each {$[10=type x;x;string x]}'[v];                              //string any values that aren't stringed,escape any chars that need it
   k:enlist each $[all 10=type each k;k;string k];                                   //if keys are strings, string them
   :"&" sv "=" sv' k,'v;                                                             //return urlencoded form of dictionary
  }
