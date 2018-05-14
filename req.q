@@ -1,5 +1,7 @@
 \d .req
 
+cookiejar:()!()                                                                     //storage for cookies
+
 sturl:{(":"=first x)_x:$[-11=type x;string;]x}                                      //convert URL to string
 hsurl:{hsym $[10=type x;`$;]x}                                                      //convert URL to hsym
 prsu:{.Q.hap[x z]y}[$[.z.K<3.6;hsurl;sturl]]                                        //parse URL, string for 3.6+, hsym for below
@@ -84,9 +86,12 @@ send:{[m;u;hd;p] /m-method,u-url,hd-headers,p-payload
   hs:hsym `$prot[u],h;                                                              //get hostname as handle & string
   if[pr[0];hs:hsym `$prot[pr 1],host pr 1];                                         //overwrite host handle if using proxy
   us:user $[pr 0;pr 1;u];                                                           //get user name (if present)
+  if[hs in key cookiejar;hd[`Cookie],:cookiejar[hs]];                               //add cookies if necessary
   d:headers[us;pr;hd;p];                                                            //get dictionary of HTTP headers for request
   r:hs buildquery[m;pr;u;h;d;p];                                                    //build query and execute
   r:formatresp r;                                                                   //format response to headers & body
+  if[(sc:`$"Set-Cookie") in k:key r 0;
+     cookiejar[hs]:";"sv first each ";"vs'value[r 0]where k=sc];
   if[r[0][`status] within 300 399;                                                  //if status is 3XX, redirect FIX: not all 3XX are redirects?
      lo:$["/"=r[0][`Location]0;prot[u],user[u],host[u],r[0]`Location;r[0]`Location]; //detect if relative or absolute redirect
      :.z.s[m;lo;hd;p]];                                                             //perform redirections if needed
