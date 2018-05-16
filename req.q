@@ -4,7 +4,18 @@ cookiejar:()!()                                                                 
 
 sturl:{(":"=first x)_x:$[-11=type x;string;]x}                                      //convert URL to string
 hsurl:{hsym $[10=type x;`$;]x}                                                      //convert URL to hsym
-prsu:{.Q.hap[x z]y}[$[.z.K<3.6;hsurl;sturl]]                                        //parse URL, string for 3.6+, hsym for below
+
+hap:{[x]
+  x:sturl x;                                                                        //ensure string URL
+  p:x til pn:3+first ss[x;"://"];                                                   //protocol
+  u:-1_$["@"in x;(pn _ x) til (un:1+first ss[x;"@"])-pn;""];                        //user:pass
+  if[u~"";un:pn];                                                                   //if no user:pass, look for domain after protocol
+  d:x til dn:count[x]^first ss[x:un _ x;"/"];                                       //domain
+  a:$[dn=count x;enlist"/";dn _ x];                                                 //absolute path
+  :(p;u;d;a);                                                                       //return list as .Q.hap
+ }
+
+prsu:{hap[y]x}                                                                      //parse URL, return specific component
 prot:prsu[0]                                                                        //get protocol from URL
 user:prsu[1]                                                                        //get username from URL
 host:prsu[2]                                                                        //get hostname from URL
