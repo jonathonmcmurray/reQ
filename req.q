@@ -1,5 +1,7 @@
 \d .req
 
+if[.z.K<=3.1;@[system;"l json.k";{-2"Failed to load json.k: ",x}]];                 //add JSON support for older q versions
+
 cookiejar:()!()                                                                     //storage for cookies
 
 sturl:{(":"=first x)_x:$[-11=type x;string;]x}                                      //convert URL to string
@@ -112,7 +114,7 @@ send:{[m;u;hd;p] /m-method,u-url,hd-headers,p-payload
 parseresp:{[r]
   /* detect JSON reponse & parse into KDB data structure */
   / TODO - add handling for other data types? /
-  :$[r[0][`$"Content-Type"]like .h.ty[`json],"*";.j.k;] r[1];                       //check for JSON, parse if so
+  :$[(`j in key`)&r[0][`$"Content-Type"]like .h.ty[`json],"*";.j.k;] r[1];                       //check for JSON, parse if so
  }
 
 .req.get:{parseresp okstatus send[`GET;x;y;()]}                                     //get - projection with no payload & GET method
