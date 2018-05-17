@@ -114,7 +114,7 @@ send:{[m;u;hd;p] /m-method,u-url,hd-headers,p-payload
 parseresp:{[r]
   /* detect JSON reponse & parse into KDB data structure */
   / TODO - add handling for other data types? /
-  :$[(`j in key`)&r[0][`$"Content-Type"]like .h.ty[`json],"*";.j.k;] r[1];                       //check for JSON, parse if so
+  :$[(`j in key`)&r[0][`$"Content-Type"]like .h.ty[`json],"*";.j.k;] r[1];          //check for JSON, parse if so
  }
 
 .req.get:{parseresp okstatus send[`GET;x;y;()]}                                     //get - projection with no payload & GET method
