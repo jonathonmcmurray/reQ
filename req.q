@@ -5,9 +5,10 @@ if[.z.K<=3.1;@[system;"l json.k";{-2"Failed to load json.k: ",x}]];             
 cookiejar:()!()                                                                     //storage for cookies
 
 sturl:{(":"=first x)_x:$[-11=type x;string;]x}                                      //convert URL to string
-hsurl:{hsym $[10=type x;`$;]x}                                                      //convert URL to hsym
+hsurl:{`$":",sturl x}                                                               //convert URL to hsym
 
 hap:{[x]
+  if[x~hsym`$255#"a";'"hsym too long - consider using a string"];                   //error if URL~`: .. too long
   x:sturl x;                                                                        //ensure string URL
   p:x til pn:3+first ss[x;"://"];                                                   //protocol
   u:-1_$["@"in x;(pn _ x) til (un:1+first ss[x;"@"])-pn;""];                        //user:pass
@@ -96,8 +97,8 @@ okstatus:{[x] /x-reponse (headers;body)
 send:{[m;u;hd;p] /m-method,u-url,hd-headers,p-payload
   /* build & send HTTP request */
   pr:proxy h:host u;                                                                //check if we need to use proxy & get proxy address
-  hs:hsym `$prot[u],h;                                                              //get hostname as handle & string
-  if[pr[0];hs:hsym `$prot[pr 1],host pr 1];                                         //overwrite host handle if using proxy
+  hs:hsurl `$prot[u],h;                                                             //get hostname as handle & string
+  if[pr[0];hs:hsurl `$prot[pr 1],host pr 1];                                        //overwrite host handle if using proxy
   us:user $[pr 0;pr 1;u];                                                           //get user name (if present)
   if[hs in key cookiejar;hd[`Cookie],:cookiejar[hs]];                               //add cookies if necessary
   d:headers[us;pr;hd;p];                                                            //get dictionary of HTTP headers for request

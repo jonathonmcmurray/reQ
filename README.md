@@ -1,10 +1,14 @@
 # reQ
 
-A WIP library for HTTP requests in KDB+/q
+A WIP library for HTTP requests in kdb+/q
 
-KDB+ has built in functions for HTTP requests such as `.Q.hg` (GET) and `.Q.hp`(POST). However, these functions are somewhat limited by several factors. For example, using these functions you cannot supply custom HTTP headers within the requests (for example, authorization tokens that are required by many APIs, a user agent etc.). In addition, in case of an HTTP redirect response, `.Q.hg`/`.Q.hp` will fail.
+kdb+ has built in functions for HTTP requests such as `.Q.hg` (GET) and `.Q.hp`(POST). However, these functions are somewhat limited by several factors. For example, using these functions you cannot supply custom HTTP headers within the requests (for example, authorization tokens that are required by many APIs, a user agent etc.). In addition, in case of an HTTP redirect response, `.Q.hg`/`.Q.hp` will fail.
 
 reQ is a library designed to overcome these limitations for basic HTTP queries. It allows specifying of custom headers where necessary, and also automatically follows HTTP redirects. In addition, in case of JSON response, this will be parsed to KDB+ object automatically.
+
+Additionally, reQ is now compatible with older versions of kdb+/q - there is no reliance on any `.Q` functions found only in more recent versions. For example, `.Q.hg` and `.Q.hp` are only available in version 3.4+, likewise with the underlying `.Q.hap` function etc. reQ does not rely on any of these functions, and therefore works prior to 3.4. It has been tested on version 2.7 and 3.3. `json.k` from kx is loaded when version is below 3.4 to enable JSON decoding on these versions also.
+
+Finally, reQ has some very basic cookie support; this will be expanded upon in future updates, but for now, any cookies sent in an HTTP response will be stored in `.req.cookiejar` and will automatically be sent with further requests to the same host. At present, another response sending cookies will overwrite the previous set of cookies in the cookiejar. This functionality is very rudimentary and only suitable for very simple use cases.
 
 ## Usage
 
