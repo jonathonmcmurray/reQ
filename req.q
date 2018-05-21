@@ -24,6 +24,12 @@ user:prsu[1]                                                                    
 host:prsu[2]                                                                        //get hostname from URL
 endp:prsu[3]                                                                        //get endpoint from URL
 auth:{(neg[c]_.Q.b6 raze 64 vs'256 sv'"i"$0N 3#x,c#0),(c:mod[neg count x;3])#"="}   //base64 encode authorization
+b64decode:{
+  /* base 64 decode */
+  x:x inter .Q.b6,"=";                                                              //filter to base64 chars
+  x:@[x;count[x]-1 2;{?[x="=";"A";x]}];                                             //replace trailing "=" with "A" (zero char)
+  :`char$(raze 256 vs'64 sv'.Q.b6?4 cut x) except 0;                                //decode & return char string
+ }
 def:(!/) flip 2 cut (                                                               //default headers
   "Connection";     "Close";
   "User-Agent";     "kdb+/",string .Q.k;
