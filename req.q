@@ -66,7 +66,7 @@ enchd:{[d] /d-dictionary of headers
 buildquery:{[m;pr;u;h;d;p] /m-method,pr-proxy,u-url,h-host,d-headers dict,p-payload
   /* construct full HTTP query string */
   r:string[m]," ",$[pr 0;sturl u;endp[u]]," HTTP/1.1\r\n",                          //method & endpoint
-       "Host: ",h,"\r\n",                                                           //add host string
+       "Host: ",h,$[count d;"\r\n";""],                                             //add host string
        enchd[d],                                                                    //add headers
        $[count p;p;""];                                                             //add payload if present
   :r;                                                                               //return complete query string
