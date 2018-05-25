@@ -11,7 +11,8 @@ hap:{[x]
   if[x~hsym`$255#"a";'"hsym too long - consider using a string"];                   //error if URL~`: .. too long
   x:sturl x;                                                                        //ensure string URL
   p:x til pn:3+first ss[x;"://"];                                                   //protocol
-  u:-1_$["@"in x;(pn _ x) til (un:1+first ss[x;"@"])-pn;""];                        //user:pass
+  uf:("@"in x)&first[ss[x;"@"]]<first ss[pn _ x;"/"];                               //user flag - true if username present
+  u:-1_$[uf;(pn _ x) til (un:1+first ss[x;"@"])-pn;""];                             //user:pass
   if[u~"";un:pn];                                                                   //if no user:pass, look for domain after protocol
   d:x til dn:count[x]^first ss[x:un _ x;"/"];                                       //domain
   a:$[dn=count x;enlist"/";dn _ x];                                                 //absolute path
