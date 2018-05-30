@@ -24,19 +24,15 @@ prot:prsu[0]                                                                    
 user:prsu[1]                                                                        //get username from URL
 host:prsu[2]                                                                        //get hostname from URL
 endp:prsu[3]                                                                        //get endpoint from URL
-auth:{(neg[c]_.Q.b6 raze 64 vs'256 sv'"i"$0N 3#x,c#0),(c:mod[neg count x;3])#"="}   //base64 encode authorization
-b64decode:{
-  /* base 64 decode */
-  x:x inter .Q.b6,"=";                                                              //filter to base64 chars
-  x:@[x;count[x]-1 2;{?[x="=";"A";x]}];                                             //replace trailing "=" with "A" (zero char)
-  :`char$(raze 256 vs'64 sv'.Q.b6?4 cut x) except 0;                                //decode & return char string
- }
+b64encode:{(neg[c] _ .Q.b6 0b sv' 00b,/:6 cut raze (0b vs'`byte$x),(8*c)#0b),(c:neg[count x]mod 3)#"="}
+b64decode:{(`char$0b sv'8 cut raze 2_'0b vs'`byte$.Q.b6?x) except "\000"}
 def:(!/) flip 2 cut (                                                               //default headers
   "Connection";     "Close";
   "User-Agent";     "kdb+/",string .Q.k;
   "Accept";         "*/*"
  )
 ty:@[.h.ty;`form;:;"application/x-www-form-urlencoded"]                             //add type for url encoded form, used for slash commands
+ty:@[ty;`json;:;"application/json"]                                                 //add type for JSON (missing in older versions of q)
 hu:.h.hug .Q.an,"-.~"                                                               //URI escaping for non-safe chars, RFC-3986
 
 proxy:{[h] /h-host for request
@@ -50,9 +46,9 @@ proxy:{[h] /h-host for request
 headers:{[us;pr;hd;p] /us-username,pr-proxy,hd-custom headers,p-payload
   /* build HTTP headers dictionary */
   d:def,$[count[us]&pr 0;                                                           //username & proxy
-           enlist["Proxy-Authorization"]!enlist"Basic ",auth[us];                   //add proxy-auth header
+           enlist["Proxy-Authorization"]!enlist"Basic ",b64encode[us];              //add proxy-auth header
          count[us];                                                                 //username, no proxy
-           enlist["Authorization"]!enlist"Basic ",auth[us];                         //add auth header
+           enlist["Authorization"]!enlist"Basic ",b64encode[us];                    //add auth header
            ()];                                                                     //no additional header
   if[count p;d["Content-Length"]:string count p];                                   //if payload, add length header
   d,:$[11=type k:key hd;string k;k]!value hd;                                       //get headers dict (convert keys to strings if syms), append to defaults
