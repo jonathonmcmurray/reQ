@@ -19,7 +19,7 @@ addcookie:{[h;c]
 
 getcookies:{[pr;h;p]
   /* get cookies that apply for a given protocol, host & path */
-  t:select from .req.cookiejar where host like h,p like/:path,(expires>.z.T)|null expires;  //select all cookies that apply
+  t:select from .req.cookiejar where host like h,p like/:path,(expires>.z.t)|null expires;  //select all cookies that apply
   if[not pr~"https://";t:delete from t where secure];                               //delete HTTPS only cookies if not HTTPS request
   :"; "sv"="sv'flip value exec name,val from t;                                     //compile cookies into string
  }
