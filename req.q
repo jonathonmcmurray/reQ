@@ -2,7 +2,27 @@
 
 if[.z.K<=3.1;@[system;"l json.k";{-2"Failed to load json.k: ",x}]];                 //add JSON support for older q versions
 
-cookiejar:()!()                                                                     //storage for cookies
+cookiejar:([host:();path:();name:()] val:();expires:`datetime$();maxage:`long$();secure:`boolean$();httponly:`boolean$();samesite:`$())  //storage for cookies
+
+addcookie:{[h;c]
+  /* add or update a cookie in the jar */
+  d:(!). "S=;"0:c;                                                                  //parse cookie into dict
+  r:()!();                                                                          //make empty dict to prevent type casting
+  r:`host`path`name`val!(h;d[`Path],"*";string first key d;first value d);          //build up record
+  r[`expires]:"Z"$" "sv@[;1 2]" "vs d`Expires;                                      //parse expiration date & time
+  r[`maxage]:"J"$d`$"Max-Age";                                                      //TODO calculate expires from maxage
+  r[`secure]:`Secure in key d;                                                      //check if Secure attribute is set
+  r[`httponly]:`HttpOnly in key d;                                                  //check if HttpOnly attribute is set
+  r[`samesite]:`$d`SameSite;                                                        //check if SameSite attribute is set
+  `.req.cookiejar upsert enlist r;                                                  //add cookie to the jar
+ }
+
+getcookies:{[pr;h;p]
+  /* get cookies that apply for a given protocol, host & path */
+  t:select from .req.cookiejar where host like h,p like/:path,(expires>.z.T)|null expires;  //select all cookies that apply
+  if[not pr~"https://";t:delete from t where secure];                               //delete HTTPS only cookies if not HTTPS request
+  :"; "sv"="sv'flip value exec name,val from t;                                     //compile cookies into string
+ }
 
 sturl:{(":"=first x)_x:$[-11=type x;string;]x}                                      //convert URL to string
 hsurl:{`$":",sturl x}                                                               //convert URL to hsym
@@ -103,12 +123,12 @@ send:{[m;u;hd;p] /m-method,u-url,hd-headers,p-payload
   hs:hsurl `$prot[u],h;                                                             //get hostname as handle & string
   if[pr[0];hs:hsurl `$prot[pr 1],host pr 1];                                        //overwrite host handle if using proxy
   us:user $[pr 0;pr 1;u];                                                           //get user name (if present)
-  if[hs in key cookiejar;hd[`Cookie],:cookiejar[hs]];                               //add cookies if necessary
+  if[count c:getcookies[prot u;h;endp u];hd[`Cookie]:c];                            //add any applicable cookies
   d:headers[us;pr;hd;p];                                                            //get dictionary of HTTP headers for request
   r:hs buildquery[m;pr;u;h;d;p];                                                    //build query and execute
   r:formatresp r;                                                                   //format response to headers & body
-  if[(sc:`$"Set-Cookie") in k:key r 0;
-     cookiejar[hs]:";"sv first each ";"vs'value[r 0]where k=sc];
+  if[(sc:`$"Set-Cookie") in k:key r 0;                                              //check for Set-Cookie headers
+     addcookie[h]'[value[r 0]where k=sc]];                                          //set any cookies necessary
   if[r[0][`status] within 300 399;                                                  //if status is 3XX, redirect FIX: not all 3XX are redirects?
      lo:$["/"=r[0][`Location]0;prot[u],user[u],host[u],r[0]`Location;r[0]`Location]; //detect if relative or absolute redirect
      :.z.s[m;lo;hd;p]];                                                             //perform redirections if needed
