@@ -1,5 +1,6 @@
 \d .req
 
+VERBOSE:@[value;`.ws.VERBOSE;$[count .z.x;"-verbose" in .z.x;0b]];                  //default to non-verbose output
 if[.z.K<=3.1;@[system;"l json.k";{-2"Failed to load json.k: ",x}]];                 //add JSON support for older q versions
 
 cookiejar:([host:();path:();name:()] val:();expires:`datetime$();maxage:`long$();secure:`boolean$();httponly:`boolean$();samesite:`$())  //storage for cookies
@@ -111,13 +112,13 @@ urldecode:{[x] /x-urlencoded string
   :(!/)"S=&"0:.h.uh ssr[x;"+";" "];                                                 //parse incoming request into dict, replace escaped chars
  }
 
-okstatus:{[x] /x-reponse (headers;body)
+okstatus:{[v;x] /v-verbose flag,x-reponse (headers;body)
   /* throw a signal if not HTTP OK status */
-  if[not x[0][`status] within 200 299;'string x[0]`status];                         //signal if bad status FIX: handle different status codes - descriptive signals
-  :x;                                                                               //return response if it's not bad
+  if[v|x[0][`status] within 200 299;:x];                                            //if in verbose mode or OK status, return
+  'string x[0]`status;                                                              //signal if bad status FIX: handle different status codes - descriptive signals
  }
 
-send:{[m;u;hd;p] /m-method,u-url,hd-headers,p-payload
+send:{[m;u;hd;p;v] /m-method,u-url,hd-headers,p-payload,v-verbose flag
   /* build & send HTTP request */
   pr:proxy h:host u;                                                                //check if we need to use proxy & get proxy address
   hs:hsurl `$prot[u],h;                                                             //get hostname as handle & string
@@ -125,7 +126,9 @@ send:{[m;u;hd;p] /m-method,u-url,hd-headers,p-payload
   us:user $[pr 0;pr 1;u];                                                           //get user name (if present)
   if[count c:getcookies[prot u;h;endp u];hd[`Cookie]:c];                            //add any applicable cookies
   d:headers[us;pr;hd;p];                                                            //get dictionary of HTTP headers for request
-  r:hs buildquery[m;pr;u;h;d;p];                                                    //build query and execute
+  r:hs d:buildquery[m;pr;u;h;d;p];                                                  //build query and execute
+  if[v;-1"-- REQUEST --\n",string[hs]," ",d,"\n\n"];                                //if verbose, log request
+  if[v;-1"-- RESPONSE --\n",r];                                                     //if verbose, log response
   r:formatresp r;                                                                   //format response to headers & body
   if[(sc:`$"Set-Cookie") in k:key r 0;                                              //check for Set-Cookie headers
      addcookie[h]'[value[r 0]where k=sc]];                                          //set any cookies necessary
@@ -141,7 +144,7 @@ parseresp:{[r]
   :$[(`j in key`)&r[0][`$"Content-Type"]like .h.ty[`json],"*";.j.k;] r[1];          //check for JSON, parse if so
  }
 
-.req.get:{parseresp okstatus send[`GET;x;y;()]}                                     //get - projection with no payload & GET method
-.req.post:{parseresp okstatus send[`POST;x;y;z]}                                    //post - project with POST method
+.req.get:{parseresp okstatus[VERBOSE] send[`GET;x;y;();VERBOSE]}                    //get - projection with no payload & GET method
+.req.post:{parseresp okstatus[VERBOSE] send[`POST;x;y;z;VERBOSE]}                   //post - project with POST method
 
 \d .
