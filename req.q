@@ -8,19 +8,21 @@ cookiejar:([host:();path:();name:()] val:();expires:`datetime$();maxage:`long$()
 addcookie:{[h;c]
   /* add or update a cookie in the jar */
   d:(!). "S=;"0:c;                                                                  //parse cookie into dict
-  r:()!();                                                                          //make empty dict to prevent type casting
-  r:`host`path`name`val!(h;d[`Path],"*";string first key d;first value d);          //build up record
-  r[`expires]:"Z"$" "sv@[;1 2]" "vs d`Expires;                                      //parse expiration date & time
-  r[`maxage]:"J"$d`$"Max-Age";                                                      //TODO calculate expires from maxage
-  r[`secure]:`Secure in key d;                                                      //check if Secure attribute is set
-  r[`httponly]:`HttpOnly in key d;                                                  //check if HttpOnly attribute is set
-  r[`samesite]:`$d`SameSite;                                                        //check if SameSite attribute is set
+  n:string first key d;v:first value d;                                             //extract cookie name & value
+  d:lower[key d]!value d;                                                           //make all keys lower case
+  r:`host`path`name`val!(h;d[`path],"*";n;v);                                       //build up record
+  if[`domain in key d;r[`host]:"*",d`domain];                                       //if domain in cookie, use it for host
+  r[`expires]:"Z"$" "sv@[;1 2]" "vs d`expires;                                      //parse expiration date & time
+  r[`maxage]:"J"$d`$"max-age";                                                      //TODO calculate expires from maxage
+  r[`secure]:`secure in key d;                                                      //check if Secure attribute is set
+  r[`httponly]:`httponly in key d;                                                  //check if HttpOnly attribute is set
+  r[`samesite]:`$d`samesite;                                                        //check if SameSite attribute is set
   `.req.cookiejar upsert enlist r;                                                  //add cookie to the jar
  }
 
 getcookies:{[pr;h;p]
   /* get cookies that apply for a given protocol, host & path */
-  t:select from .req.cookiejar where host like h,p like/:path,(expires>.z.t)|null expires;  //select all cookies that apply
+  t:select from .req.cookiejar where h like/:host,p like/:path,(expires>.z.t)|null expires;  //select all cookies that apply
   if[not pr~"https://";t:delete from t where secure];                               //delete HTTPS only cookies if not HTTPS request
   :"; "sv"="sv'flip value exec name,val from t;                                     //compile cookies into string
  }
