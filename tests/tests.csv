@@ -8,3 +8,5 @@ true,0,0,q,d[`abs_redirect]~(1#`origin)_.req.get["http://httpbin.org/absolute-re
 true,0,0,q,d[`post]~(1#`origin)_.req.post["http://httpbin.org/post";enlist["Content-Type"]!enlist .req.ty`json;.j.j (1#`text)!1#`hello],1,,Test POST method
 true,0,0,q,d[`setcookie]~(1#`origin)_.req.get["http://httpbin.org/cookies/set?abc=123&def=123";()!()],1,,Test setting cookie
 true,0,0,q,d[`deletecookie]~(1#`origin)_.req.get["http://httpbin.org/cookies/delete?abc";()!()],1,,Test deleting cookie
+true,0,0,q,.test.readjar[],1,,Test reading cookie jar
+true,0,0,q,.test.writejar[],1,,Test writing cookie jar
