@@ -1,49 +1,179 @@
 {
     "docs": [
         {
-            "location": "/", 
-            "text": "reQ\n\n\nA WIP library for HTTP requests in kdb+/q\n\n\nkdb+ has built in functions for HTTP requests such as \n.Q.hg\n (GET) and \n.Q.hp\n(POST). However, these functions are somewhat limited by several factors. For example, using these functions you cannot supply custom HTTP headers within the requests (for example, authorization tokens that are required by many APIs, a user agent etc.). In addition, in case of an HTTP redirect response, \n.Q.hg\n/\n.Q.hp\n will fail.\n\n\nreQ is a library designed to overcome these limitations for basic HTTP queries. It allows specifying of custom headers where necessary, and also automatically follows HTTP redirects. In addition, in case of JSON response, this will be parsed to KDB+ object automatically.\n\n\nAdditionally, reQ is now compatible with older versions of kdb+/q - there is no reliance on any \n.Q\n functions found only in more recent versions. For example, \n.Q.hg\n and \n.Q.hp\n are only available in version 3.4+, likewise with the underlying \n.Q.hap\n function etc. reQ does not rely on any of these functions, and therefore works prior to 3.4. It has been tested on version 2.7 and 3.3. \njson.k\n from kx is loaded when version is below 3.4 to enable JSON decoding on these versions also.\n\n\nFinally, reQ has some very basic cookie support; this will be expanded upon in future updates, but for now, any cookies sent in an HTTP response will be stored in \n.req.cookiejar\n and will automatically be sent with further requests to the same host. At present, another response sending cookies will overwrite the previous set of cookies in the cookiejar. This functionality is very rudimentary and only suitable for very simple use cases.\n\n\nUsage\n\n\nThe two main entry point functions within the library are \n.req.get\n and \n.req.post\n, replacing \n.Q.hg\n and \n.Q.hp\n respectively.\nOther functions are currently undocumented but will be documented in time.\n\n\n.req.get\n\n\nTakes two args:\n\n\n\n\nURL (can be string, hsym or symbol)\n\n\nDictionary of HTTP headers\n\n\n\n\n.req.post\n\n\nTakes three args:\n\n\n\n\nURL (can be string, hsym or symbol)\n\n\nDictionary of HTTP headers\n\n\nPayload (should be a string) -\n where necessary, \nContent-Type\n should be set in header dict manually. \nContent-Length\n will be added automatically\n\n\n\n\nExamples\n\n\nCustom Headers\n\n\n$ q req.q\nKDB+ 3.5 2017.10.11 Copyright (C) 1993-2017 Kx Systems\nl32/ 2()core 1945MB jonny grizzly 127.0.1.1 NONEXPIRE\n\nq).Q.hg`:http://httpbin.org/headers\n\n{\\n  \\\nheaders\\\n: {\\n    \\\nConnection\\\n: \\\nclose\\\n, \\n    \\\nHost\\\n: \\\nhttpbin.org\\\n\\n  }\\n}\\n\n\nq).req.get[\nhttp://httpbin.org/headers\n;`custom`headers!(\nwith custom\n;\nvalues\n)]\n       | Accept Connection Custom        Headers  Host          User-Agent\n-------| -----------------------------------------------------------------\nheaders| \n*/*\n  \nclose\n    \nwith custom\n \nvalues\n \nhttpbin.org\n \nkdb+/3.5\n\n\n\n\n\nHTTP Redirect\n\n\n$ q req.q\nKDB+ 3.5 2017.10.11 Copyright (C) 1993-2017 Kx Systems\nl32/ 2()core 1945MB jonny grizzly 127.0.1.1 NONEXPIRE\n\nq).Q.hg`:http://httpbin.org/redirect/3\n\n!DOCTYPE HTML PUBLIC \\\n-//W3C//DTD HTML 3.2 Final//EN\\\n\\n\ntitle\nRedirecting...\n/title\n\\n\nh1\nRedirecting...\n/h1\n\\n\np\nYou should be redirected automatica..\nq).req.get[\nhttp://httpbin.org/redirect/3\n;()!()]\nargs   | (`symbol$())!()\nheaders| `Accept`Connection`Host`User-Agent!(\n*/*\n;\nclose\n;\nhttpbin.org\n;\nkdb+/3.5\n)\norigin | \n146.199.80.196\n\nurl    | \nhttp://httpbin.org/get\n\n\n\n\n\nPOST request\n\n\nq).req.post[\nhttp://httpbin.org/post\n;enlist[\nContent-Type\n]!enlist .req.ty`json;.j.j (1#`text)!1#`hello]\nargs   | (`symbol$())!()\ndata   | \n{\\\ntext\\\n:\\\nhello\\\n}\n\nfiles  | (`symbol$())!()\nform   | (`symbol$())!()\nheaders| `Accept`Connection`Content-Length`Content-Type`Host`User-Agent!(\n*/*\n;\nclose\n;\n16\n;\napplication/json\n;\nhttpbin.org\n;\nkdb+/3.5\n)\njson   | (,`text)!,\nhello\n\norigin | \n146.199.80.196\n\nurl    | \nhttp://httpbin.org/post", 
+            "location": "/",
+            "text": "reQ\n\n\nOpen source HTTP requests library for kdb+/q\n\n\nA more fully-featured alternative to kdb+ built-in functions \n.Q.hg\n and \n.Q.hp\n, which provide basic HTTP query functionality.\n\n\nFeatures include:\n\n\n\n\nSupport for \ncustom headers\n\n\nCookies\n\n\nAutomatic conversion of JSON response to kdb+ object\n\n\nBackwards compatible with older versions of kdb+ - tested from v2.7+\n\n\nFollows \nHTTP redirection\n\n\nVerbose mode\n to show raw requests & responses",
+            "title": "Overview"
+        },
+        {
+            "location": "/#req",
+            "text": "Open source HTTP requests library for kdb+/q  A more fully-featured alternative to kdb+ built-in functions  .Q.hg  and  .Q.hp , which provide basic HTTP query functionality.  Features include:   Support for  custom headers  Cookies  Automatic conversion of JSON response to kdb+ object  Backwards compatible with older versions of kdb+ - tested from v2.7+  Follows  HTTP redirection  Verbose mode  to show raw requests & responses",
             "title": "reQ"
-        }, 
+        },
         {
-            "location": "/#req", 
-            "text": "A WIP library for HTTP requests in kdb+/q  kdb+ has built in functions for HTTP requests such as  .Q.hg  (GET) and  .Q.hp (POST). However, these functions are somewhat limited by several factors. For example, using these functions you cannot supply custom HTTP headers within the requests (for example, authorization tokens that are required by many APIs, a user agent etc.). In addition, in case of an HTTP redirect response,  .Q.hg / .Q.hp  will fail.  reQ is a library designed to overcome these limitations for basic HTTP queries. It allows specifying of custom headers where necessary, and also automatically follows HTTP redirects. In addition, in case of JSON response, this will be parsed to KDB+ object automatically.  Additionally, reQ is now compatible with older versions of kdb+/q - there is no reliance on any  .Q  functions found only in more recent versions. For example,  .Q.hg  and  .Q.hp  are only available in version 3.4+, likewise with the underlying  .Q.hap  function etc. reQ does not rely on any of these functions, and therefore works prior to 3.4. It has been tested on version 2.7 and 3.3.  json.k  from kx is loaded when version is below 3.4 to enable JSON decoding on these versions also.  Finally, reQ has some very basic cookie support; this will be expanded upon in future updates, but for now, any cookies sent in an HTTP response will be stored in  .req.cookiejar  and will automatically be sent with further requests to the same host. At present, another response sending cookies will overwrite the previous set of cookies in the cookiejar. This functionality is very rudimentary and only suitable for very simple use cases.", 
-            "title": "reQ"
-        }, 
+            "location": "/features/cookies/",
+            "text": "HTTP Cookies\n\n\nreQ has built-in support for HTTP cookies; when a response is received with a\n\nSet-Cookie\n header, the relevant cookie will be stored in \n.req.cookiejar\n,\nand then used automatically for future requests to the relevant host.\n\n\nExpired cookies will be ignored, although currently the \nMax-Age\n attribute is\nnot taken into account; this will be rectified in a future update.\n\n\nIt's also possible to use the \n.req.addcookie\n function, as\ndemonstrated in the \nAdvent of Code\n example.\n\n\nSetting cookies\n\n\nq).req.get[\"http://httpbin.org/cookies/set?abc=123&def=456\";()!()];\n-- REQUEST --\nGET /cookies/set?abc=123&def=456 HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\n\n\n-- RESPONSE --\nHTTP/1.1 302 FOUND\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:49:15 GMT\nContent-Type: text/html; charset=utf-8\nContent-Length: 223\nLocation: /cookies\nSet-Cookie: abc=123; Path=/\nSet-Cookie: def=456; Path=/\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">\n<title>Redirecting...</title>\n<h1>Redirecting...</h1>\n<p>You should be redirected automatically to target URL: <a href=\"/cookies\">/cookies</a>.  If not click the link.\n-- REQUEST --\nGET /cookies HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\nCookie: abc=123; def=456\n\n\n-- RESPONSE --\nHTTP/1.1 200 OK\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:49:16 GMT\nContent-Type: application/json\nContent-Length: 38\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n{\"cookies\":{\"abc\":\"123\",\"def\":\"456\"}}\n\nq).req.cookiejar\nhost          path name | val   expires maxage secure httponly samesite\n------------------------| ---------------------------------------------\n\"httpbin.org\" \"/*\" \"abc\"| \"123\"                0      0\n\"httpbin.org\" \"/*\" \"def\"| \"456\"                0      0\n\n\n\n\nDeleting cookies\n\n\nCookies can be deleted or overwritten in the normal fashion, and expired\ncookies will be ignored.\n\n\nq).req.get[\"http://httpbin.org/cookies/delete?abc\";()!()];\n-- REQUEST --\nGET /cookies/delete?abc HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\nCookie: abc=123; def=456\n\n\n-- RESPONSE --\nHTTP/1.1 302 FOUND\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:50:48 GMT\nContent-Type: text/html; charset=utf-8\nContent-Length: 223\nLocation: /cookies\nSet-Cookie: abc=; Expires=Thu, 01-Jan-1970 00:00:00 GMT; Max-Age=0; Path=/\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">\n<title>Redirecting...</title>\n<h1>Redirecting...</h1>\n<p>You should be redirected automatically to target URL: <a href=\"/cookies\">/cookies</a>.  If not click the link.\n-- REQUEST --\nGET /cookies HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\nCookie: def=456\n\n\n-- RESPONSE --\nHTTP/1.1 200 OK\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:50:48 GMT\nContent-Type: application/json\nContent-Length: 26\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n{\"cookies\":{\"def\":\"456\"}}\n\nq).req.cookiejar\nhost          path name | val   expires                 maxage secure httponl..\n------------------------| ---------------------------------------------------..\n\"httpbin.org\" \"/*\" \"abc\"| \"\"    1970.01.01T00:00:00.000 0      0      0      ..\n\"httpbin.org\" \"/*\" \"def\"| \"456\"                                0      0      ..",
+            "title": "Cookies"
+        },
         {
-            "location": "/#usage", 
-            "text": "The two main entry point functions within the library are  .req.get  and  .req.post , replacing  .Q.hg  and  .Q.hp  respectively.\nOther functions are currently undocumented but will be documented in time.", 
-            "title": "Usage"
-        }, 
+            "location": "/features/cookies/#http-cookies",
+            "text": "reQ has built-in support for HTTP cookies; when a response is received with a Set-Cookie  header, the relevant cookie will be stored in  .req.cookiejar ,\nand then used automatically for future requests to the relevant host.  Expired cookies will be ignored, although currently the  Max-Age  attribute is\nnot taken into account; this will be rectified in a future update.  It's also possible to use the  .req.addcookie  function, as\ndemonstrated in the  Advent of Code  example.",
+            "title": "HTTP Cookies"
+        },
         {
-            "location": "/#reqget", 
-            "text": "Takes two args:   URL (can be string, hsym or symbol)  Dictionary of HTTP headers", 
-            "title": ".req.get"
-        }, 
+            "location": "/features/cookies/#setting-cookies",
+            "text": "q).req.get[\"http://httpbin.org/cookies/set?abc=123&def=456\";()!()];\n-- REQUEST --\nGET /cookies/set?abc=123&def=456 HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\n\n\n-- RESPONSE --\nHTTP/1.1 302 FOUND\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:49:15 GMT\nContent-Type: text/html; charset=utf-8\nContent-Length: 223\nLocation: /cookies\nSet-Cookie: abc=123; Path=/\nSet-Cookie: def=456; Path=/\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">\n<title>Redirecting...</title>\n<h1>Redirecting...</h1>\n<p>You should be redirected automatically to target URL: <a href=\"/cookies\">/cookies</a>.  If not click the link.\n-- REQUEST --\nGET /cookies HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\nCookie: abc=123; def=456\n\n\n-- RESPONSE --\nHTTP/1.1 200 OK\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:49:16 GMT\nContent-Type: application/json\nContent-Length: 38\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n{\"cookies\":{\"abc\":\"123\",\"def\":\"456\"}}\n\nq).req.cookiejar\nhost          path name | val   expires maxage secure httponly samesite\n------------------------| ---------------------------------------------\n\"httpbin.org\" \"/*\" \"abc\"| \"123\"                0      0\n\"httpbin.org\" \"/*\" \"def\"| \"456\"                0      0",
+            "title": "Setting cookies"
+        },
         {
-            "location": "/#reqpost", 
-            "text": "Takes three args:   URL (can be string, hsym or symbol)  Dictionary of HTTP headers  Payload (should be a string) -  where necessary,  Content-Type  should be set in header dict manually.  Content-Length  will be added automatically", 
-            "title": ".req.post"
-        }, 
+            "location": "/features/cookies/#deleting-cookies",
+            "text": "Cookies can be deleted or overwritten in the normal fashion, and expired\ncookies will be ignored.  q).req.get[\"http://httpbin.org/cookies/delete?abc\";()!()];\n-- REQUEST --\nGET /cookies/delete?abc HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\nCookie: abc=123; def=456\n\n\n-- RESPONSE --\nHTTP/1.1 302 FOUND\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:50:48 GMT\nContent-Type: text/html; charset=utf-8\nContent-Length: 223\nLocation: /cookies\nSet-Cookie: abc=; Expires=Thu, 01-Jan-1970 00:00:00 GMT; Max-Age=0; Path=/\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">\n<title>Redirecting...</title>\n<h1>Redirecting...</h1>\n<p>You should be redirected automatically to target URL: <a href=\"/cookies\">/cookies</a>.  If not click the link.\n-- REQUEST --\nGET /cookies HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\nCookie: def=456\n\n\n-- RESPONSE --\nHTTP/1.1 200 OK\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:50:48 GMT\nContent-Type: application/json\nContent-Length: 26\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n{\"cookies\":{\"def\":\"456\"}}\n\nq).req.cookiejar\nhost          path name | val   expires                 maxage secure httponl..\n------------------------| ---------------------------------------------------..\n\"httpbin.org\" \"/*\" \"abc\"| \"\"    1970.01.01T00:00:00.000 0      0      0      ..\n\"httpbin.org\" \"/*\" \"def\"| \"456\"                                0      0      ..",
+            "title": "Deleting cookies"
+        },
         {
-            "location": "/#examples", 
-            "text": "", 
+            "location": "/features/headers/",
+            "text": "HTTP Request Headers",
+            "title": "Headers"
+        },
+        {
+            "location": "/features/headers/#http-request-headers",
+            "text": "",
+            "title": "HTTP Request Headers"
+        },
+        {
+            "location": "/features/redirects/",
+            "text": "HTTP redirects\n\n\nreQ will automatically follow redirects, both absolute & relative. For example,\n\n\nRelative redirect example\n\n\nq).req.get[\"http://httpbin.org/relative-redirect/2\";()!()];\n-- REQUEST --\nGET /relative-redirect/2 HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\n\n\n-- RESPONSE --\nHTTP/1.1 302 FOUND\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:41:53 GMT\nContent-Type: text/html; charset=utf-8\nContent-Length: 0\nLocation: /relative-redirect/1\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n\n-- REQUEST --\nGET /relative-redirect/1 HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\n\n\n-- RESPONSE --\nHTTP/1.1 302 FOUND\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:41:54 GMT\nContent-Type: text/html; charset=utf-8\nContent-Length: 0\nLocation: /get\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n\n-- REQUEST --\nGET /get HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\n\n\n-- RESPONSE --\nHTTP/1.1 200 OK\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:41:54 GMT\nContent-Type: application/json\nContent-Length: 162\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n{\"args\":{},\"headers\":{\"Accept\":\"*/*\",\"Connection\":\"close\",\"Host\":\"httpbin.org\",\"User-Agent\":\"kdb+/3.5\"},\"origin\":\"146.199.80.196\",\"url\":\"http://httpbin.org/get\"}\n\n\n\n\nAbsolute redirect example\n\n\nq).req.get[\"http://httpbin.org/absolute-redirect/2\";()!()];\n-- REQUEST --\nGET /absolute-redirect/2 HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\n\n\n-- RESPONSE --\nHTTP/1.1 302 FOUND\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:42:02 GMT\nContent-Type: text/html; charset=utf-8\nContent-Length: 283\nLocation: http://httpbin.org/absolute-redirect/1\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">\n<title>Redirecting...</title>\n<h1>Redirecting...</h1>\n<p>You should be redirected automatically to target URL: <a href=\"http://httpbin.org/absolute-redirect/1\">http://httpbin.org/absolute-redirect/1</a>.  If not click the link.\n-- REQUEST --\nGET /absolute-redirect/1 HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\n\n\n-- RESPONSE --\nHTTP/1.1 302 FOUND\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:42:02 GMT\nContent-Type: text/html; charset=utf-8\nContent-Length: 251\nLocation: http://httpbin.org/get\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">\n<title>Redirecting...</h1>\n<p>You should be redirected automatically to target URL: <a href=\"http://httpbin.org/get\">http://httpbin.org/get</a>.  If not click the link.\n-- REQUEST --\nGET /get HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\n\n\n-- RESPONSE --\nHTTP/1.1 200 OK\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:42:03 GMT\nContent-Type: application/json\nContent-Length: 162\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n{\"args\":{},\"headers\":{\"Accept\":\"*/*\",\"Connection\":\"close\",\"Host\":\"httpbin.org\",\"User-Agent\":\"kdb+/3.5\"},\"origin\":\"146.199.80.196\",\"url\":\"http://httpbin.org/get\"}",
+            "title": "HTTP redirects"
+        },
+        {
+            "location": "/features/redirects/#http-redirects",
+            "text": "reQ will automatically follow redirects, both absolute & relative. For example,",
+            "title": "HTTP redirects"
+        },
+        {
+            "location": "/features/redirects/#relative-redirect-example",
+            "text": "q).req.get[\"http://httpbin.org/relative-redirect/2\";()!()];\n-- REQUEST --\nGET /relative-redirect/2 HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\n\n\n-- RESPONSE --\nHTTP/1.1 302 FOUND\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:41:53 GMT\nContent-Type: text/html; charset=utf-8\nContent-Length: 0\nLocation: /relative-redirect/1\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n\n-- REQUEST --\nGET /relative-redirect/1 HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\n\n\n-- RESPONSE --\nHTTP/1.1 302 FOUND\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:41:54 GMT\nContent-Type: text/html; charset=utf-8\nContent-Length: 0\nLocation: /get\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n\n-- REQUEST --\nGET /get HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\n\n\n-- RESPONSE --\nHTTP/1.1 200 OK\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:41:54 GMT\nContent-Type: application/json\nContent-Length: 162\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n{\"args\":{},\"headers\":{\"Accept\":\"*/*\",\"Connection\":\"close\",\"Host\":\"httpbin.org\",\"User-Agent\":\"kdb+/3.5\"},\"origin\":\"146.199.80.196\",\"url\":\"http://httpbin.org/get\"}",
+            "title": "Relative redirect example"
+        },
+        {
+            "location": "/features/redirects/#absolute-redirect-example",
+            "text": "q).req.get[\"http://httpbin.org/absolute-redirect/2\";()!()];\n-- REQUEST --\nGET /absolute-redirect/2 HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\n\n\n-- RESPONSE --\nHTTP/1.1 302 FOUND\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:42:02 GMT\nContent-Type: text/html; charset=utf-8\nContent-Length: 283\nLocation: http://httpbin.org/absolute-redirect/1\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">\n<title>Redirecting...</title>\n<h1>Redirecting...</h1>\n<p>You should be redirected automatically to target URL: <a href=\"http://httpbin.org/absolute-redirect/1\">http://httpbin.org/absolute-redirect/1</a>.  If not click the link.\n-- REQUEST --\nGET /absolute-redirect/1 HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\n\n\n-- RESPONSE --\nHTTP/1.1 302 FOUND\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:42:02 GMT\nContent-Type: text/html; charset=utf-8\nContent-Length: 251\nLocation: http://httpbin.org/get\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">\n<title>Redirecting...</h1>\n<p>You should be redirected automatically to target URL: <a href=\"http://httpbin.org/get\">http://httpbin.org/get</a>.  If not click the link.\n-- REQUEST --\nGET /get HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\n\n\n-- RESPONSE --\nHTTP/1.1 200 OK\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:42:03 GMT\nContent-Type: application/json\nContent-Length: 162\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n{\"args\":{},\"headers\":{\"Accept\":\"*/*\",\"Connection\":\"close\",\"Host\":\"httpbin.org\",\"User-Agent\":\"kdb+/3.5\"},\"origin\":\"146.199.80.196\",\"url\":\"http://httpbin.org/get\"}",
+            "title": "Absolute redirect example"
+        },
+        {
+            "location": "/features/verbose/",
+            "text": "Verbose mode\n\n\nreQ includes a verbose mode which displays the raw HTTP requests & responses.\nThis can be useful for debugging purposes, to view the full headers on both the\nrequest & response.\n\n\nTo enable this mode, either start the process with \n-verbose\n on the command\nline, or else set \n.req.VERBOSE:1b\n before making the requests.\n\n\nExamples\n\n\nSetting \n-verbose\n on command line & performing a basic HTTP request:\n\n\njonny@kodiak ~/reQ (master) $ q req.q -verbose\nKDB+ 3.5 2018.04.25 Copyright (C) 1993-2018 Kx Systems\nl64/ 4(16)core 7360MB jonny kodiak 127.0.1.1 EXPIRE 2019.05.21 jonathon.mcmurray@aquaq.co.uk KOD #4160315\n\nq).req.get[\"http://httpbin.org/get\";()!()];\n-- REQUEST --\nGET /get HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\n\n\n-- RESPONSE --\nHTTP/1.1 200 OK\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:35:50 GMT\nContent-Type: application/json\nContent-Length: 162\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n{\"args\":{},\"headers\":{\"Accept\":\"*/*\",\"Connection\":\"close\",\"Host\":\"httpbin.org\",\"User-Agent\":\"kdb+/3.5\"},\"origin\":\"146.199.80.196\",\"url\":\"http://httpbin.org/get\"}\n\n\n\n\nAn example including \nHTTP redirects\n i.e. multiple requests & responses, and setting \n.req.VERBOSE:1b\n within q session:\n\n\njonny@kodiak ~/reQ (master) $ q req.q\nKDB+ 3.5 2018.04.25 Copyright (C) 1993-2018 Kx Systems\nl64/ 4(16)core 7360MB jonny kodiak 127.0.1.1 EXPIRE 2019.05.21 jonathon.mcmurray@aquaq.co.uk KOD #4160315\n\nq).req.VERBOSE:1b\nq).req.get[\"http://httpbin.org/redirect/2\";()!()];\n-- REQUEST --\nGET /redirect/2 HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\n\n\n-- RESPONSE --\nHTTP/1.1 302 FOUND\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:36:32 GMT\nContent-Type: text/html; charset=utf-8\nContent-Length: 247\nLocation: /relative-redirect/1\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">\n<title>Redirecting...</title>\n<h1>Redirecting...</h1>\n<p>You should be redirected automatically to target URL: <a href=\"/relative-redirect/1\">/relative-redirect/1</a>.  If not click the link.\n-- REQUEST --\nGET /relative-redirect/1 HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\n\n\n-- RESPONSE --\nHTTP/1.1 302 FOUND\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:36:32 GMT\nContent-Type: text/html; charset=utf-8\nContent-Length: 0\nLocation: /get\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n\n-- REQUEST --\nGET /get HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\n\n\n-- RESPONSE --\nHTTP/1.1 200 OK\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:36:32 GMT\nContent-Type: application/json\nContent-Length: 162\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n{\"args\":{},\"headers\":{\"Accept\":\"*/*\",\"Connection\":\"close\",\"Host\":\"httpbin.org\",\"User-Agent\":\"kdb+/3.5\"},\"origin\":\"146.199.80.196\",\"url\":\"http://httpbin.org/get\"}",
+            "title": "Verbose mode"
+        },
+        {
+            "location": "/features/verbose/#verbose-mode",
+            "text": "reQ includes a verbose mode which displays the raw HTTP requests & responses.\nThis can be useful for debugging purposes, to view the full headers on both the\nrequest & response.  To enable this mode, either start the process with  -verbose  on the command\nline, or else set  .req.VERBOSE:1b  before making the requests.",
+            "title": "Verbose mode"
+        },
+        {
+            "location": "/features/verbose/#examples",
+            "text": "Setting  -verbose  on command line & performing a basic HTTP request:  jonny@kodiak ~/reQ (master) $ q req.q -verbose\nKDB+ 3.5 2018.04.25 Copyright (C) 1993-2018 Kx Systems\nl64/ 4(16)core 7360MB jonny kodiak 127.0.1.1 EXPIRE 2019.05.21 jonathon.mcmurray@aquaq.co.uk KOD #4160315\n\nq).req.get[\"http://httpbin.org/get\";()!()];\n-- REQUEST --\nGET /get HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\n\n\n-- RESPONSE --\nHTTP/1.1 200 OK\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:35:50 GMT\nContent-Type: application/json\nContent-Length: 162\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n{\"args\":{},\"headers\":{\"Accept\":\"*/*\",\"Connection\":\"close\",\"Host\":\"httpbin.org\",\"User-Agent\":\"kdb+/3.5\"},\"origin\":\"146.199.80.196\",\"url\":\"http://httpbin.org/get\"}  An example including  HTTP redirects  i.e. multiple requests & responses, and setting  .req.VERBOSE:1b  within q session:  jonny@kodiak ~/reQ (master) $ q req.q\nKDB+ 3.5 2018.04.25 Copyright (C) 1993-2018 Kx Systems\nl64/ 4(16)core 7360MB jonny kodiak 127.0.1.1 EXPIRE 2019.05.21 jonathon.mcmurray@aquaq.co.uk KOD #4160315\n\nq).req.VERBOSE:1b\nq).req.get[\"http://httpbin.org/redirect/2\";()!()];\n-- REQUEST --\nGET /redirect/2 HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\n\n\n-- RESPONSE --\nHTTP/1.1 302 FOUND\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:36:32 GMT\nContent-Type: text/html; charset=utf-8\nContent-Length: 247\nLocation: /relative-redirect/1\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">\n<title>Redirecting...</title>\n<h1>Redirecting...</h1>\n<p>You should be redirected automatically to target URL: <a href=\"/relative-redirect/1\">/relative-redirect/1</a>.  If not click the link.\n-- REQUEST --\nGET /relative-redirect/1 HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\n\n\n-- RESPONSE --\nHTTP/1.1 302 FOUND\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:36:32 GMT\nContent-Type: text/html; charset=utf-8\nContent-Length: 0\nLocation: /get\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n\n-- REQUEST --\nGET /get HTTP/1.1\nHost: httpbin.org\nConnection: Close\nUser-Agent: kdb+/3.5\nAccept: */*\n\n\n-- RESPONSE --\nHTTP/1.1 200 OK\nConnection: close\nServer: gunicorn/19.8.1\nDate: Mon, 04 Jun 2018 22:36:32 GMT\nContent-Type: application/json\nContent-Length: 162\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nVia: 1.1 vegur\n\n{\"args\":{},\"headers\":{\"Accept\":\"*/*\",\"Connection\":\"close\",\"Host\":\"httpbin.org\",\"User-Agent\":\"kdb+/3.5\"},\"origin\":\"146.199.80.196\",\"url\":\"http://httpbin.org/get\"}",
             "title": "Examples"
-        }, 
+        },
         {
-            "location": "/#custom-headers", 
-            "text": "$ q req.q\nKDB+ 3.5 2017.10.11 Copyright (C) 1993-2017 Kx Systems\nl32/ 2()core 1945MB jonny grizzly 127.0.1.1 NONEXPIRE\n\nq).Q.hg`:http://httpbin.org/headers {\\n  \\ headers\\ : {\\n    \\ Connection\\ : \\ close\\ , \\n    \\ Host\\ : \\ httpbin.org\\ \\n  }\\n}\\n \nq).req.get[ http://httpbin.org/headers ;`custom`headers!( with custom ; values )]\n       | Accept Connection Custom        Headers  Host          User-Agent\n-------| -----------------------------------------------------------------\nheaders|  */*    close      with custom   values   httpbin.org   kdb+/3.5", 
+            "location": "/api/",
+            "text": "User API\n\n\nUsage\n\n\nThe two main entry point functions within the library are \n.req.get\n and \n.req.post\n, replacing \n.Q.hg\n and \n.Q.hp\n respectively.\nOther functions are currently undocumented but will be documented in time.\n\n\n.req.get\n\n\nTakes two args:\n\n\n\n\nURL (can be string, hsym or symbol)\n\n\nDictionary of HTTP headers\n\n\n\n\nExamples\n\n\nCustom Headers\n\n\n$ q req.q\nKDB+ 3.5 2017.10.11 Copyright (C) 1993-2017 Kx Systems\nl32/ 2()core 1945MB jonny grizzly 127.0.1.1 NONEXPIRE\n\nq).Q.hg`:http://httpbin.org/headers\n\"{\\n  \\\"headers\\\": {\\n    \\\"Connection\\\": \\\"close\\\", \\n    \\\"Host\\\": \\\"httpbin.org\\\"\\n  }\\n}\\n\"\nq).req.get[\"http://httpbin.org/headers\";`custom`headers!(\"with custom\";\"values\")]\n       | Accept Connection Custom        Headers  Host          User-Agent\n-------| -----------------------------------------------------------------\nheaders| \"*/*\"  \"close\"    \"with custom\" \"values\" \"httpbin.org\" \"kdb+/3.5\"\n\n\n\n\nHTTP Redirect\n\n\n$ q req.q\nKDB+ 3.5 2017.10.11 Copyright (C) 1993-2017 Kx Systems\nl32/ 2()core 1945MB jonny grizzly 127.0.1.1 NONEXPIRE\n\nq).Q.hg`:http://httpbin.org/redirect/3\n\"<!DOCTYPE HTML PUBLIC \\\"-//W3C//DTD HTML 3.2 Final//EN\\\">\\n<title>Redirecting...</title>\\n<h1>Redirecting...</h1>\\n<p>You should be redirected automatica..\nq).req.get[\"http://httpbin.org/redirect/3\";()!()]\nargs   | (`symbol$())!()\nheaders| `Accept`Connection`Host`User-Agent!(\"*/*\";\"close\";\"httpbin.org\";\"kdb+/3.5\")\norigin | \"146.199.80.196\"\nurl    | \"http://httpbin.org/get\"\n\n\n\n\n.req.post\n\n\nTakes three args:\n\n\n\n\nURL (can be string, hsym or symbol)\n\n\nDictionary of HTTP headers\n\n\nPayload (should be a string) -> where necessary, \nContent-Type\n should be set in header dict manually. \nContent-Length\n will be added automatically\n\n\n\n\nPOST request example\n\n\nq).req.post[\"http://httpbin.org/post\";enlist[\"Content-Type\"]!enlist .req.ty`json;.j.j (1#`text)!1#`hello]\nargs   | (`symbol$())!()\ndata   | \"{\\\"text\\\":\\\"hello\\\"}\"\nfiles  | (`symbol$())!()\nform   | (`symbol$())!()\nheaders| `Accept`Connection`Content-Length`Content-Type`Host`User-Agent!(\"*/*\";\"close\";\"16\";\"application/json\";\"httpbin.org\";\"kdb+/3.5\")\njson   | (,`text)!,\"hello\"\norigin | \"146.199.80.196\"\nurl    | \"http://httpbin.org/post\"",
+            "title": "User API"
+        },
+        {
+            "location": "/api/#user-api",
+            "text": "",
+            "title": "User API"
+        },
+        {
+            "location": "/api/#usage",
+            "text": "The two main entry point functions within the library are  .req.get  and  .req.post , replacing  .Q.hg  and  .Q.hp  respectively.\nOther functions are currently undocumented but will be documented in time.",
+            "title": "Usage"
+        },
+        {
+            "location": "/api/#reqget",
+            "text": "Takes two args:   URL (can be string, hsym or symbol)  Dictionary of HTTP headers",
+            "title": ".req.get"
+        },
+        {
+            "location": "/api/#examples",
+            "text": "",
+            "title": "Examples"
+        },
+        {
+            "location": "/api/#custom-headers",
+            "text": "$ q req.q\nKDB+ 3.5 2017.10.11 Copyright (C) 1993-2017 Kx Systems\nl32/ 2()core 1945MB jonny grizzly 127.0.1.1 NONEXPIRE\n\nq).Q.hg`:http://httpbin.org/headers\n\"{\\n  \\\"headers\\\": {\\n    \\\"Connection\\\": \\\"close\\\", \\n    \\\"Host\\\": \\\"httpbin.org\\\"\\n  }\\n}\\n\"\nq).req.get[\"http://httpbin.org/headers\";`custom`headers!(\"with custom\";\"values\")]\n       | Accept Connection Custom        Headers  Host          User-Agent\n-------| -----------------------------------------------------------------\nheaders| \"*/*\"  \"close\"    \"with custom\" \"values\" \"httpbin.org\" \"kdb+/3.5\"",
             "title": "Custom Headers"
-        }, 
+        },
         {
-            "location": "/#http-redirect", 
-            "text": "$ q req.q\nKDB+ 3.5 2017.10.11 Copyright (C) 1993-2017 Kx Systems\nl32/ 2()core 1945MB jonny grizzly 127.0.1.1 NONEXPIRE\n\nq).Q.hg`:http://httpbin.org/redirect/3 !DOCTYPE HTML PUBLIC \\ -//W3C//DTD HTML 3.2 Final//EN\\ \\n title Redirecting... /title \\n h1 Redirecting... /h1 \\n p You should be redirected automatica..\nq).req.get[ http://httpbin.org/redirect/3 ;()!()]\nargs   | (`symbol$())!()\nheaders| `Accept`Connection`Host`User-Agent!( */* ; close ; httpbin.org ; kdb+/3.5 )\norigin |  146.199.80.196 \nurl    |  http://httpbin.org/get", 
+            "location": "/api/#http-redirect",
+            "text": "$ q req.q\nKDB+ 3.5 2017.10.11 Copyright (C) 1993-2017 Kx Systems\nl32/ 2()core 1945MB jonny grizzly 127.0.1.1 NONEXPIRE\n\nq).Q.hg`:http://httpbin.org/redirect/3\n\"<!DOCTYPE HTML PUBLIC \\\"-//W3C//DTD HTML 3.2 Final//EN\\\">\\n<title>Redirecting...</title>\\n<h1>Redirecting...</h1>\\n<p>You should be redirected automatica..\nq).req.get[\"http://httpbin.org/redirect/3\";()!()]\nargs   | (`symbol$())!()\nheaders| `Accept`Connection`Host`User-Agent!(\"*/*\";\"close\";\"httpbin.org\";\"kdb+/3.5\")\norigin | \"146.199.80.196\"\nurl    | \"http://httpbin.org/get\"",
             "title": "HTTP Redirect"
-        }, 
+        },
         {
-            "location": "/#post-request", 
-            "text": "q).req.post[ http://httpbin.org/post ;enlist[ Content-Type ]!enlist .req.ty`json;.j.j (1#`text)!1#`hello]\nargs   | (`symbol$())!()\ndata   |  {\\ text\\ :\\ hello\\ } \nfiles  | (`symbol$())!()\nform   | (`symbol$())!()\nheaders| `Accept`Connection`Content-Length`Content-Type`Host`User-Agent!( */* ; close ; 16 ; application/json ; httpbin.org ; kdb+/3.5 )\njson   | (,`text)!, hello \norigin |  146.199.80.196 \nurl    |  http://httpbin.org/post", 
-            "title": "POST request"
+            "location": "/api/#reqpost",
+            "text": "Takes three args:   URL (can be string, hsym or symbol)  Dictionary of HTTP headers  Payload (should be a string) -> where necessary,  Content-Type  should be set in header dict manually.  Content-Length  will be added automatically",
+            "title": ".req.post"
+        },
+        {
+            "location": "/api/#post-request-example",
+            "text": "q).req.post[\"http://httpbin.org/post\";enlist[\"Content-Type\"]!enlist .req.ty`json;.j.j (1#`text)!1#`hello]\nargs   | (`symbol$())!()\ndata   | \"{\\\"text\\\":\\\"hello\\\"}\"\nfiles  | (`symbol$())!()\nform   | (`symbol$())!()\nheaders| `Accept`Connection`Content-Length`Content-Type`Host`User-Agent!(\"*/*\";\"close\";\"16\";\"application/json\";\"httpbin.org\";\"kdb+/3.5\")\njson   | (,`text)!,\"hello\"\norigin | \"146.199.80.196\"\nurl    | \"http://httpbin.org/post\"",
+            "title": "POST request example"
+        },
+        {
+            "location": "/internal/",
+            "text": "Internal Functions\n\n\n.req.addcookie\n\n\nThe function called internally when a \nSet-Cookie\n header is received on an\nHTTP response, taking the host for the request & the cookie header string as\narguments.\n\n\nq).req.addcookie[\"adventofcode.com\";\"session=n0tar34ls3ss10nc00k13\"]\nq).req.cookiejar\nhost               path name     | val                     expires maxage secure httponly samesite\n---------------------------------| ---------------------------------------------------------------\n\"adventofcode.com\" ,\"*\" \"session\"| \"n0tar34ls3ss10nc00k13\"                0      0",
+            "title": "Internal Functions"
+        },
+        {
+            "location": "/internal/#internal-functions",
+            "text": "",
+            "title": "Internal Functions"
+        },
+        {
+            "location": "/internal/#reqaddcookie",
+            "text": "The function called internally when a  Set-Cookie  header is received on an\nHTTP response, taking the host for the request & the cookie header string as\narguments.  q).req.addcookie[\"adventofcode.com\";\"session=n0tar34ls3ss10nc00k13\"]\nq).req.cookiejar\nhost               path name     | val                     expires maxage secure httponly samesite\n---------------------------------| ---------------------------------------------------------------\n\"adventofcode.com\" ,\"*\" \"session\"| \"n0tar34ls3ss10nc00k13\"                0      0",
+            "title": ".req.addcookie"
+        },
+        {
+            "location": "/examples/aoc/",
+            "text": "Advent of Code",
+            "title": "Advent of Code"
+        },
+        {
+            "location": "/examples/aoc/#advent-of-code",
+            "text": "",
+            "title": "Advent of Code"
+        },
+        {
+            "location": "/examples/github/",
+            "text": "GitHub",
+            "title": "GitHub"
+        },
+        {
+            "location": "/examples/github/#github",
+            "text": "",
+            "title": "GitHub"
+        },
+        {
+            "location": "/examples/jira/",
+            "text": "Atlassian JIRA",
+            "title": "JIRA"
+        },
+        {
+            "location": "/examples/jira/#atlassian-jira",
+            "text": "",
+            "title": "Atlassian JIRA"
+        },
+        {
+            "location": "/examples/zoho/",
+            "text": "Zoho People HR",
+            "title": "Zoho"
+        },
+        {
+            "location": "/examples/zoho/#zoho-people-hr",
+            "text": "",
+            "title": "Zoho People HR"
         }
     ]
 }
