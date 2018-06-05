@@ -21,3 +21,11 @@ writejar:{[]                                                                    
 KUltf`:tests/tests.csv;
 KUrt[];
 show KUTR;
+
+.req.cookiejar:0#.req.cookiejar;                                                                         //wipe cookies
+KUTR:0#KUTR;                                                                                             //wipe results
+
+-1 string[.z.Z]," re-run tests with DNS-over-HTTPS";
+\l doh_google.q
+KUrt[];
+show KUTR;

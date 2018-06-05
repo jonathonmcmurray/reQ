@@ -36,7 +36,7 @@ readjar:{[f] /f-file
   t:update path:{x,"*"}'[path] from t;                                              //implement path matching
   t:update secure:secure=`TRUE from t;                                              //convert secure to boolean
   t:update expires:?[0=expires;0Nz;`datetime$`timestamp$1970.01.01D00+1e9*expires] from t; //calculate expiry
-  :delete tailmatch from update httponly:0b,maxage:0N,samesite:` from t;            //add extra fields for reQ cookiejar
+  :delete tailmatch from update httponly:0b,maxage:0Nj,samesite:` from t;           //add extra fields for reQ cookiejar
  }
 
 writejar:{[f;j] /f-file,j-jar
@@ -153,13 +153,14 @@ okstatus:{[v;x] /v-verbose flag,x-reponse (headers;body)
 send:{[m;u;hd;p;v] /m-method,u-url,hd-headers,p-payload,v-verbose flag
   /* build & send HTTP request */
   pr:proxy h:host u;                                                                //check if we need to use proxy & get proxy address
-  hs:hsurl `$prot[u],h;                                                             //get hostname as handle & string
+  nu:$[@[value;`.doh.ENABLED;0b];.doh.resolve;]u;                                   //resolve URL via DNS-over-HTTPS if enabled
+  hs:hsurl `$prot[nu],host nu;                                                      //get hostname as handle & string
   if[pr[0];hs:hsurl `$prot[pr 1],host pr 1];                                        //overwrite host handle if using proxy
-  us:user $[pr 0;pr 1;u];                                                           //get user name (if present)
-  if[count c:getcookies[prot u;h;endp u];hd[`Cookie]:c];                            //add any applicable cookies
+  us:user $[pr 0;pr 1;nu];                                                          //get user name (if present)
+  if[count c:getcookies[prot nu;h;endp nu];hd[`Cookie]:c];                          //add any applicable cookies
   d:headers[us;pr;hd;p];                                                            //get dictionary of HTTP headers for request
-  r:hs d:buildquery[m;pr;u;h;d;p];                                                  //build query and execute
-  if[v;-1"-- REQUEST --\n",string[hs]," ",d,"\n\n"];                                //if verbose, log request
+  r:hs d:buildquery[m;pr;nu;h;d;p];                                                 //build query and execute
+  if[v;-1"-- REQUEST --\n",string[hs],"\n",d];                                      //if verbose, log request
   if[v;-1"-- RESPONSE --\n",r];                                                     //if verbose, log response
   r:formatresp r;                                                                   //format response to headers & body
   if[(sc:`$"Set-Cookie") in k:key r 0;                                              //check for Set-Cookie headers
@@ -177,6 +178,7 @@ parseresp:{[r]
  }
 
 .req.get:{parseresp okstatus[VERBOSE] send[`GET;x;y;();VERBOSE]}                    //get - projection with no payload & GET method
+.req.g:.req.get[;()!()]                                                             //simple get, no custom headers
 .req.post:{parseresp okstatus[VERBOSE] send[`POST;x;y;z;VERBOSE]}                   //post - project with POST method
 
 \d .
