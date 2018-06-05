@@ -13,10 +13,11 @@ opts:.Q.def[`year`day`o!(`year$.z.D;`dd$.z.D;`$first system"pwd")] .Q.opt .z.x; 
 opts:string each opts;                                                              //string params
 int:.z.f like "*aoc.q";                                                             //check if aoc.q on cmd line - if not, library funcs
 
+.req.addcookie["adventofcode.com";"session=",cfg`session];
+
 board:{[y;b]
   /* get a leaderboard for a given year */
-  r:.req.get["http://adventofcode.com/",y,"/leaderboard/private/view/",b,".json";   //request board
-            enlist[`Cookie]!enlist"session=",cfg`session];                          //add session cookie as HTTP header
+  r:.req.g"http://adventofcode.com/",y,"/leaderboard/private/view/",b,".json";      //request board
   r:`name`local_score`stars`global_score`id`last_star_ts#/:value r`members;         //pull out relevant fields
   :`local_score xdesc update name:("anon",/:id) from r where 10h<>type each name;   //fix anon users, sort
  }
@@ -24,8 +25,7 @@ board:{[y;b]
 day:{[y;d;o]
   /* get challenge input for a given day & save locally */
   -1"Downloading input for ",y," day ",d," to: ",string o;                          //log day being dowloaded & output file
-  r:.req.get["http://adventofcode.com/",y,"/day/",d,"/input";                       //download input
-            enlist[`Cookie]!enlist"session=",cfg`session];                          //add session cookie as HTTP header
+  r:.req.g"http://adventofcode.com/",y,"/day/",d,"/input";                          //download input
   o 0: -1_"\n" vs r;                                                                //write to file
  }
 
