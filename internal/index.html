@@ -162,7 +162,7 @@
     
         <li class="main active"><a href="#internal-functions">Internal Functions</a></li>
         
-            <li><a href="#reqaddcookie">.req.addcookie</a></li>
+            <li><a href="#reqaddcookiehostcookiestring">.req.addcookie[host;cookiestring]</a></li>
         
     
     
@@ -171,7 +171,11 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="internal-functions">Internal Functions</h1>
-<h2 id="reqaddcookie"><code>.req.addcookie</code></h2>
+<p><em>Warning: The functions documented here are internal functions used by the
+library. While most of these are unlikely to change in usage in future versions
+be aware this is possible and take care if using these functions directly</em></p>
+<hr />
+<h4 id="reqaddcookiehostcookiestring"><code>.req.addcookie[host;cookiestring]</code></h4>
 <p>The function called internally when a <code>Set-Cookie</code> header is received on an
 HTTP response, taking the host for the request &amp; the cookie header string as
 arguments.</p>

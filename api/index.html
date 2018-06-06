@@ -162,7 +162,20 @@
     
         <li class="main active"><a href="#user-api">User API</a></li>
         
-            <li><a href="#usage">Usage</a></li>
+    
+        <li class="main "><a href="#functions">Functions</a></li>
+        
+            <li><a href="#reqgeturlheaders">.req.get[url;headers]</a></li>
+        
+            <li><a href="#reqposturlheadersbody">.req.post[url;headers;body]</a></li>
+        
+            <li><a href="#reqdeleteurlheadersbody">.req.delete[url;headers;body]</a></li>
+        
+            <li><a href="#reqgurl">.req.g[url]</a></li>
+        
+            <li><a href="#reqdelurlheaders">.req.del[url;headers]</a></li>
+        
+            <li><a href="#reqdurl">.req.d[url]</a></li>
         
     
     
@@ -171,17 +184,32 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="user-api">User API</h1>
-<h2 id="usage">Usage</h2>
-<p>The two main entry point functions within the library are <code>.req.get</code> and <code>.req.post</code>, replacing <code>.Q.hg</code> and <code>.Q.hp</code> respectively.
-Other functions are currently undocumented but will be documented in time.</p>
-<h3 id="reqget"><code>.req.get</code></h3>
-<p>Takes two args:</p>
+<hr />
+<p><em>NOTE: The public API is still being defined &amp; is subject to change. However, the
+majority of the functions should not change in usage or functionality.</em></p>
+<p>The main entry points for the library are via wrapper functions for a number of
+HTTP methods; <code>.req.get</code>, <code>.req.post</code>, <code>.req.delete</code>. Additionally, there is a
+simple wrapper for GET requests which do not require custom headers, <code>.req.g</code>,
+which is meant as a drop in replacement for <code>.Q.hg</code> with the enhanced features
+of reQ.</p>
+<p>Each request function will provide the following features:</p>
 <ul>
-<li>URL (can be string, hsym or symbol)</li>
-<li>Dictionary of HTTP headers</li>
+<li>Store &amp; send <a href="../features/cookies/">cookies</a> as appropriate</li>
+<li>Follow <a href="../features/redirects/">HTTP redirects</a></li>
+<li>Automatically parse JSON responses</li>
 </ul>
-<h4 id="examples">Examples</h4>
-<h5 id="custom-headers">Custom Headers</h5>
+<p>The first argument to each function is always the URL for the request,
+including any URL parameters, and can be passed as a string, hsym or symbol.
+If sending numerous requests to the same host but with different URL parameters
+it is advisable to use strings, to avoid bloating internalised sym vector.</p>
+<h1 id="functions">Functions</h1>
+<hr />
+<h4 id="reqgeturlheaders"><code>.req.get[url;headers]</code></h4>
+<ul>
+<li><em>url</em>: URL to send request to, as string, hsym or symbol</li>
+<li><em>headers</em>: KDB dictionary of custom headers to add to HTTP request</li>
+</ul>
+<p><em>Example</em></p>
 <pre><code class="q">$ q req.q
 KDB+ 3.5 2017.10.11 Copyright (C) 1993-2017 Kx Systems
 l32/ 2()core 1945MB jonny grizzly 127.0.1.1 NONEXPIRE
@@ -194,28 +222,15 @@ q).req.get[&quot;http://httpbin.org/headers&quot;;`custom`headers!(&quot;with cu
 headers| &quot;*/*&quot;  &quot;close&quot;    &quot;with custom&quot; &quot;values&quot; &quot;httpbin.org&quot; &quot;kdb+/3.5&quot;
 </code></pre>
 
-<h5 id="http-redirect">HTTP Redirect</h5>
-<pre><code class="q">$ q req.q
-KDB+ 3.5 2017.10.11 Copyright (C) 1993-2017 Kx Systems
-l32/ 2()core 1945MB jonny grizzly 127.0.1.1 NONEXPIRE
-
-q).Q.hg`:http://httpbin.org/redirect/3
-&quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-//W3C//DTD HTML 3.2 Final//EN\&quot;&gt;\n&lt;title&gt;Redirecting...&lt;/title&gt;\n&lt;h1&gt;Redirecting...&lt;/h1&gt;\n&lt;p&gt;You should be redirected automatica..
-q).req.get[&quot;http://httpbin.org/redirect/3&quot;;()!()]
-args   | (`symbol$())!()
-headers| `Accept`Connection`Host`User-Agent!(&quot;*/*&quot;;&quot;close&quot;;&quot;httpbin.org&quot;;&quot;kdb+/3.5&quot;)
-origin | &quot;146.199.80.196&quot;
-url    | &quot;http://httpbin.org/get&quot;
-</code></pre>
-
-<h3 id="reqpost"><code>.req.post</code></h3>
-<p>Takes three args:</p>
+<hr />
+<h4 id="reqposturlheadersbody"><code>.req.post[url;headers;body]</code></h4>
 <ul>
-<li>URL (can be string, hsym or symbol)</li>
-<li>Dictionary of HTTP headers</li>
-<li>Payload (should be a string) -&gt; where necessary, <code>Content-Type</code> should be set in header dict manually. <code>Content-Length</code> will be added automatically</li>
+<li><em>url</em>: URL to send request to, as string, hsym or symbol</li>
+<li><em>headers</em>: KDB dictionary of custom headers to add to HTTP request</li>
+<li><em>body</em>: request body, as a string -&gt; where necessary, <code>Content-Type</code> should be set in header dict manually. <code>Content-Length</code> will be added automatically</li>
 </ul>
-<h4 id="post-request-example">POST request example</h4>
+<p><em>Note:</em> In a future update, it will be possible to pass the body in a more user friendly way, see <a href="https://github.com/jonathonmcmurray/reQ/issues/7">jonatonmcmurray/reQ#7</a></p>
+<p><em>Example</em></p>
 <pre><code class="q">q).req.post[&quot;http://httpbin.org/post&quot;;enlist[&quot;Content-Type&quot;]!enlist .req.ty`json;.j.j (1#`text)!1#`hello]
 args   | (`symbol$())!()
 data   | &quot;{\&quot;text\&quot;:\&quot;hello\&quot;}&quot;
@@ -225,6 +240,77 @@ headers| `Accept`Connection`Content-Length`Content-Type`Host`User-Agent!(&quot;*
 json   | (,`text)!,&quot;hello&quot;
 origin | &quot;146.199.80.196&quot;
 url    | &quot;http://httpbin.org/post&quot;
+</code></pre>
+
+<hr />
+<h4 id="reqdeleteurlheadersbody"><code>.req.delete[url;headers;body]</code></h4>
+<ul>
+<li><em>url</em>: URL to send request to, as string, hsym or symbol</li>
+<li><em>headers</em>: KDB dictionary of custom headers to add to HTTP request</li>
+<li><em>body</em>: request body, as a string -&gt; where necessary, <code>Content-Type</code> should be set in header dict manually. <code>Content-Length</code> will be added automatically</li>
+</ul>
+<p><em>Note:</em> In a future update, it will be possible to pass the body in a more user friendly way, see <a href="https://github.com/jonathonmcmurray/reQ/issues/7">jonatonmcmurray/reQ#7</a></p>
+<p><em>Example</em></p>
+<pre><code class="q">q).req.delete[&quot;http://httpbin.org/delete&quot;;()!();()]
+args   | (`symbol$())!()
+data   | &quot;&quot;
+files  | (`symbol$())!()
+form   | (`symbol$())!()
+headers| `Accept`Connection`Content-Length`Host`User-Agent!(&quot;*/*&quot;;&quot;close&quot;;,&quot;0&quot;;&quot;httpbin.org&quot;;&quot;kdb+/3.5&quot;)
+json   | 0n
+origin | &quot;86.145.98.64&quot;
+url    | &quot;http://httpbin.org/delete&quot;
+</code></pre>
+
+<hr />
+<h4 id="reqgurl"><code>.req.g[url]</code></h4>
+<p>Projection to send a simple GET request with no custom headers</p>
+<ul>
+<li><em>url</em>: URL to send request to, as string, hsym or symbol</li>
+</ul>
+<p><em>Example</em></p>
+<pre><code class="q">q).req.g&quot;http://httpbin.org/get&quot;
+args   | (`symbol$())!()
+headers| `Accept`Connection`Host`User-Agent!(&quot;*/*&quot;;&quot;close&quot;;&quot;httpbin.org&quot;;&quot;kdb+/3.5&quot;)
+origin | &quot;86.145.98.64&quot;
+url    | &quot;http://httpbin.org/get&quot;
+</code></pre>
+
+<hr />
+<h4 id="reqdelurlheaders"><code>.req.del[url;headers]</code></h4>
+<p>Projection to send DELETE request with no body</p>
+<ul>
+<li><em>url</em>: URL to send request to, as string, hsym or symbol</li>
+<li><em>headers</em>: KDB dictionary of custom headers to add to HTTP request</li>
+</ul>
+<p><em>Example</em></p>
+<pre><code class="q">q).req.del[&quot;http://httpbin.org/delete&quot;;`with`custom!(&quot;headers&quot;;&quot;123&quot;)]
+args   | (`symbol$())!()
+data   | &quot;&quot;
+files  | (`symbol$())!()
+form   | (`symbol$())!()
+headers| `Accept`Connection`Content-Length`Custom`Host`User-Agent`With!(&quot;*/*&quot;;&quot;close&quot;;,&quot;0&quot;;&quot;123&quot;;&quot;httpbin.org&quot;;&quot;kdb+/3.5&quot;;&quot;headers&quot;)
+json   | 0n
+origin | &quot;86.145.98.64&quot;
+url    | &quot;http://httpbin.org/delete&quot;
+</code></pre>
+
+<hr />
+<h4 id="reqdurl"><code>.req.d[url]</code></h4>
+<p>Projection to send simple DELETE requests with no body or headers</p>
+<ul>
+<li><em>url</em>: URL to send request to, as string, hsym or symbol</li>
+</ul>
+<p><em>Example</em></p>
+<pre><code class="q">q).req.d&quot;http://httpbin.org/delete&quot;
+args   | (`symbol$())!()
+data   | &quot;&quot;
+files  | (`symbol$())!()
+form   | (`symbol$())!()
+headers| `Accept`Connection`Content-Length`Host`User-Agent!(&quot;*/*&quot;;&quot;close&quot;;,&quot;0&quot;;&quot;httpbin.org&quot;;&quot;kdb+/3.5&quot;)
+json   | 0n
+origin | &quot;86.145.98.64&quot;
+url    | &quot;http://httpbin.org/delete&quot;
 </code></pre></div>
                 </div>
         </div>
