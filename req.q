@@ -180,5 +180,8 @@ parseresp:{[r]
 .req.get:{parseresp okstatus[VERBOSE] send[`GET;x;y;();VERBOSE]}                    //get - projection with no payload & GET method
 .req.g:.req.get[;()!()]                                                             //simple get, no custom headers
 .req.post:{parseresp okstatus[VERBOSE] send[`POST;x;y;z;VERBOSE]}                   //post - project with POST method
+.req.delete:{parseresp okstatus[VERBOSE] send[`DELETE;x;y;z;VERBOSE]}               //delete - project with DELETE method
+.req.del:.req.delete[;;()]                                                          //project with no body
+.req.d:.req.del[;()!()]                                                             //project with no body or headers
 
 \d .
