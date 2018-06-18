@@ -109,7 +109,9 @@ headers:{[us;pr;hd;p] /us-username,pr-proxy,hd-custom headers,p-payload
 
 enchd:{[d] /d-dictionary of headers
   /* convert KDB dictionary to HTTP headers */
-  :("\r\n" sv ": " sv/:flip (key;value)@\:d),"\r\n\r\n";                            //encode headers dict to HTTP headers
+  k:2_@[k;where 10<>type each k:(" ";`),key d;string];                              //convert non-string keys to strings
+  v:2_@[v;where 10<>type each v:(" ";`),value d;string];                            //convert non-string values to strings
+  :("\r\n" sv ": " sv/:flip (k;v)),"\r\n\r\n";                                      //encode headers dict to HTTP headers
  }
 
 buildquery:{[m;pr;u;h;d;p] /m-method,pr-proxy,u-url,h-host,d-headers dict,p-payload
