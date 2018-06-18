@@ -9,7 +9,7 @@ addcookie:{[h;c]
   d:(!). "S=;"0:c;                                                                  //parse cookie into dict
   n:string first key d;v:first value d;                                             //extract cookie name & value
   d:lower[key d]!value d;                                                           //make all keys lower case
-  r:`host`path`name`val!(h;d[`path],"*";n;v);                                       //build up record
+  r:`host`path`name`val!(".",h;d[`path],"*";n;v);                                   //build up record
   if[`domain in key d;r[`host]:"*.",d`domain];                                      //if domain in cookie, use it for host
   r[`expires]:"Z"$" "sv@[;1 2]" "vs d`expires;                                      //parse expiration date & time
   r[`maxage]:"J"$d`$"max-age";                                                      //TODO calculate expires from maxage
