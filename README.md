@@ -1,5 +1,8 @@
 # reQ
 
+[![Anaconda-Server Badge](https://anaconda.org/jmcmurray/req/badges/version.svg)](https://anaconda.org/jmcmurray/req)
+[![Anaconda-Server Badge](https://anaconda.org/jmcmurray/req/badges/downloads.svg)](https://anaconda.org/jmcmurray/req)
+
 A WIP library for HTTP requests in kdb+/q
 
 kdb+ has built in functions for HTTP requests such as `.Q.hg` (GET) and `.Q.hp`(POST). However, these functions are somewhat limited by several factors. For example, using these functions you cannot supply custom HTTP headers within the requests (for example, authorization tokens that are required by many APIs, a user agent etc.). In addition, in case of an HTTP redirect response, `.Q.hg`/`.Q.hp` will fail.
