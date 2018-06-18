@@ -10,7 +10,7 @@ addcookie:{[h;c]
   n:string first key d;v:first value d;                                             //extract cookie name & value
   d:lower[key d]!value d;                                                           //make all keys lower case
   r:`host`path`name`val!(h;d[`path],"*";n;v);                                       //build up record
-  if[`domain in key d;r[`host]:"*",d`domain];                                       //if domain in cookie, use it for host
+  if[`domain in key d;r[`host]:"*.",d`domain];                                      //if domain in cookie, use it for host
   r[`expires]:"Z"$" "sv@[;1 2]" "vs d`expires;                                      //parse expiration date & time
   r[`maxage]:"J"$d`$"max-age";                                                      //TODO calculate expires from maxage
   r[`secure]:`secure in key d;                                                      //check if Secure attribute is set
@@ -21,6 +21,7 @@ addcookie:{[h;c]
 
 getcookies:{[pr;h;p]
   /* get cookies that apply for a given protocol, host & path */
+  h:".",h;                                                                          //prevent bad tailmatching
   t:select from .req.cookiejar where h like/:host,p like/:path,(expires>.z.t)|null expires;  //select all cookies that apply
   if[not pr~"https://";t:delete from t where secure];                               //delete HTTPS only cookies if not HTTPS request
   :"; "sv"="sv'flip value exec name,val from t;                                     //compile cookies into string
@@ -31,7 +32,7 @@ readjar:{[f] /f-file
   j:read0 hsurl f;                                                                  //get hsym of input file & read
   j:j where not ("#"=first'[j])|0=count'[j];                                        //remove comments & empty lines
   t:flip`host`tailmatch`path`secure`expires`name`val!("*S*SJ**";"\t")0:j;           //convert to a table
-  t:update host:{"*",x}'[host] from t where tailmatch=`TRUE;                        //implement tailmatching
+  t:update host:{"*.",x}'[host] from t where tailmatch=`TRUE;                       //implement tailmatching
   t:update path:{x,"*"}'[path] from t;                                              //implement path matching
   t:update secure:secure=`TRUE from t;                                              //convert secure to boolean
   t:update expires:?[0=expires;0Nz;`datetime$`timestamp$1970.01.01D00+1e9*expires] from t; //calculate expiry
