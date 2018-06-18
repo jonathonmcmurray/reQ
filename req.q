@@ -1,7 +1,6 @@
 \d .req
 
 VERBOSE:@[value;`.req.VERBOSE;$[count .z.x;"-verbose" in .z.x;0b]];                 //default to non-verbose output
-if[.z.K<=3.1;@[system;"l json.k";{-2"Failed to load json.k: ",x}]];                 //add JSON support for older q versions
 
 cookiejar:([host:();path:();name:()] val:();expires:`datetime$();maxage:`long$();secure:`boolean$();httponly:`boolean$();samesite:`$())  //storage for cookies
 
