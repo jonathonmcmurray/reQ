@@ -162,6 +162,10 @@
     
         <li class="main active"><a href="#http-request-headers">HTTP Request Headers</a></li>
         
+            <li><a href="#default-headers">Default headers</a></li>
+        
+            <li><a href="#custom-headers">Custom headers</a></li>
+        
     
     
     </ul>
@@ -169,7 +173,29 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="http-request-headers">HTTP Request Headers</h1>
-<hr /></div>
+<hr />
+<h2 id="default-headers">Default headers</h2>
+<p>The default headers sent with requests are found in <code>.req.def</code>:</p>
+<pre><code>q).req.def
+&quot;Connection&quot;| &quot;Close&quot;
+&quot;User-Agent&quot;| &quot;kdb+/3.5&quot;
+&quot;Accept&quot;    | &quot;*/*&quot;
+</code></pre>
+
+<p>The <code>User-Agent</code> header is automatically generated from the version of kdb+
+(i.e. <code>.z.K</code>)</p>
+<h2 id="custom-headers">Custom headers</h2>
+<p>One of the key features of reQ is the ability to send custom headers with HTTP
+requests. This is done by supplying a dictionary of custom headers as the
+second argument to many of the <a href="../../api/">User API</a> functions, such as
+<a href="../../api/#reqget"><code>.req.get</code></a>, <a href="../../api/#reqpost"><code>.req.post</code></a>,
+<a href="../../api/#reqdelete"><code>.req.delete</code></a> and <a href="../../api/#reqdel"><code>.req.del</code></a></p>
+<p>For example:</p>
+<pre><code>q).req.get[&quot;http://httpbin.org/headers&quot;;`custom`headers!(&quot;with custom&quot;;&quot;values&quot;)]
+       | Accept Connection Custom        Headers  Host          User-Agent
+-------| -----------------------------------------------------------------
+headers| &quot;*/*&quot;  &quot;close&quot;    &quot;with custom&quot; &quot;values&quot; &quot;httpbin.org&quot; &quot;kdb+/3.5&quot;
+</code></pre></div>
                 </div>
         </div>
 

@@ -165,17 +165,17 @@
     
         <li class="main "><a href="#functions">Functions</a></li>
         
-            <li><a href="#reqgeturlheaders">.req.get[url;headers]</a></li>
+            <li><a href="#reqget">.req.get</a></li>
         
-            <li><a href="#reqposturlheadersbody">.req.post[url;headers;body]</a></li>
+            <li><a href="#reqpost">.req.post</a></li>
         
-            <li><a href="#reqdeleteurlheadersbody">.req.delete[url;headers;body]</a></li>
+            <li><a href="#reqdelete">.req.delete</a></li>
         
-            <li><a href="#reqgurl">.req.g[url]</a></li>
+            <li><a href="#reqg">.req.g</a></li>
         
-            <li><a href="#reqdelurlheaders">.req.del[url;headers]</a></li>
+            <li><a href="#reqdel">.req.del</a></li>
         
-            <li><a href="#reqdurl">.req.d[url]</a></li>
+            <li><a href="#reqd">.req.d</a></li>
         
     
     
@@ -204,7 +204,8 @@ If sending numerous requests to the same host but with different URL parameters
 it is advisable to use strings, to avoid bloating internalised sym vector.</p>
 <h1 id="functions">Functions</h1>
 <hr />
-<h4 id="reqgeturlheaders"><code>.req.get[url;headers]</code></h4>
+<h4 id="reqget"><code>.req.get</code></h4>
+<p><code>[url;headers]</code></p>
 <ul>
 <li><em>url</em>: URL to send request to, as string, hsym or symbol</li>
 <li><em>headers</em>: KDB dictionary of custom headers to add to HTTP request</li>
@@ -223,7 +224,8 @@ headers| &quot;*/*&quot;  &quot;close&quot;    &quot;with custom&quot; &quot;val
 </code></pre>
 
 <hr />
-<h4 id="reqposturlheadersbody"><code>.req.post[url;headers;body]</code></h4>
+<h4 id="reqpost"><code>.req.post</code></h4>
+<p><code>[url;headers;body]</code></p>
 <ul>
 <li><em>url</em>: URL to send request to, as string, hsym or symbol</li>
 <li><em>headers</em>: KDB dictionary of custom headers to add to HTTP request</li>
@@ -243,7 +245,8 @@ url    | &quot;http://httpbin.org/post&quot;
 </code></pre>
 
 <hr />
-<h4 id="reqdeleteurlheadersbody"><code>.req.delete[url;headers;body]</code></h4>
+<h4 id="reqdelete"><code>.req.delete</code></h4>
+<p><code>[url;headers;body]</code></p>
 <ul>
 <li><em>url</em>: URL to send request to, as string, hsym or symbol</li>
 <li><em>headers</em>: KDB dictionary of custom headers to add to HTTP request</li>
@@ -263,7 +266,8 @@ url    | &quot;http://httpbin.org/delete&quot;
 </code></pre>
 
 <hr />
-<h4 id="reqgurl"><code>.req.g[url]</code></h4>
+<h4 id="reqg"><code>.req.g</code></h4>
+<p><code>[url]</code></p>
 <p>Projection to send a simple GET request with no custom headers</p>
 <ul>
 <li><em>url</em>: URL to send request to, as string, hsym or symbol</li>
@@ -277,7 +281,8 @@ url    | &quot;http://httpbin.org/get&quot;
 </code></pre>
 
 <hr />
-<h4 id="reqdelurlheaders"><code>.req.del[url;headers]</code></h4>
+<h4 id="reqdel"><code>.req.del</code></h4>
+<p><code>[url;headers]</code></p>
 <p>Projection to send DELETE request with no body</p>
 <ul>
 <li><em>url</em>: URL to send request to, as string, hsym or symbol</li>
@@ -296,7 +301,8 @@ url    | &quot;http://httpbin.org/delete&quot;
 </code></pre>
 
 <hr />
-<h4 id="reqdurl"><code>.req.d[url]</code></h4>
+<h4 id="reqd"><code>.req.d</code></h4>
+<p><code>[url]</code></p>
 <p>Projection to send simple DELETE requests with no body or headers</p>
 <ul>
 <li><em>url</em>: URL to send request to, as string, hsym or symbol</li>

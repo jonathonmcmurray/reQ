@@ -162,7 +162,55 @@
     
         <li class="main active"><a href="#internal-functions">Internal Functions</a></li>
         
-            <li><a href="#reqaddcookiehostcookiestring">.req.addcookie[host;cookiestring]</a></li>
+            <li><a href="#reqaddcookie">.req.addcookie</a></li>
+        
+            <li><a href="#reqgetcookies">.req.getcookies</a></li>
+        
+            <li><a href="#reqreadjar">.req.readjar</a></li>
+        
+            <li><a href="#reqwritejar">.req.writejar</a></li>
+        
+            <li><a href="#reqsturl">.req.sturl</a></li>
+        
+            <li><a href="#reqhsurl">.req.hsurl</a></li>
+        
+            <li><a href="#reqhap">.req.hap</a></li>
+        
+            <li><a href="#reqprot">.req.prot</a></li>
+        
+            <li><a href="#requser">.req.user</a></li>
+        
+            <li><a href="#reqhost">.req.host</a></li>
+        
+            <li><a href="#reqendp">.req.endp</a></li>
+        
+            <li><a href="#reqb64encode">.req.b64encode</a></li>
+        
+            <li><a href="#reqb64decode">.req.b64decode</a></li>
+        
+            <li><a href="#reqty">.req.ty</a></li>
+        
+            <li><a href="#reqhu">.req.hu</a></li>
+        
+            <li><a href="#reqproxy">.req.proxy</a></li>
+        
+            <li><a href="#reqheaders">.req.headers</a></li>
+        
+            <li><a href="#reqenchd">.req.enchd</a></li>
+        
+            <li><a href="#reqbuildquery">.req.buildquery</a></li>
+        
+            <li><a href="#reqformatresp">.req.formatresp</a></li>
+        
+            <li><a href="#requrlencode">.req.urlencode</a></li>
+        
+            <li><a href="#requrldecode">.req.urldecode</a></li>
+        
+            <li><a href="#reqokstatus">.req.okstatus</a></li>
+        
+            <li><a href="#reqsend">.req.send</a></li>
+        
+            <li><a href="#reqparseresp">.req.parseresp</a></li>
         
     
     
@@ -174,8 +222,11 @@
 <p><em>Warning: The functions documented here are internal functions used by the
 library. While most of these are unlikely to change in usage in future versions
 be aware this is possible and take care if using these functions directly</em></p>
+<p>Below is preliminary documentation of internal functions, more detail will be
+added in time.</p>
 <hr />
-<h4 id="reqaddcookiehostcookiestring"><code>.req.addcookie[host;cookiestring]</code></h4>
+<h4 id="reqaddcookie"><code>.req.addcookie</code></h4>
+<p><code>[host;cookiestring]</code></p>
 <p>The function called internally when a <code>Set-Cookie</code> header is received on an
 HTTP response, taking the host for the request &amp; the cookie header string as
 arguments.</p>
@@ -184,7 +235,84 @@ q).req.cookiejar
 host               path name     | val                     expires maxage secure httponly samesite
 ---------------------------------| ---------------------------------------------------------------
 &quot;adventofcode.com&quot; ,&quot;*&quot; &quot;session&quot;| &quot;n0tar34ls3ss10nc00k13&quot;                0      0
-</code></pre></div>
+</code></pre>
+
+<h4 id="reqgetcookies"><code>.req.getcookies</code></h4>
+<p><code>[protocol;host;path]</code></p>
+<p>Get applicable cookies from cookiejar for given protocol, host &amp; path</p>
+<h4 id="reqreadjar"><code>.req.readjar</code></h4>
+<p><code>[file]</code></p>
+<p>Read cURL/Netscape format cookiejar into reQ internal cookiejar format</p>
+<p>use <code>`.req.cookiejar upsert .req.readjar[`:file]</code> to update internal jar</p>
+<h4 id="reqwritejar"><code>.req.writejar</code></h4>
+<p><code>[file;jar]</code></p>
+<p>Write internal reQ cookiejar to file in cURL/Netscape format</p>
+<h4 id="reqsturl"><code>.req.sturl</code></h4>
+<p><code>[url]</code></p>
+<p>Get string form of URL, given symbol, hsym or string</p>
+<h4 id="reqhsurl"><code>.req.hsurl</code></h4>
+<p><code>[url]</code></p>
+<p>Get hsym form of URL, given symbol, hsym or string</p>
+<h4 id="reqhap"><code>.req.hap</code></h4>
+<p><code>[url]</code></p>
+<p>Split URL into protocol, username:pass, domain &amp; path. Accept string, hsym or
+symbol.</p>
+<h4 id="reqprot"><code>.req.prot</code></h4>
+<p><code>[url]</code></p>
+<p>Extract protocol from URL</p>
+<h4 id="requser"><code>.req.user</code></h4>
+<p><code>[url]</code></p>
+<p>Extract username:pass from URL</p>
+<h4 id="reqhost"><code>.req.host</code></h4>
+<p><code>[url]</code></p>
+<p>Extract domain from URL</p>
+<h4 id="reqendp"><code>.req.endp</code></h4>
+<p><code>[url]</code></p>
+<p>Extract endpoint/path from URL</p>
+<h4 id="reqb64encode"><code>.req.b64encode</code></h4>
+<p><code>[string]</code></p>
+<p>base64 encode a string (e.g. for HTTP Basic Authentication)</p>
+<h4 id="reqb64decode"><code>.req.b64decode</code></h4>
+<p><code>[string]</code></p>
+<p>base64 decode a string</p>
+<h4 id="reqty"><code>.req.ty</code></h4>
+<p>Extended version of <code>.h.ty</code> dictionary mapping <code>Content-Type</code> strings to
+simple symbols</p>
+<h4 id="reqhu"><code>.req.hu</code></h4>
+<p><code>[string]</code></p>
+<p>Escape URI non-safe characters, based on RFC-3986 (more updated spec than <code>.h.hu</code>)</p>
+<h4 id="reqproxy"><code>.req.proxy</code></h4>
+<p><code>[host]</code></p>
+<p>Check if proxy is required for given host</p>
+<h4 id="reqheaders"><code>.req.headers</code></h4>
+<p><code>[username;proxy;headers;payload]</code></p>
+<p>Generate HTTP headers from combination of defaults &amp; custom headers, adding
+proxy headers if necessary &amp; <code>Content-Length</code> for payload</p>
+<h4 id="reqenchd"><code>.req.enchd</code></h4>
+<p><code>[headers]</code></p>
+<p>Convert a kdb dictionary to HTTP headers</p>
+<h4 id="reqbuildquery"><code>.req.buildquery</code></h4>
+<p><code>[method;proxy;url;host;headers;payload]</code></p>
+<p>Build HTTP query string including necessary headers etc.</p>
+<h4 id="reqformatresp"><code>.req.formatresp</code></h4>
+<p><code>[response]</code></p>
+<p>Split HTTP response into header dictionary &amp; body</p>
+<h4 id="requrlencode"><code>.req.urlencode</code></h4>
+<p><code>[dict]</code></p>
+<p>Convert a kdb dictionary to a URL encoded string</p>
+<h4 id="requrldecode"><code>.req.urldecode</code></h4>
+<p><code>[string]</code></p>
+<p>Convert a URL encoded string to a kdb dictionary</p>
+<h4 id="reqokstatus"><code>.req.okstatus</code></h4>
+<p><code>[verbose;response]</code></p>
+<p>Check status of response &amp; signal if bad</p>
+<h4 id="reqsend"><code>.req.send</code></h4>
+<p><code>[method;url;headers;payload;verbose]</code></p>
+<p>Entry point for sending any type of HTTP request</p>
+<h4 id="reqparseresp"><code>.req.parseresp</code></h4>
+<p><code>[resp]</code></p>
+<p>If response has <code>Content-Type: application/json</code>, parse to kdb object. (Other
+formats may be added in future)</p></div>
                 </div>
         </div>
 
