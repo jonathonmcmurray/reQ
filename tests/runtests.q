@@ -1,4 +1,5 @@
-\l req.q
+/\l req.q
+.utl.require"req"
 \l tests/k4unit.q
 
 / load JSON mock data - TODO replace this with binary mock data?
@@ -8,9 +9,9 @@ d:(first each ` vs'k)!(1#`origin)_/:.j.k each "\n" sv'read0 each ` sv' `:tests/j
 \d .test
 
 mock.cookiejar:get`:tests/mock/cookiejar                                                                 //read mock data - binary for correct typing
-readjar:{mock[`cookiejar]~.req.readjar`:tests/cookiejar}                                                 //test reading cookiejar file
+readjar:{mock[`cookiejar]~.cookie.readjar`:tests/cookiejar}                                              //test reading cookiejar file
 writejar:{[]                                                                                             //test writing cookiejar file
-  .req.writejar[`:tests/cookiejar2;mock`cookiejar];
+  .cookie.writejar[`:tests/cookiejar2;mock`cookiejar];
   r:read0[`:tests/cookiejar]~read0`:tests/cookiejar2;
   hdel`:tests/cookiejar2;
   :r;
@@ -22,7 +23,7 @@ KUltf`:tests/tests.csv;
 KUrt[];
 show KUTR;
 
-.req.cookiejar:0#.req.cookiejar;                                                                         //wipe cookies
+.cookie.jar:0#.cookie.jar;                                                                               //wipe cookies
 KUTR:0#KUTR;                                                                                             //wipe results
 
 -1 string[.z.Z]," re-run tests with DNS-over-HTTPS";
