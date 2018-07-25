@@ -2,8 +2,6 @@
 
 .df.var[`.req.VERBOSE;$[count .z.x;"-verbose" in .z.x;0b]];                         //default to non-verbose output
 
-b64encode:{(neg[c] _ .Q.b6 0b sv' 00b,/:6 cut raze (0b vs'`byte$x),(8*c)#0b),(c:neg[count x]mod 3)#"="}
-b64decode:{(`char$0b sv'8 cut raze 2_'0b vs'`byte$.Q.b6?x) except "\000"}
 def:(!/) flip 2 cut (                                                               //default headers
   "Connection";     "Close";
   "User-Agent";     "kdb+/",string .Q.k;
@@ -23,9 +21,9 @@ proxy:{[h] /h-host for request
 headers:{[us;pr;hd;p] /us-username,pr-proxy,hd-custom headers,p-payload
   /* build HTTP headers dictionary */
   d:def,$[count[us]&pr 0;                                                           //username & proxy
-           enlist["Proxy-Authorization"]!enlist"Basic ",b64encode[us];              //add proxy-auth header
+           enlist["Proxy-Authorization"]!enlist"Basic ",.b64.enc[us];               //add proxy-auth header
          count[us];                                                                 //username, no proxy
-           enlist["Authorization"]!enlist"Basic ",b64encode[us];                    //add auth header
+           enlist["Authorization"]!enlist"Basic ",.b64.enc[us];                     //add auth header
            ()];                                                                     //no additional header
   if[count p;d["Content-Length"]:string count p];                                   //if payload, add length header
   d,:$[11=type k:key hd;string k;k]!value hd;                                       //get headers dict (convert keys to strings if syms), append to defaults
