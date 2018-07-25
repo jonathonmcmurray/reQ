@@ -1,6 +1,6 @@
 \d .req
 
-VERBOSE:@[value;`.req.VERBOSE;$[count .z.x;"-verbose" in .z.x;0b]];                 //default to non-verbose output
+.df.var[`.req.VERBOSE;$[count .z.x;"-verbose" in .z.x;0b]];                         //default to non-verbose output
 
 cookiejar:([host:();path:();name:()] val:();expires:`datetime$();maxage:`long$();secure:`boolean$();httponly:`boolean$();samesite:`$())  //storage for cookies
 
@@ -53,30 +53,9 @@ writejar:{[f;j] /f-file,j-jar
        name,
        val 
      from j;
-  :hsurl[f] 0: "\n"vs t;                                                            //write to file
+  :.url.hsurl[f] 0: "\n"vs t;                                                       //write to file
   }
   
-
-sturl:{(":"=first x)_x:$[-11=type x;string;]x}                                      //convert URL to string
-hsurl:{`$":",sturl x}                                                               //convert URL to hsym
-
-hap:{[x]
-  if[x~hsym`$255#"a";'"hsym too long - consider using a string"];                   //error if URL~`: .. too long
-  x:sturl x;                                                                        //ensure string URL
-  p:x til pn:3+first ss[x;"://"];                                                   //protocol
-  uf:("@"in x)&first[ss[x;"@"]]<first ss[pn _ x;"/"];                               //user flag - true if username present
-  u:-1_$[uf;(pn _ x) til (un:1+first ss[x;"@"])-pn;""];                             //user:pass
-  if[u~"";un:pn];                                                                   //if no user:pass, look for domain after protocol
-  d:x til dn:count[x]^first ss[x:un _ x;"/"];                                       //domain
-  a:$[dn=count x;enlist"/";dn _ x];                                                 //absolute path
-  :(p;u;d;a);                                                                       //return list as .Q.hap
- }
-
-prsu:{hap[y]x}                                                                      //parse URL, return specific component
-prot:prsu[0]                                                                        //get protocol from URL
-user:prsu[1]                                                                        //get username from URL
-host:prsu[2]                                                                        //get hostname from URL
-endp:prsu[3]                                                                        //get endpoint from URL
 b64encode:{(neg[c] _ .Q.b6 0b sv' 00b,/:6 cut raze (0b vs'`byte$x),(8*c)#0b),(c:neg[count x]mod 3)#"="}
 b64decode:{(`char$0b sv'8 cut raze 2_'0b vs'`byte$.Q.b6?x) except "\000"}
 def:(!/) flip 2 cut (                                                               //default headers
@@ -86,7 +65,6 @@ def:(!/) flip 2 cut (                                                           
  )
 ty:@[.h.ty;`form;:;"application/x-www-form-urlencoded"]                             //add type for url encoded form, used for slash commands
 ty:@[ty;`json;:;"application/json"]                                                 //add type for JSON (missing in older versions of q)
-hu:.h.hug .Q.an,"-.~"                                                               //URI escaping for non-safe chars, RFC-3986
 
 proxy:{[h] /h-host for request
   /* get proxy address if needed for this hostname */
@@ -132,20 +110,6 @@ formatresp:{[r] /r-raw response
   :(d;p[1]);                                                                        //return header dict & reponse body
  } 
 
-
-urlencode:{[d] /d-dictionary
-  /* encode a KDB dictionary as a URL encoded string */
-  k:key d;v:value d;                                                                //split dictionary into keys & values
-  v:enlist each hu each {$[10=type x;x;string x]}'[v];                              //string any values that aren't stringed,escape any chars that need it
-  k:enlist each $[all 10=type each k;k;string k];                                   //if keys are strings, string them
-  :"&" sv "=" sv' k,'v;                                                             //return urlencoded form of dictionary
- }
-
-urldecode:{[x] /x-urlencoded string
-  /* convert a URL encoded string to a KDB dictionary */
-  :(!/)"S=&"0:.h.uh ssr[x;"+";" "];                                                 //parse incoming request into dict, replace escaped chars
- }
-
 okstatus:{[v;x] /v-verbose flag,x-reponse (headers;body)
   /* throw a signal if not HTTP OK status */
   if[v|x[0][`status] within 200 299;:x];                                            //if in verbose mode or OK status, return
@@ -154,7 +118,8 @@ okstatus:{[v;x] /v-verbose flag,x-reponse (headers;body)
 
 send:{[m;u;hd;p;v] /m-method,u-url,hd-headers,p-payload,v-verbose flag
   /* build & send HTTP request */
-  pr:proxy h:host u;                                                                //check if we need to use proxy & get proxy address
+  uo:.url.parse u;                                                                  //parse URL into URL object
+  pr:proxy h:uo`host;                                                               //check if we need to use proxy & get proxy address
   nu:$[@[value;`.doh.ENABLED;0b];.doh.resolve;]u;                                   //resolve URL via DNS-over-HTTPS if enabled
   hs:hsurl `$prot[nu],host nu;                                                      //get hostname as handle & string
   if[pr[0];hs:hsurl `$prot[pr 1],host pr 1];                                        //overwrite host handle if using proxy
