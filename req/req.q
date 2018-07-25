@@ -81,7 +81,7 @@ send:{[m;u;hd;p;v] /m-method,u-url,hd-headers,p-payload,v-verbose flag
   if[(sc:`$"Set-Cookie") in k:key r 0;                                              //check for Set-Cookie headers
      .cookie.addcookie[h]'[value[r 0]where k=sc]];                                  //set any cookies necessary
   if[r[0][`status] within 300 399;                                                  //if status is 3XX, redirect FIX: not all 3XX are redirects?
-     lo:$["/"=r[0][`Location]0;prot[u],user[u],host[u],r[0]`Location;r[0]`Location]; //detect if relative or absolute redirect
+     lo:$["/"=r[0][`Location]0;.url.format[`protocol`auth`host#uo],1_r[0]`Location;r[0]`Location]; //detect if relative or absolute redirect
      :.z.s[m;lo;hd;p;v]];                                                           //perform redirections if needed
   :r;
  }
