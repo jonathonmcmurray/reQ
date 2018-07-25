@@ -68,10 +68,10 @@ send:{[m;u;hd;p;v] /m-method,u-url,hd-headers,p-payload,v-verbose flag
   uo:.url.parse0[0b] u;                                                             //parse URL into URL object
   pr:proxy h:uo`host;                                                               //check if we need to use proxy & get proxy address
   nu:$[@[value;`.doh.ENABLED;0b];.doh.resolve;]u;                                   //resolve URL via DNS-over-HTTPS if enabled
-  nuo:.url.parse0[0b] nu;                                                                //parse URL into URL object
-  hs:.url.hsurl `$raze uo`protocol`host;                                                 //get hostname as handle
-  if[pr[0];hs:.url.hsurl `$raze .url.parse0[0b;pr 1]`protocol`host];                         //overwrite host handle if using proxy
-  us:.url.parse0[0b;$[pr 0;pr 1;nu]]`auth;                                              //get user name (if present)
+  nuo:.url.parse0[0b] nu;                                                           //parse URL into URL object
+  hs:.url.hsurl `$raze uo`protocol`host;                                            //get hostname as handle
+  if[pr[0];hs:.url.hsurl `$raze .url.parse0[0b;pr 1]`protocol`host];                //overwrite host handle if using proxy
+  us:.url.parse0[0b;$[pr 0;pr 1;nu]]`auth;                                          //get user name (if present)
   if[count c:.cookie.getcookies[nuo`protocol;h;nuo`path];hd[`Cookie]:c];            //add any applicable cookies
   d:headers[us;pr;hd;p];                                                            //get dictionary of HTTP headers for request
   r:hs d:buildquery[m;pr;nu;h;d;p];                                                 //build query and execute
@@ -92,10 +92,10 @@ parseresp:{[r]
   :$[(`j in key`)&r[0][`$"Content-Type"]like .h.ty[`json],"*";.j.k;] r[1];          //check for JSON, parse if so
  }
 
-.req.get:{parseresp okstatus[.req.VERBOSE] send[`GET;x;y;();.req.VERBOSE]}                    //get - projection with no payload & GET method
+.req.get:{parseresp okstatus[VERBOSE] send[`GET;x;y;();VERBOSE]}                    //get - projection with no payload & GET method
 .req.g:.req.get[;()!()]                                                             //simple get, no custom headers
-.req.post:{parseresp okstatus[.req.VERBOSE] send[`POST;x;y;z;.req.VERBOSE]}                   //post - project with POST method
-.req.delete:{parseresp okstatus[.req.VERBOSE] send[`DELETE;x;y;z;.req.VERBOSE]}               //delete - project with DELETE method
+.req.post:{parseresp okstatus[VERBOSE] send[`POST;x;y;z;VERBOSE]}                   //post - project with POST method
+.req.delete:{parseresp okstatus[VERBOSE] send[`DELETE;x;y;z;VERBOSE]}               //delete - project with DELETE method
 .req.del:.req.delete[;;()]                                                          //project with no body
 .req.d:.req.del[;()!()]                                                             //project with no body or headers
 

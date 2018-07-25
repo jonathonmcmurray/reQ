@@ -28,12 +28,6 @@ sturl:{(":"=first x)_x:$[-11=type x;string;]x}                                  
 hsurl:{`$":",sturl x}                                                               //convert URL to hsym
 hu:.h.hug .Q.an,"-.~"                                                               //URI escaping for non-safe chars, RFC-3986
 
-prsu:{hap[y]x}                                                                      //parse URL, return specific component
-prot:prsu[0]                                                                        //get protocol from URL
-user:prsu[1]                                                                        //get username from URL
-host:prsu[2]                                                                        //get hostname from URL
-endp:prsu[3]                                                                        //get endpoint from URL
-
 urlencode:{[d] /d-dictionary
   /* encode a KDB dictionary as a URL encoded string */
   k:key d;v:value d;                                                                //split dictionary into keys & values
