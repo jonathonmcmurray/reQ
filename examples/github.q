@@ -26,6 +26,9 @@ createissue:{[u;r;title;body;labels]
   :r`html_url;                                                                      //return URL of new issue
  }
 
+user:{[u] .req.g url,"users/",u}
+orgs:{[u] .req.g url,"users/",u,"/orgs"}
+
 \d .
 
 if[.gh.int&first .z.x[0] like "*/*";
