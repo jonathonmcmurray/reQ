@@ -1,4 +1,3 @@
-/\l req.q
 .utl.require"req"
 \l tests/k4unit.q
 
@@ -27,6 +26,6 @@ show KUTR;
 KUTR:0#KUTR;                                                                                             //wipe results
 
 -1 string[.z.Z]," re-run tests with DNS-over-HTTPS";
-\l doh_google.q
+.utl.require"doh/google.q"
 KUrt[];
 show KUTR;
