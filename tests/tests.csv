@@ -1,5 +1,5 @@
 action,ms,bytes,lang,code,repeat,minver,comment
-true,0,0,q,""dXNlcjpwYXNz"~.req.b64encode "user:pass"",1,,Test base64 encoding
+true,0,0,q,""dXNlcjpwYXNz"~.b64.enc "user:pass"",1,,Test base64 encoding
 true,0,0,q,d[`auth]~(1#`origin)_.req.get["http://user:passwd@httpbin.org/basic-auth/user/passwd";()!()],1,,Test basic authentication
 true,0,0,q,d[`headers]~(1#`origin)_.req.get["http://httpbin.org/headers";`custom`headers!("with custom";"values")],1,,Test custom headers
 true,0,0,q,d[`redirect]~(1#`origin)_.req.get["http://httpbin.org/redirect/3";()!()],1,,Test redirection
