@@ -179,6 +179,13 @@ parseresp:{[r]
   :$[(`j in key`)&r[0][`$"Content-Type"]like .h.ty[`json],"*";.j.k;] r[1];          //check for JSON, parse if so
  }
 
+timeout:{[t;m;u;hd;p]
+  ot:system"T";system"T ",string t;                                                 //store old timeout & set new
+  r:@[0;(`.req.send;m;u;hd;p;VERBOSE);{x}];                                             //send request & trap error
+  system"T ",string ot;                                                             //reset timeout
+  :$[r~"stop";'"timeout";r];                                                        //return or signal
+ }
+
 .req.get:{parseresp okstatus[VERBOSE] send[`GET;x;y;();VERBOSE]}                    //get - projection with no payload & GET method
 .req.g:.req.get[;()!()]                                                             //simple get, no custom headers
 .req.post:{parseresp okstatus[VERBOSE] send[`POST;x;y;z;VERBOSE]}                   //post - project with POST method
