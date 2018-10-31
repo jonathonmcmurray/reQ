@@ -1,6 +1,6 @@
 \d .url
 
-query:{[x]@["?"vs x;1;urldecode]}                                                   //split on ?, urldecode query
+query:{[x]@["?"vs x;1;dec]}                                                         //split on ?, urldecode query
 
 parse0:{[q;x] /q-parse query,x-URL
   /* parse a string/symbol/hsym URL into a URL dictionary */
@@ -21,14 +21,14 @@ format:{[x]
   /* format URL object into string */
   :raze[x`protocol`auth],$[count x`auth;"@";""],                                    //protocol & if present auth (with @)
   x[`host],$[count x`path;x`path;"/"],                                              //host & path
-  $[99=type x`query;"?",urlencode x`query;""];                                      //if there's a query, encode & append
+  $[99=type x`query;"?",enc x`query;""];                                            //if there's a query, encode & append
  }
 
 sturl:{(":"=first x)_x:$[-11=type x;string;]x}                                      //convert URL to string
 hsurl:{`$":",sturl x}                                                               //convert URL to hsym
 hu:.h.hug .Q.an,"-.~"                                                               //URI escaping for non-safe chars, RFC-3986
 
-urlencode:{[d] /d-dictionary
+enc:{[d] /d-dictionary
   /* encode a KDB dictionary as a URL encoded string */
   k:key d;v:value d;                                                                //split dictionary into keys & values
   v:enlist each hu each {$[10=type x;x;string x]}'[v];                              //string any values that aren't stringed,escape any chars that need it
@@ -36,7 +36,7 @@ urlencode:{[d] /d-dictionary
   :"&" sv "=" sv' k,'v;                                                             //return urlencoded form of dictionary
  }
 
-urldecode:{[x] /x-urlencoded string
+dec:{[x] /x-urlencoded string
   /* convert a URL encoded string to a KDB dictionary */
   :(!/)"S=&"0:.h.uh ssr[x;"+";" "];                                                 //parse incoming request into dict, replace escaped chars
  }
