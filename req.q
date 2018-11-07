@@ -181,10 +181,32 @@ parseresp:{[r]
 
 timeout:{[t;m;u;hd;p]
   ot:system"T";system"T ",string t;                                                 //store old timeout & set new
-  r:@[0;(`.req.send;m;u;hd;p;VERBOSE);{x}];                                             //send request & trap error
+  r:@[0;(`.req.send;m;u;hd;p;VERBOSE);{x}];                                         //send request & trap error
   system"T ",string ot;                                                             //reset timeout
   :$[r~"stop";'"timeout";r];                                                        //return or signal
  }
+
+gb:{(24#"-"),16?.Q.an}                                                              //generate boundary marker
+mult:{[b;d] "\r\n" sv mkpt[b]'[string key d;value d],enlist"--",b,"--"}             //build multipart
+
+mkpt:{[b;n;v]
+  /* create one part for a multipart form */
+  f:-11=type v;                                                                     //check for file
+  if[f;t:"Content-Type: ",$[0<count t:.h.ty last ` vs `$.req.sturl v;t;"application/octet-stream"],"\n"];     //get content-type for part
+  r :"--",b,"\n";                                                                   //opening boundary
+  r,:"Content-Disposition: form-data; name=\"",n,"\"",$[f;"; filename=",1_string v;""],"\n";
+  r,:$[f;t;""],"\n",$[f;`char$read1 v;v];                                           //insert file contents or passed value
+  :r;
+ }
+
+multi:{[d]
+  /* covert a q dictionary to a multipart form */
+  b:gb[];                                                                           //get boundary value
+  m:mult[b;d];                                                                      //make multipart form from dictionary
+  :((1#`$"Content-Type")!enlist"multipart/form-data; boundary=",b;m);               //return HTTP header & multipart form
+ }
+
+postmulti:{post[x] . multi y}                                                       //send HTTP POST report with multipart form
 
 .req.get:{parseresp okstatus[VERBOSE] send[`GET;x;y;();VERBOSE]}                    //get - projection with no payload & GET method
 .req.g:.req.get[;()!()]                                                             //simple get, no custom headers
