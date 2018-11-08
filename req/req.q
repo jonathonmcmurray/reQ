@@ -1,6 +1,6 @@
 \d .req
 
-.df.var[`.req.VERBOSE;$[count .z.x;"-verbose" in .z.x;0b]];                         //default to non-verbose output
+VERBOSE:@[value;`.req.VERBOSE;$[count .z.x;"-verbose" in .z.x;0b]];                 //default to non-verbose output
 
 def:(!/) flip 2 cut (                                                               //default headers
   "Connection";     "Close";
