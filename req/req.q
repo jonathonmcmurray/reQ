@@ -6,28 +6,32 @@ def:(!/) flip 2 cut (                                                           
   "Connection";     "Close";
   "User-Agent";     "kdb+/",string .Q.k;
   "Accept";         "*/*"
- )
+  )
+query:`method`url`hsym`path`headers`body`bodytype!()                                //query object template
+
 ty:@[.h.ty;`form;:;"application/x-www-form-urlencoded"]                             //add type for url encoded form, used for slash commands
 ty:@[ty;`json;:;"application/json"]                                                 //add type for JSON (missing in older versions of q)
 
-proxy:{[h] /h-host for request
+proxy:{[u] /u-URL object
   /* get proxy address if needed for this hostname */
   p:(^/)`$getenv`$(floor\)("HTTP";"NO"),\:"_PROXY";                                 //check HTTP_PROXY & NO_PROXY env vars, upper & lower case - fill so p[0] is http_, p[1] is no_
-  t:max(first ":"vs h)like/:{(("."=first x)#"*"),x}each"," vs string p 1;           //check if host is in NO_PROXY env var
+  t:max(first ":"vs u[`url]`host)like/:{(("."=first x)#"*"),x}each"," vs string p 1; //check if host is in NO_PROXY env var
   t:not null[first p]|t;                                                            //check if HTTP_PROXY is defined & host isn't in NO_PROXY
-  :(t;p 0);                                                                         //return boolean of whether to use proxy & proxy address
+  :$[t;@[;`proxy;:;p 0];]u;                                                         //add proxy to URL object if required
  }
 
-headers:{[us;pr;hd;p] /us-username,pr-proxy,hd-custom headers,p-payload
+addheaders:{[q] /q-query object
   /* build HTTP headers dictionary */
-  d:def,$[count[us]&pr 0;                                                           //username & proxy
-           enlist["Proxy-Authorization"]!enlist"Basic ",.b64.enc[us];               //add proxy-auth header
-         count[us];                                                                 //username, no proxy
-           enlist["Authorization"]!enlist"Basic ",.b64.enc[us];                     //add auth header
-           ()];                                                                     //no additional header
-  if[count p;d["Content-Length"]:string count p];                                   //if payload, add length header
-  d,:$[11=type k:key hd;string k;k]!value hd;                                       //get headers dict (convert keys to strings if syms), append to defaults
-  :d;
+  d:def;
+  /d:def,$[count[us]&pr 0;                                                           //username & proxy
+  /        enlist["Proxy-Authorization"]!enlist"Basic ",.b64.enc[us];               //add proxy-auth header
+  /       count[us];                                                                 //username, no proxy
+  /         enlist["Authorization"]!enlist"Basic ",.b64.enc[us];                     //add auth header
+  /         ()];                                                                     //no additional header
+  if[count q[`url;`auth];d[$[`proxy in key q;"Proxy-";],"Authorization"]:.b64.enc q[`url;`auth]];
+  if[count q`body;d["Content-Length"]:string count p];                              //if payload, add length header
+  d,:$[11=type k:key q`headers;string k;k]!value q`headers;                         //get headers dict (convert keys to strings if syms), append to defaults
+  :@[q;`headers;:;d];
  }
 
 enchd:{[d] /d-dictionary of headers
@@ -37,13 +41,13 @@ enchd:{[d] /d-dictionary of headers
   :("\r\n" sv ": " sv/:flip (k;v)),"\r\n\r\n";                                      //encode headers dict to HTTP headers
  }
 
-buildquery:{[m;pr;u;h;d;p] /m-method,pr-proxy,u-url,h-host,d-headers dict,p-payload
+buildquery:{[q] /q-query
   /* construct full HTTP query string */
-  uo:.url.parse0[0b;u];
-  r:string[m]," ",$[pr 0;.url.sturl u;uo`path]," HTTP/1.1\r\n",                     //method & endpoint
-       "Host: ",h,$[count d;"\r\n";""],                                             //add host string
-       enchd[d],                                                                    //add headers
-       $[count p;p;""];                                                             //add payload if present
+  /uo:.url.parse0[0b;u];
+  r:string[q`method]," ",q[`url;`path]," HTTP/1.1\r\n",                     //method & endpoint TODO: fix q[`path] for proxy use case
+  "Host: ",q[`url;`host],$[count d;"\r\n";""],                                             //add host string
+       enchd[q`headers],                                                                    //add headers
+       $[count q`body;q`body;""];                                                             //add payload if present
   :r;                                                                               //return complete query string
  }
 
@@ -63,16 +67,18 @@ okstatus:{[v;x] /v-verbose flag,x-reponse (headers;body)
 
 send:{[m;u;hd;p;v] /m-method,u-url,hd-headers,p-payload,v-verbose flag
   /* build & send HTTP request */
-  uo:.url.parse0[0b] u;                                                             //parse URL into URL object
-  pr:proxy h:uo`host;                                                               //check if we need to use proxy & get proxy address
-  nu:$[@[value;`.doh.ENABLED;0b];.doh.resolve;]u;                                   //resolve URL via DNS-over-HTTPS if enabled
-  nuo:.url.parse0[0b] nu;                                                           //parse URL into URL object
-  hs:.url.hsurl `$raze uo`protocol`host;                                            //get hostname as handle
-  if[pr[0];hs:.url.hsurl `$raze .url.parse0[0b;pr 1]`protocol`host];                //overwrite host handle if using proxy
-  us:.url.parse0[0b;$[pr 0;pr 1;nu]]`auth;                                          //get user name (if present)
-  if[count c:.cookie.getcookies[nuo`protocol;h;nuo`path];hd[`Cookie]:c];            //add any applicable cookies
-  d:headers[us;pr;hd;p];                                                            //get dictionary of HTTP headers for request
-  r:hs d:buildquery[m;pr;nu;h;d;p];                                                 //build query and execute
+  q:@[query;`method`url`headers`body;:;(m;.url.parse0[0]u;hd;p)];                   //parse URL into URL object & build query
+  q:proxy q;                                                                        //check if we need to use proxy & get proxy address
+  /nu:$[@[value;`.doh.ENABLED;0b];.doh.resolve;]u;                                   //resolve URL via DNS-over-HTTPS if enabled
+  /nuo:.url.parse0[0b] nu;                                                           //parse URL into URL object
+  /hs:.url.hsurl `$raze q`protocol,$[`proxy in key q;`proxy;`host];                  //get hostname as handle
+  hs:.url.hsurl`$raze q ./:enlist[`url`protocol],$[`proxy in key q;1#`proxy;enlist`url`host]; //get hostname as handle
+  /if[pr[0];hs:.url.hsurl `$raze .url.parse0[0b;pr 1]`protocol`host];                //overwrite host handle if using proxy
+  /us:.url.parse0[0b;$[pr 0;pr 1;nu]]`auth;                                          //get user name (if present)
+  /if[count c:.cookie.getcookies[q];hd[`Cookie]:c];                                  //add any applicable cookies
+  q:.cookie.addcookies[q];                                                          //add cookie headers
+  q:addheaders[q];                                                                  //get dictionary of HTTP headers for request
+  r:hs d:buildquery[q];                                                             //build query and execute
   if[v;-1"-- REQUEST --\n",string[hs],"\n",d];                                      //if verbose, log request
   if[v;-1"-- RESPONSE --\n",r];                                                     //if verbose, log response
   r:formatresp r;                                                                   //format response to headers & body

@@ -17,12 +17,19 @@ addcookie:{[h;c]
   `.cookie.jar upsert enlist r;                                                     //add cookie to the jar
  }
 
-getcookies:{[pr;h;p]
+getcookies:{[q] /q-query object
   /* get cookies that apply for a given protocol, host & path */
+  h:q`host;p:q`path;pr:q`protocol;                                                  //extact necessary components
   h:".",h;                                                                          //prevent bad tailmatching
   t:select from .cookie.jar where h like/:host,p like/:path,(expires>.z.t)|null expires;  //select all cookies that apply
   if[not pr~"https://";t:delete from t where secure];                               //delete HTTPS only cookies if not HTTPS request
   :"; "sv"="sv'flip value exec name,val from t;                                     //compile cookies into string
+ }
+
+addcookies:{[q] /q-query object
+  /* add applicable cookies to query object */
+  if[count c:getcookies[q];q[`headers;`Cookie]:c];
+  :q;
  }
 
 readjar:{[f] /f-file
