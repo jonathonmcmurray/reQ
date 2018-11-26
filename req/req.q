@@ -23,13 +23,8 @@ proxy:{[u] /u-URL object
 addheaders:{[q] /q-query object
   /* build HTTP headers dictionary */
   d:def;
-  /d:def,$[count[us]&pr 0;                                                           //username & proxy
-  /        enlist["Proxy-Authorization"]!enlist"Basic ",.b64.enc[us];               //add proxy-auth header
-  /       count[us];                                                                 //username, no proxy
-  /         enlist["Authorization"]!enlist"Basic ",.b64.enc[us];                     //add auth header
-  /         ()];                                                                     //no additional header
-  if[count q[`url;`auth];d[$[`proxy in key q;"Proxy-";],"Authorization"]:.b64.enc q[`url;`auth]];
-  if[count q`body;d["Content-Length"]:string count p];                              //if payload, add length header
+  if[count q[`url;`auth];d[$[`proxy in key q;"Proxy-";""],"Authorization"]:"Basic ",.b64.enc q[`url;`auth]];
+  if[count q`body;d["Content-Length"]:string count q`body];                         //if payload, add length header
   d,:$[11=type k:key q`headers;string k;k]!value q`headers;                         //get headers dict (convert keys to strings if syms), append to defaults
   :@[q;`headers;:;d];
  }
@@ -43,11 +38,10 @@ enchd:{[d] /d-dictionary of headers
 
 buildquery:{[q] /q-query
   /* construct full HTTP query string */
-  /uo:.url.parse0[0b;u];
-  r:string[q`method]," ",q[`url;`path]," HTTP/1.1\r\n",                     //method & endpoint TODO: fix q[`path] for proxy use case
-  "Host: ",q[`url;`host],$[count d;"\r\n";""],                                             //add host string
-       enchd[q`headers],                                                                    //add headers
-       $[count q`body;q`body;""];                                                             //add payload if present
+  r:string[q`method]," ",q[`url;`path]," HTTP/1.1\r\n",                             //method & endpoint TODO: fix q[`path] for proxy use case
+  "Host: ",q[`url;`host],$[count d;"\r\n";""],                                      //add host string
+       enchd[q`headers],                                                            //add headers
+       $[count q`body;q`body;""];                                                   //add payload if present
   :r;                                                                               //return complete query string
  }
 
@@ -70,12 +64,7 @@ send:{[m;u;hd;p;v] /m-method,u-url,hd-headers,p-payload,v-verbose flag
   q:@[query;`method`url`headers`body;:;(m;.url.parse0[0]u;hd;p)];                   //parse URL into URL object & build query
   q:proxy q;                                                                        //check if we need to use proxy & get proxy address
   /nu:$[@[value;`.doh.ENABLED;0b];.doh.resolve;]u;                                   //resolve URL via DNS-over-HTTPS if enabled
-  /nuo:.url.parse0[0b] nu;                                                           //parse URL into URL object
-  /hs:.url.hsurl `$raze q`protocol,$[`proxy in key q;`proxy;`host];                  //get hostname as handle
   hs:.url.hsurl`$raze q ./:enlist[`url`protocol],$[`proxy in key q;1#`proxy;enlist`url`host]; //get hostname as handle
-  /if[pr[0];hs:.url.hsurl `$raze .url.parse0[0b;pr 1]`protocol`host];                //overwrite host handle if using proxy
-  /us:.url.parse0[0b;$[pr 0;pr 1;nu]]`auth;                                          //get user name (if present)
-  /if[count c:.cookie.getcookies[q];hd[`Cookie]:c];                                  //add any applicable cookies
   q:.cookie.addcookies[q];                                                          //add cookie headers
   q:addheaders[q];                                                                  //get dictionary of HTTP headers for request
   r:hs d:buildquery[q];                                                             //build query and execute
@@ -83,9 +72,9 @@ send:{[m;u;hd;p;v] /m-method,u-url,hd-headers,p-payload,v-verbose flag
   if[v;-1"-- RESPONSE --\n",r];                                                     //if verbose, log response
   r:formatresp r;                                                                   //format response to headers & body
   if[(sc:`$"Set-Cookie") in k:key r 0;                                              //check for Set-Cookie headers
-     .cookie.addcookie[h]'[value[r 0]where k=sc]];                                  //set any cookies necessary
+      .cookie.addcookie[q[`url;`host]]'[value[r 0]where k=sc]];                     //set any cookies necessary
   if[r[0][`status] within 300 399;                                                  //if status is 3XX, redirect FIX: not all 3XX are redirects?
-     lo:$["/"=r[0][`Location]0;.url.format[`protocol`auth`host#uo],1_r[0]`Location;r[0]`Location]; //detect if relative or absolute redirect
+      lo:$["/"=r[0][`Location]0;.url.format[`protocol`auth`host#q`url],1_r[0]`Location;r[0]`Location]; //detect if relative or absolute redirect
      :.z.s[m;lo;hd;p;v]];                                                           //perform redirections if needed
   :r;
  }

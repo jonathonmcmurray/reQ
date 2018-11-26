@@ -1,4 +1,5 @@
 .utl.require"req"
+\c 50 212
 \l tests/k4unit.q
 
 / load JSON mock data - TODO replace this with binary mock data?

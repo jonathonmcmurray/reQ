@@ -28,7 +28,7 @@ getcookies:{[q] /q-query object
 
 addcookies:{[q] /q-query object
   /* add applicable cookies to query object */
-  if[count c:getcookies[q];q[`headers;`Cookie]:c];
+  if[count c:getcookies[q`url];q[`headers;`Cookie]:c];
   :q;
  }
 
