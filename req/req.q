@@ -48,6 +48,7 @@ buildquery:{[q] /q-query
 formatresp:{[r] /r-raw response
   /* split HTTP response into headers dict & body */
   p:(0,4+first r ss 4#"\r\n") cut r;                                                //split response headers & body
+  p:@[p;0;"statustext:",];                                                          //add key for status text line
   d:trim enlist[`]_(!/)("S:\n")0:p[0]except"\r";                                    //create dictionary of response headers
   d[`status]:"I"$(" "vs r)1;                                                        //add status code
   :(d;p[1]);                                                                        //return header dict & reponse body
