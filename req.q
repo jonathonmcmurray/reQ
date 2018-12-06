@@ -152,6 +152,15 @@ okstatus:{[v;x] /v-verbose flag,x-reponse (headers;body)
   'string x[0]`status;                                                              //signal if bad status FIX: handle different status codes - descriptive signals
  }
 
+getauth:{[h;u] /h-headers,u-URL
+  /* prompt for user & pass when site requests basic auth */
+  if[not h[`$"Www-Authenticate"] like "Basic *";:u];                                //check it needs basic auth
+  -1"Site requested basic auth\nWARNING: user & pass will show in plain text\n";    //warn user before they type pass
+  1"User: ";s:read0 0;                                                              //get username
+  1"Pass: ";p:read0 0;                                                              //get password
+  :prot[u],s,":",p,"@",host[u],endp[u];                                             //update URL with supplied username & pass
+ }
+
 send:{[m;u;hd;p;v] /m-method,u-url,hd-headers,p-payload,v-verbose flag
   /* build & send HTTP request */
   pr:proxy h:host u;                                                                //check if we need to use proxy & get proxy address
@@ -167,6 +176,7 @@ send:{[m;u;hd;p;v] /m-method,u-url,hd-headers,p-payload,v-verbose flag
   r:formatresp r;                                                                   //format response to headers & body
   if[(sc:`$"Set-Cookie") in k:key r 0;                                              //check for Set-Cookie headers
      addcookie[h]'[value[r 0]where k=sc]];                                          //set any cookies necessary
+  if[r[0][`status]=401;:.z.s[m;getauth[r 0;u];hd;p;v]];                             //if unauthorised prompt for user/pass FIX:should have some counter to prevent infinite loops
   if[r[0][`status] within 300 399;                                                  //if status is 3XX, redirect FIX: not all 3XX are redirects?
      lo:$["/"=r[0][`Location]0;prot[u],user[u],host[u],r[0]`Location;r[0]`Location]; //detect if relative or absolute redirect
      :.z.s[m;lo;hd;p;v]];                                                           //perform redirections if needed
