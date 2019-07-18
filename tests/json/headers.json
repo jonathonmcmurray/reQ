@@ -1,7 +1,6 @@
 {
   "headers": {
     "Accept": "*/*", 
-    "Connection": "close", 
     "Custom": "with custom", 
     "Headers": "values", 
     "Host": "httpbin.org", 

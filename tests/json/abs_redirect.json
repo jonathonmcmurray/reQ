@@ -2,11 +2,10 @@
   "args": {}, 
   "headers": {
     "Accept": "*/*", 
-    "Connection": "close", 
     "Host": "httpbin.org", 
     "User-Agent": "kdb+/3.5"
   }, 
   "origin": "81.147.56.137", 
-  "url": "http://httpbin.org/get"
+  "url": "https://httpbin.org/get"
 }
 

@@ -1,5 +1,5 @@
 .utl.require"req"
-\c 50 212
+\c 50 200
 \l tests/k4unit.q
 
 / load JSON mock data - TODO replace this with binary mock data?
@@ -27,6 +27,6 @@ show KUTR;
 KUTR:0#KUTR;                                                                                             //wipe results
 
 -1 string[.z.Z]," re-run tests with DNS-over-HTTPS";
-.utl.require"doh/google.q"
+.utl.require"req/doh_google.q"
 KUrt[];
 show KUTR;
