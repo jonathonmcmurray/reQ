@@ -1,0 +1,22 @@
+site_name: reQ
+site_description: HTTP request library for q language
+site_url: http://jmcmurray.co.uk/reQ
+repo_url: https://github.com/jonathonmcmurray/reQ
+theme:
+    name: bootstrap
+google_analytics: ['UA-119708613-1', 'jmcmurray.co.uk']
+
+pages:
+- Overview: 'index.md'
+- Features:
+    - 'Cookies': 'features/cookies.md'
+    - 'Headers': 'features/headers.md'
+    - 'HTTP redirects': 'features/redirects.md'
+    - 'Verbose mode': 'features/verbose.md'
+- User API: 'api.md'
+- Internal Functions: 'internal.md'
+- Examples:
+    - 'Advent of Code': 'examples/aoc.md'
+    - 'GitHub': 'examples/github.md'
+    - 'JIRA': 'examples/jira.md'
+    - 'Zoho': 'examples/zoho.md'
