@@ -13,6 +13,7 @@ language: minimal
 
 install:
   - source .travis/install_conda.sh
+  - ln -s ${TRAVIS_BUILD_DIR}/req $QPATH
 
 script:
   - q $QSPEC $QTEST
