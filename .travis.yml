@@ -1,0 +1,18 @@
+env:
+
+matrix:
+  include:
+    - name: "Linux"
+      os: linux
+      env: MINICONDA_FILE="Miniconda-latest-Linux-x86_64.sh" QTEST=${TRAVIS_BUILD_DIR}/tests
+    - name: "Mac"
+      os: osx
+      env: MINICONDA_FILE="Miniconda2-latest-MacOSX-x86_64.sh" QTEST=${TRAVIS_BUILD_DIR}/tests
+
+language: minimal
+
+install:
+  - source .travis/install_conda.sh
+
+script:
+  - q $QSPEC $QTEST

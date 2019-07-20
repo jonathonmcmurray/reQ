@@ -8,7 +8,7 @@
     "Content-Length": "16", 
     "Content-Type": "application/json", 
     "Host": "httpbin.org", 
-    "User-Agent": "kdb+/3.5"
+    "User-Agent": "kdb+/3.6"
   }, 
   "json": {
     "text": "hello"
