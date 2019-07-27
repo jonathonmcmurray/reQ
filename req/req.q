@@ -74,6 +74,7 @@ send:{[m;u;hd;p;v] /m-method,u-url,hd-headers,p-payload,v-verbose flag
   r:formatresp r;                                                                   //format response to headers & body
   if[(sc:`$"Set-Cookie") in k:key r 0;                                              //check for Set-Cookie headers
       .cookie.addcookie[q[`url;`host]]'[value[r 0]where k=sc]];                     //set any cookies necessary
+  if[r[0][`status]=401;:.z.s[m;.auth.getauth[r 0;u];hd;p;v]];                       //if unauthorised prompt for user/pass FIX:should have some counter to prevent infinite loops
   if[.status.class[r] = 3;                                                          //if status is 3XX, redirect
       lo:$["/"=r[0][`Location]0;.url.format[`protocol`auth`host#q`url],1_r[0]`Location;r[0]`Location]; //detect if relative or absolute redirect
      :.z.s[m;lo;hd;p;v]];                                                           //perform redirections if needed
