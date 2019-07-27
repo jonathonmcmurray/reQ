@@ -26,8 +26,25 @@ createissue:{[u;r;title;body;labels]
   :r`html_url;                                                                      //return URL of new issue
  }
 
+auth:{[x]
+  -1"Please enter GitHub username & password (will be transmitted over HTTPS)";
+  -1"WARNING: Username & password will display in plain text here:";
+  1"Username: ";u:read0 0;
+  1"Password: ";p:read0 0;
+  r:.req.post["https://",u,":",p,"@api.github.com/authorizations";
+              enlist["Content-Type"]!enlist .req.ty`json;
+              .j.j `scopes`note!(enlist`public_repo;"reQ ",string .z.P)
+             ];
+  :r`token;
+ }
+
 user:{[u] .req.g url,"users/",u}
 orgs:{[u] .req.g url,"users/",u,"/orgs"}
+
+if[cfg[`token]like"{insert your token here}";
+   cfg[`token]:.gh.auth[];
+   .utl.writecfg[`github] cfg
+  ];
 
 \d .
 
