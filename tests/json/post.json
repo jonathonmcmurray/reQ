@@ -5,16 +5,15 @@
   "form": {}, 
   "headers": {
     "Accept": "*/*", 
-    "Connection": "close", 
     "Content-Length": "16", 
     "Content-Type": "application/json", 
     "Host": "httpbin.org", 
-    "User-Agent": "kdb+/3.5"
+    "User-Agent": "kdb+/3.6"
   }, 
   "json": {
     "text": "hello"
   }, 
   "origin": "81.147.56.137", 
-  "url": "http://httpbin.org/post"
+  "url": "https://httpbin.org/post"
 }
 
