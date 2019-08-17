@@ -87,5 +87,5 @@ $ q $AXLIBRARIES_HOME/ws/qdoc.q_ -src req/ -out docs/api/
 ..
 $ mkdocs serve # to preview locally
 ..
-$ mkdocs deploy # to deploy to github
+$ mkdocs gh-deploy # to deploy to github
 ```
