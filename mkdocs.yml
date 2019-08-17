@@ -13,8 +13,10 @@ pages:
     - 'Headers': 'features/headers.md'
     - 'HTTP redirects': 'features/redirects.md'
     - 'Verbose mode': 'features/verbose.md'
-- User API: 'api.md'
-- Internal Functions: 'internal.md'
+- API: 
+    - 'Public functions': 'api/md/public.md'
+    - 'Private functions': 'api/md/private.md'
+    - 'Variables': 'api/md/variable.md'
 - Examples:
     - 'Advent of Code': 'examples/aoc.md'
     - 'GitHub': 'examples/github.md'

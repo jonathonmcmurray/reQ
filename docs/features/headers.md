@@ -20,9 +20,9 @@ The `User-Agent` header is automatically generated from the version of kdb+
 
 One of the key features of reQ is the ability to send custom headers with HTTP
 requests. This is done by supplying a dictionary of custom headers as the
-second argument to many of the [User API](../api.md) functions, such as
-[`.req.get`](../api.md#reqget), [`.req.post`](../api.md#reqpost),
-[`.req.delete`](../api.md#reqdelete) and [`.req.del`](../api.md#reqdel)
+second argument to many of the [User API](../api/md/public.md) functions, such as
+[`.req.get`](../api/md/public.md#reqget), [`.req.post`](../api/md/public.md#reqpost),
+[`.req.delete`](../api/md/public.md#reqdelete) and [`.req.del`](../api/md/public.md#reqdel)
 
 For example:
 
