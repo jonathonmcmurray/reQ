@@ -12,6 +12,10 @@ query:`method`url`hsym`path`headers`body`bodytype!()                            
 ty:@[.h.ty;`form;:;"application/x-www-form-urlencoded"]                             //add type for url encoded form, used for slash commands
 ty:@[ty;`json;:;"application/json"]                                                 //add type for JSON (missing in older versions of q)
 
+// @kind function
+// @fileoverview Applies proxy if relevant
+// @param u {dict} URL object
+// @return {dict} Updated URL object
 proxy:{[u] /u-URL object
   /* get proxy address if needed for this hostname */
   p:(^/)`$getenv`$(floor\)("HTTP";"NO"),\:"_PROXY";                                 //check HTTP_PROXY & NO_PROXY env vars, upper & lower case - fill so p[0] is http_, p[1] is no_
