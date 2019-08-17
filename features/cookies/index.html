@@ -89,14 +89,23 @@
             
             
             
-                <li >
-                    <a href="../../api/">User API</a>
-                </li>
-            
-            
-            
-                <li >
-                    <a href="../../internal/">Internal Functions</a>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">API <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../../api/md/public/">Public functions</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../../api/md/private/">Private functions</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../../api/md/variable/">Variables</a>
+                        </li>
+                    
+                    </ul>
                 </li>
             
             
@@ -177,11 +186,11 @@
 <h1 id="http-cookies">HTTP Cookies</h1>
 <hr />
 <p>reQ has built-in support for HTTP cookies; when a response is received with a
-<code>Set-Cookie</code> header, the relevant cookie will be stored in <code>.req.cookiejar</code>,
+<code>Set-Cookie</code> header, the relevant cookie will be stored in <code>.cookie.jar</code>,
 and then used automatically for future requests to the relevant host.</p>
 <p>Expired cookies will be ignored, although currently the <code>Max-Age</code> attribute is
 not taken into account; this will be rectified in a future update.</p>
-<p>It's also possible to use the <a href="../../internal/#reqaddcookie"><code>.req.addcookie</code></a> function, as
+<p>It's also possible to use the <a href="../../api/md/public/#reqaddcookie"><code>.req.addcookie</code></a> function, as
 demonstrated in the <a href="../../examples/aoc/">Advent of Code</a> example.</p>
 <h2 id="setting-cookies">Setting cookies</h2>
 <pre><code>q).req.get[&quot;http://httpbin.org/cookies/set?abc=123&amp;def=456&quot;;()!()];
@@ -233,7 +242,7 @@ Via: 1.1 vegur
 
 {&quot;cookies&quot;:{&quot;abc&quot;:&quot;123&quot;,&quot;def&quot;:&quot;456&quot;}}
 
-q).req.cookiejar
+q).cookie.jar
 host          path name | val   expires maxage secure httponly samesite
 ------------------------| ---------------------------------------------
 &quot;httpbin.org&quot; &quot;/*&quot; &quot;abc&quot;| &quot;123&quot;                0      0
@@ -292,7 +301,7 @@ Via: 1.1 vegur
 
 {&quot;cookies&quot;:{&quot;def&quot;:&quot;456&quot;}}
 
-q).req.cookiejar
+q).cookie.jar
 host          path name | val   expires                 maxage secure httponl..
 ------------------------| ---------------------------------------------------..
 &quot;httpbin.org&quot; &quot;/*&quot; &quot;abc&quot;| &quot;&quot;    1970.01.01T00:00:00.000 0      0      0      ..
@@ -333,12 +342,12 @@ l64/ 4(16)core 7360MB jonny kodiak 127.0.1.1 EXPIRE 2019.05.21 jonathon.mcmurray
 
 q)\l req.q
 ... // build up reQ cookiejar
-q).req.cookiejar
+q).cookie.jar
 host           path        name | val   expires                 maxage secure httponly samesite
 --------------------------------| -------------------------------------------------------------
 &quot;*httpbin.org&quot; &quot;/*&quot;        &quot;abc&quot;| &quot;123&quot; 2006.03.23T21:29:19.000        0      0                
 &quot;httpbin.org&quot;  &quot;/example*&quot; &quot;def&quot;| &quot;123&quot;                                1      0                
-q).req.writejar[`:jar].req.cookiejar
+q).req.writejar[`:jar].cookie.jar
 `:jar
 q)\\
 jonny@kodiak ~/git/req_bk (master) $ more jar

@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="HTTP request library for q language">
+        
+        <link rel="canonical" href="http://jmcmurray.co.uk/reQ/api/md/private/">
+        <link rel="shortcut icon" href="../../../img/favicon.ico">
+        <title>Private functions - reQ</title>
+        <link href="../../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+        <link href="../../../css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../../css/highlight.css">
+        <link href="../../../css/base.css" rel="stylesheet">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.3/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="../../../js/jquery-1.10.2.min.js"></script>
+        <script src="../../../js/bootstrap-3.3.7.min.js"></script>
+        <script src="../../../js/highlight.pack.js"></script>
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-119708613-1', 'jmcmurray.co.uk');
+            ga('send', 'pageview');
+        </script>
+         
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../../..">reQ</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="../../..">Overview</a>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Features <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../../../features/cookies/">Cookies</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../../../features/headers/">Headers</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../../../features/redirects/">HTTP redirects</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../../../features/verbose/">Verbose mode</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">API <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../public/">Public functions</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">Private functions</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../variable/">Variables</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Examples <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../../../examples/aoc/">Advent of Code</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../../../examples/github/">GitHub</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../../../examples/jira/">JIRA</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../../../examples/zoho/">Zoho</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                    <li >
+                        <a rel="next" href="../public/">
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../variable/">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+                
+                <li>
+                    <a href="https://github.com/jonathonmcmurray/reQ/">
+                        
+                            <i class="fa fa-github"></i>
+                        
+                        GitHub
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+                <div class="row">
+                    <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+      
+    
+        <li class="main active"><a href="#authgetauth">.auth.getauth</a></li>
+        
+    
+        <li class="main "><a href="#cookieaddcookies">.cookie.addcookies</a></li>
+        
+    
+        <li class="main "><a href="#cookiegetcookies">.cookie.getcookies</a></li>
+        
+    
+        <li class="main "><a href="#reqaddheaders">.req.addheaders</a></li>
+        
+    
+        <li class="main "><a href="#reqbuildquery">.req.buildquery</a></li>
+        
+    
+        <li class="main "><a href="#reqenchd">.req.enchd</a></li>
+        
+    
+        <li class="main "><a href="#reqformatresp">.req.formatresp</a></li>
+        
+    
+        <li class="main "><a href="#reqgb">.req.gb</a></li>
+        
+    
+        <li class="main "><a href="#reqmkpt">.req.mkpt</a></li>
+        
+    
+        <li class="main "><a href="#reqmult">.req.mult</a></li>
+        
+    
+        <li class="main "><a href="#reqmulti">.req.multi</a></li>
+        
+    
+        <li class="main "><a href="#reqokstatus">.req.okstatus</a></li>
+        
+    
+        <li class="main "><a href="#reqparseresp">.req.parseresp</a></li>
+        
+    
+        <li class="main "><a href="#reqproxy">.req.proxy</a></li>
+        
+    
+        <li class="main "><a href="#statusclass">.status.class</a></li>
+        
+    
+        <li class="main "><a href="#urldec">.url.dec</a></li>
+        
+    
+        <li class="main "><a href="#urlenc">.url.enc</a></li>
+        
+    
+        <li class="main "><a href="#urlformat">.url.format</a></li>
+        
+    
+        <li class="main "><a href="#urlhsurl">.url.hsurl</a></li>
+        
+    
+        <li class="main "><a href="#urlhu">.url.hu</a></li>
+        
+    
+        <li class="main "><a href="#urlparse">.url.parse</a></li>
+        
+    
+        <li class="main "><a href="#urlparse0">.url.parse0</a></li>
+        
+    
+        <li class="main "><a href="#urlquery">.url.query</a></li>
+        
+    
+        <li class="main "><a href="#urlsturl">.url.sturl</a></li>
+        
+    
+    
+    </ul>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h2 id="authgetauth">.auth.getauth</h2>
+<p><em>EXPERIMENTAL</em> prompt for authorization if requested</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>h</td>
+<td>headers</td>
+<td>HTTP response headers</td>
+</tr>
+<tr>
+<td>u</td>
+<td>string | symbol | hsym</td>
+<td>URL</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>string</td>
+<td>updated URL with supplied credentials</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cookieaddcookies">.cookie.addcookies</h2>
+<p>Add stored cookie(s) relevant to current query</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>q</td>
+<td>dict</td>
+<td>query object</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt;returns&gt;</td>
+<td>dict</td>
+<td>query objeect with added cookies</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cookiegetcookies">.cookie.getcookies</h2>
+<p>Get stored cookie(s) relevant to current query</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>q</td>
+<td>dict</td>
+<td>query object</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>string</td>
+<td>cookie(s)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reqaddheaders">.req.addheaders</h2>
+<p>Convert headers to strings &amp; add authorization and Content-Length</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>q</td>
+<td>dict</td>
+<td>query object</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt;returns&gt;</td>
+<td>dict</td>
+<td>Updated query object</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reqbuildquery">.req.buildquery</h2>
+<p>Construct full HTTP query string from query object</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>q</td>
+<td>dict</td>
+<td>query object</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>string</td>
+<td>HTTP query string</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reqenchd">.req.enchd</h2>
+<p>Convert a KDB dictionary into HTTP headers</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>d</td>
+<td>dict</td>
+<td>dictionary of headers</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>string</td>
+<td>string HTTP headers</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reqformatresp">.req.formatresp</h2>
+<p>Split HTTP response into headers &amp; dict</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>r</td>
+<td>string</td>
+<td>raw HTTP response</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>(dict; string)</td>
+<td>(response header;response body)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reqgb">.req.gb</h2>
+<p>Generate boundary marker</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x</td>
+<td>any</td>
+<td>Unused</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>string</td>
+<td>Boundary marker</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reqmkpt">.req.mkpt</h2>
+<p>Create one part for a multipart form</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>b</td>
+<td>string</td>
+<td>boundary marker</td>
+</tr>
+<tr>
+<td>n</td>
+<td>string</td>
+<td>name for form part</td>
+</tr>
+<tr>
+<td>v</td>
+<td>string</td>
+<td>value for form part</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>string[]</td>
+<td>multipart form</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reqmult">.req.mult</h2>
+<p>Build multi-part object</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>b</td>
+<td>string</td>
+<td>boundary marker</td>
+</tr>
+<tr>
+<td>d</td>
+<td>dict</td>
+<td>headers (incl. file to be multiparted)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>string</td>
+<td>Multipart form</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reqmulti">.req.multi</h2>
+<p>Convert a q dictionary to a multipart form</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>d</td>
+<td>dict</td>
+<td>kdb dictionary to convert to form</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>(dict; string)</td>
+<td>(HTTP headers;body) to give to .req.post</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reqokstatus">.req.okstatus</h2>
+<p>Signal if not OK status, return unchanged response if OK</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v</td>
+<td>boolean</td>
+<td>verbose flag</td>
+</tr>
+<tr>
+<td>x</td>
+<td>(dict; string)</td>
+<td>HTTP response object</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>(dict; string)</td>
+<td>HTTP response object</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reqparseresp">.req.parseresp</h2>
+<p>Parse to kdb object based on Content-Type header. Only supports JSON currently</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>r</td>
+<td>(dict;body)</td>
+<td>HTTP respone</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>any</td>
+<td>Parsed response</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reqproxy">.req.proxy</h2>
+<p>Applies proxy if relevant</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>u</td>
+<td>dict</td>
+<td>URL object</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt;returns&gt;</td>
+<td>dict</td>
+<td>Updated URL object</td>
+</tr>
+</tbody>
+</table>
+<h2 id="statusclass">.status.class</h2>
+<p>get status "class" from status code, header dict or return object</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x</td>
+<td>int | dict | (dict; string)</td>
+<td>status code, header dict or return object</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>int</td>
+<td>status class</td>
+</tr>
+</tbody>
+</table>
+<h2 id="urldec">.url.dec</h2>
+<p>decode a URL encoded string to a KDB dictionary</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x</td>
+<td>string</td>
+<td>URL encoded string</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt;returns&gt;</td>
+<td>dict</td>
+<td>kdb dictionary to encode</td>
+</tr>
+</tbody>
+</table>
+<h2 id="urlenc">.url.enc</h2>
+<p>encode a KDB dictionary as a URL encoded string</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>d</td>
+<td>dict</td>
+<td>kdb dictionary to encode</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>string</td>
+<td>URL encoded string</td>
+</tr>
+</tbody>
+</table>
+<h2 id="urlformat">.url.format</h2>
+<p>format URL object into string</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x</td>
+<td>dict</td>
+<td>URL dictionary</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>string</td>
+<td>URL</td>
+</tr>
+</tbody>
+</table>
+<h2 id="urlhsurl">.url.hsurl</h2>
+<p>return URL as an hsym</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x</td>
+<td>string | symbol | hsym</td>
+<td>URL</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>hsym</td>
+<td>URL</td>
+</tr>
+</tbody>
+</table>
+<h2 id="urlhu">.url.hu</h2>
+<p>URI escaping for non-safe chars, RFC-3986</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x</td>
+<td>string</td>
+<td>URL</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>string</td>
+<td>URL</td>
+</tr>
+</tbody>
+</table>
+<h2 id="urlparse">.url.parse</h2>
+<p>parse a string/symbol/hsym URL into a URL dictionary &amp; parse query</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x</td>
+<td>string | symbol | hsym</td>
+<td>URL containing query</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt;returns&gt;</td>
+<td>dict</td>
+<td>URL dictionary</td>
+</tr>
+</tbody>
+</table>
+<h2 id="urlparse0">.url.parse0</h2>
+<p>parse a string/symbol/hsym URL into a URL dictionary</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>q</td>
+<td>boolean</td>
+<td>parse URL query to kdb dict</td>
+</tr>
+<tr>
+<td>x</td>
+<td>string | symbol | hsym</td>
+<td>URL containing query</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt;returns&gt;</td>
+<td>dict</td>
+<td>URL dictionary</td>
+</tr>
+</tbody>
+</table>
+<h2 id="urlquery">.url.query</h2>
+<p>Parse URL query; split on ?, urldecode query</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x</td>
+<td>string</td>
+<td>URL containing query</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>(string; dict)</td>
+<td>(URL;parsed query)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="urlsturl">.url.sturl</h2>
+<p>return URL as a string</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x</td>
+<td>string | symbol | hsym</td>
+<td>URL</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>string</td>
+<td>URL</td>
+</tr>
+</tbody>
+</table></div>
+                </div>
+        </div>
+
+    <hr>
+    <footer class="container">
+        
+        <center>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</center>
+    </footer>
+        <script src="../../../js/base.js"></script>
+        <script src="../../../search/require.js"></script>
+        <script src="../../../search/search.js"></script>
+    </body>
+</html>

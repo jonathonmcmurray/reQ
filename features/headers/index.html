@@ -89,14 +89,23 @@
             
             
             
-                <li >
-                    <a href="../../api/">User API</a>
-                </li>
-            
-            
-            
-                <li >
-                    <a href="../../internal/">Internal Functions</a>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">API <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../../api/md/public/">Public functions</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../../api/md/private/">Private functions</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../../api/md/variable/">Variables</a>
+                        </li>
+                    
+                    </ul>
                 </li>
             
             
@@ -187,9 +196,9 @@
 <h2 id="custom-headers">Custom headers</h2>
 <p>One of the key features of reQ is the ability to send custom headers with HTTP
 requests. This is done by supplying a dictionary of custom headers as the
-second argument to many of the <a href="../../api/">User API</a> functions, such as
-<a href="../../api/#reqget"><code>.req.get</code></a>, <a href="../../api/#reqpost"><code>.req.post</code></a>,
-<a href="../../api/#reqdelete"><code>.req.delete</code></a> and <a href="../../api/#reqdel"><code>.req.del</code></a></p>
+second argument to many of the <a href="../../api/md/public/">User API</a> functions, such as
+<a href="../../api/md/public/#reqget"><code>.req.get</code></a>, <a href="../../api/md/public/#reqpost"><code>.req.post</code></a>,
+<a href="../../api/md/public/#reqdelete"><code>.req.delete</code></a> and <a href="../../api/md/public/#reqdel"><code>.req.del</code></a></p>
 <p>For example:</p>
 <pre><code>q).req.get[&quot;http://httpbin.org/headers&quot;;`custom`headers!(&quot;with custom&quot;;&quot;values&quot;)]
        | Accept Connection Custom        Headers  Host          User-Agent

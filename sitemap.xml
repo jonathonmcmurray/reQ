@@ -4,7 +4,7 @@
     
     <url>
      <loc>http://jmcmurray.co.uk/reQ/</loc>
-     <lastmod>2019-07-27</lastmod>
+     <lastmod>2019-08-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -13,69 +13,75 @@
         
     <url>
      <loc>http://jmcmurray.co.uk/reQ/features/cookies/</loc>
-     <lastmod>2019-07-27</lastmod>
+     <lastmod>2019-08-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://jmcmurray.co.uk/reQ/features/headers/</loc>
-     <lastmod>2019-07-27</lastmod>
+     <lastmod>2019-08-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://jmcmurray.co.uk/reQ/features/redirects/</loc>
-     <lastmod>2019-07-27</lastmod>
+     <lastmod>2019-08-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://jmcmurray.co.uk/reQ/features/verbose/</loc>
-     <lastmod>2019-07-27</lastmod>
+     <lastmod>2019-08-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     
 
     
+        
     <url>
-     <loc>http://jmcmurray.co.uk/reQ/api/</loc>
-     <lastmod>2019-07-27</lastmod>
+     <loc>http://jmcmurray.co.uk/reQ/api/md/public/</loc>
+     <lastmod>2019-08-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
-    
-
-    
+        
     <url>
-     <loc>http://jmcmurray.co.uk/reQ/internal/</loc>
-     <lastmod>2019-07-27</lastmod>
+     <loc>http://jmcmurray.co.uk/reQ/api/md/private/</loc>
+     <lastmod>2019-08-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
+        
+    <url>
+     <loc>http://jmcmurray.co.uk/reQ/api/md/variable/</loc>
+     <lastmod>2019-08-17</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
     
 
     
         
     <url>
      <loc>http://jmcmurray.co.uk/reQ/examples/aoc/</loc>
-     <lastmod>2019-07-27</lastmod>
+     <lastmod>2019-08-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://jmcmurray.co.uk/reQ/examples/github/</loc>
-     <lastmod>2019-07-27</lastmod>
+     <lastmod>2019-08-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://jmcmurray.co.uk/reQ/examples/jira/</loc>
-     <lastmod>2019-07-27</lastmod>
+     <lastmod>2019-08-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://jmcmurray.co.uk/reQ/examples/zoho/</loc>
-     <lastmod>2019-07-27</lastmod>
+     <lastmod>2019-08-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
