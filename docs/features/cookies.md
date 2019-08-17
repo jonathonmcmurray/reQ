@@ -3,13 +3,13 @@
 ---
 
 reQ has built-in support for HTTP cookies; when a response is received with a
-`Set-Cookie` header, the relevant cookie will be stored in `.req.cookiejar`,
+`Set-Cookie` header, the relevant cookie will be stored in `.cookie.jar`,
 and then used automatically for future requests to the relevant host.
 
 Expired cookies will be ignored, although currently the `Max-Age` attribute is
 not taken into account; this will be rectified in a future update.
 
-It's also possible to use the [`.req.addcookie`](../internal.md#reqaddcookie) function, as
+It's also possible to use the [`.req.addcookie`](../api/md/public.md#reqaddcookie) function, as
 demonstrated in the [Advent of Code](../examples/aoc.md) example.
 
 ## Setting cookies
@@ -64,7 +64,7 @@ Via: 1.1 vegur
 
 {"cookies":{"abc":"123","def":"456"}}
 
-q).req.cookiejar
+q).cookie.jar
 host          path name | val   expires maxage secure httponly samesite
 ------------------------| ---------------------------------------------
 "httpbin.org" "/*" "abc"| "123"                0      0
@@ -126,7 +126,7 @@ Via: 1.1 vegur
 
 {"cookies":{"def":"456"}}
 
-q).req.cookiejar
+q).cookie.jar
 host          path name | val   expires                 maxage secure httponl..
 ------------------------| ---------------------------------------------------..
 "httpbin.org" "/*" "abc"| ""    1970.01.01T00:00:00.000 0      0      0      ..
@@ -175,12 +175,12 @@ l64/ 4(16)core 7360MB jonny kodiak 127.0.1.1 EXPIRE 2019.05.21 jonathon.mcmurray
 
 q)\l req.q
 ... // build up reQ cookiejar
-q).req.cookiejar
+q).cookie.jar
 host           path        name | val   expires                 maxage secure httponly samesite
 --------------------------------| -------------------------------------------------------------
 "*httpbin.org" "/*"        "abc"| "123" 2006.03.23T21:29:19.000        0      0                
 "httpbin.org"  "/example*" "def"| "123"                                1      0                
-q).req.writejar[`:jar].req.cookiejar
+q).req.writejar[`:jar].cookie.jar
 `:jar
 q)\\
 jonny@kodiak ~/git/req_bk (master) $ more jar

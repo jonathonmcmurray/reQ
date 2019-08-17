@@ -1,5 +1,11 @@
 \d .auth
 
+// @kind function
+// @category private
+// @fileoverview *EXPERIMENTAL* prompt for authorization if requested
+// @param h {headers} HTTP response headers
+// @param u {string|symbol|#hsym} URL
+// @return {string} updated URL with supplied credentials
 getauth:{[h;u] /h-headers,u-URL
   /* prompt for user & pass when site requests basic auth */
   h:upper[key h]!value h;                                                           //upper case header names
