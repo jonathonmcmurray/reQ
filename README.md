@@ -77,3 +77,15 @@ json   | (,`text)!,"hello"
 origin | "146.199.80.196"
 url    | "http://httpbin.org/post"
 ```
+
+## Updating documentation with `qDoc`
+
+Using `qDoc` from Kx (included with Kx Developer)
+
+```bash
+$ q $AXLIBRARIES_HOME/ws/qdoc.q_ -src req/ -out docs/api/
+..
+$ mkdocs serve # to preview locally
+..
+$ mkdocs deploy # to deploy to github
+```
