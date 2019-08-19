@@ -16,6 +16,6 @@ resolve:{[url]
   i:first r[`Answer][`data];                                                        //get first record
   cache[`$h]:i;                                                                     //cache resovled IP
   :.url.format @[uo;`host;:;i];                                                     //return resolved URL
- }
+  }
 
 \d .

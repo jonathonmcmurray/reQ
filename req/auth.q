@@ -3,7 +3,7 @@
 // @kind function
 // @category private
 // @fileoverview *EXPERIMENTAL* prompt for authorization if requested
-// @param h {headers} HTTP response headers
+// @param h {dict} HTTP response headers
 // @param u {string|symbol|#hsym} URL
 // @return {string} updated URL with supplied credentials
 getauth:{[h;u] /h-headers,u-URL
@@ -14,6 +14,6 @@ getauth:{[h;u] /h-headers,u-URL
   1"User: ";s:read0 0;                                                              //get username
   1"Pass: ";p:read0 0;                                                              //get password
   :.url.format @[.url.parse0[0b] u;`auth;:;s,":",p];                                //update URL with supplied username & pass
- }
+  }
 
 \d .

@@ -89,3 +89,16 @@ $ mkdocs serve # to preview locally
 ..
 $ mkdocs gh-deploy # to deploy to github
 ```
+
+## Linting with qlint
+
+Uses `qlint.q_` from Kx (included with Kx Developer). Assumes `AXLIBRARIES_HOME`
+env var is set
+
+```bash
+$ q lint.q
+```
+
+Loads package & lints `.req` & related namespaces. Some errors/warnings
+excluded. Adding an additional arg on cmd line will halt process to inspect
+output table `t`.

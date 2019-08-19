@@ -15,6 +15,6 @@ timeout:{[t;m;u;hd;p]
   r:@[0;(`.req.send;m;u;hd;p;VERBOSE);{x}];                                         //send request & trap error
   system"T ",string ot;                                                             //reset timeout
   :$[r~"stop";'"timeout";r];                                                        //return or signal
- }
+  }
 
 \d .

@@ -23,12 +23,13 @@ mult:{[b;d] "\r\n" sv mkpt[b]'[string key d;value d],enlist"--",b,"--"}         
 // @return {string[]} multipart form
 mkpt:{[b;n;v]
   f:-11=type v;                                                                     //check for file
+  t:"";                                                                             //placeholder for Content-Type
   if[f;t:"Content-Type: ",$[0<count t:.h.ty last` vs`$.url.sturl v;t;"application/octet-stream"],"\n"];     //get content-type for part
   r :"--",b,"\n";                                                                   //opening boundary
   r,:"Content-Disposition: form-data; name=\"",n,"\"",$[f;"; filename=",1_string v;""],"\n";
-  r,:$[f;t;""],"\n",$[f;`char$read1 v;v];                                           //insert file contents or passed value
+  r,:t,"\n",$[f;`char$read1 v;v];                                                   //insert file contents or passed value
   :r;
- }
+  }
 
 // @kind function
 // @category private
@@ -39,7 +40,7 @@ multi:{[d]
   b:gb[];                                                                           //get boundary value
   m:mult[b;d];                                                                      //make multipart form from dictionary
   :((1#`$"Content-Type")!enlist"multipart/form-data; boundary=",b;m);               //return HTTP header & multipart form
- }
+  }
 
 postmulti:{post[x] . multi y}                                                       //send HTTP POST report with multipart form
 
