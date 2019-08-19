@@ -31,7 +31,7 @@ proxy:{[u]
   t:max(first ":"vs u[`url]`host)like/:{(("."=first x)#"*"),x}each"," vs string p 1; //check if host is in NO_PROXY env var
   t:not null[first p]|t;                                                            //check if HTTP_PROXY is defined & host isn't in NO_PROXY
   :$[t;@[;`proxy;:;p 0];]u;                                                         //add proxy to URL object if required
- }
+  }
 
 // @kind function
 // @category private
@@ -39,12 +39,12 @@ proxy:{[u]
 // @param q {dict} query object
 // @return {dict} Updated query object
 addheaders:{[q]
-  d:def;
+  d:.req.def;
   if[count q[`url;`auth];d[$[`proxy in key q;"Proxy-";""],"Authorization"]:"Basic ",.b64.enc q[`url;`auth]];
   if[count q`body;d["Content-Length"]:string count q`body];                         //if payload, add length header
   d,:$[11=type k:key q`headers;string k;k]!value q`headers;                         //get headers dict (convert keys to strings if syms), append to defaults
   :@[q;`headers;:;d];
- }
+  }
 
 // @kind function
 // @category private
@@ -55,7 +55,7 @@ enchd:{[d]
   k:2_@[k;where 10<>type each k:(" ";`),key d;string];                              //convert non-string keys to strings
   v:2_@[v;where 10<>type each v:(" ";`),value d;string];                            //convert non-string values to strings
   :("\r\n" sv ": " sv/:flip (k;v)),"\r\n\r\n";                                      //encode headers dict to HTTP headers
- }
+  }
 
 // @kind function
 // @category private
@@ -64,11 +64,11 @@ enchd:{[d]
 // @return {string} HTTP query string
 buildquery:{[q]
   r:string[q`method]," ",q[`url;`path]," HTTP/1.1\r\n",                             //method & endpoint TODO: fix q[`path] for proxy use case
-  "Host: ",q[`url;`host],$[count d;"\r\n";""],                                      //add host string
+  "Host: ",q[`url;`host],$[count q`headers;"\r\n";""],                              //add host string
        enchd[q`headers],                                                            //add headers
        $[count q`body;q`body;""];                                                   //add payload if present
   :r;                                                                               //return complete query string
- }
+  }
 
 // @kind function
 // @category private
@@ -81,7 +81,7 @@ formatresp:{[r]
   d:trim enlist[`]_(!/)("S:\n")0:p[0]except"\r";                                    //create dictionary of response headers
   d[`status]:"I"$(" "vs r)1;                                                        //add status code
   :(d;p[1]);                                                                        //return header dict & reponse body
- } 
+  }
 
 // @kind function
 // @category private
@@ -92,7 +92,7 @@ formatresp:{[r]
 okstatus:{[v;x]
   if[v|x[0][`status] within 200 299;:x];                                            //if in verbose mode or OK status, return
   'string x[0]`status;                                                              //signal if bad status FIX: handle different status codes - descriptive signals
- }
+  }
 
 // @kind function
 // @category public
@@ -104,7 +104,7 @@ okstatus:{[v;x]
 // @param v {boolean} verbose flag
 // @return {(dict;string)} HTTP response (headers;body)
 send:{[m;u;hd;p;v]
-  q:@[query;`method`url`headers`body;:;(m;.url.parse0[0]u;hd;p)];                   //parse URL into URL object & build query
+  q:@[.req.query;`method`url`headers`body;:;(m;.url.parse0[0]u;hd;p)];              //parse URL into URL object & build query
   q:proxy q;                                                                        //check if we need to use proxy & get proxy address
   /nu:$[@[value;`.doh.ENABLED;0b];.doh.resolve;]u;                                   //resolve URL via DNS-over-HTTPS if enabled
   hs:.url.hsurl`$raze q ./:enlist[`url`protocol],$[`proxy in key q;1#`proxy;enlist`url`host]; //get hostname as handle
@@ -121,17 +121,17 @@ send:{[m;u;hd;p;v]
       lo:$["/"=r[0][`Location]0;.url.format[`protocol`auth`host#q`url],1_r[0]`Location;r[0]`Location]; //detect if relative or absolute redirect
      :.z.s[m;lo;hd;p;v]];                                                           //perform redirections if needed
   :r;
- }
+  }
 
 // @kind function
 // @category private
 // @fileoverview Parse to kdb object based on Content-Type header. Only supports JSON currently
-// @param r {(dict;body)} HTTP respone
+// @param r {(dict;string)} HTTP respone
 // @return {any} Parsed response
 parseresp:{[r]
   / TODO - add handling for other data types? /
   :$[(`j in key`)&r[0][`$"Content-Type"]like .h.ty[`json],"*";.j.k;] r[1];          //check for JSON, parse if so
- }
+  }
 
 // @kind function
 // @category public
@@ -139,7 +139,8 @@ parseresp:{[r]
 // @param x {symbol|string|#hsym} URL
 // @param y {dict} dictionary of custom HTTP headers to use
 // @return {(dict;string)|any} HTTP response (headers;body), or parsed if JSON
-.req.get:{parseresp okstatus[VERBOSE] send[`GET;x;y;();VERBOSE]}
+// @qlintsuppress RESERVED_NAME
+.req.get:{parseresp okstatus[.req.VERBOSE] send[`GET;x;y;();.req.VERBOSE]}
 
 // @kind function
 // @category public
@@ -155,7 +156,7 @@ parseresp:{[r]
 // @param y {dict} dictionary of custom HTTP headers to use
 // @param z {string} body for HTTP request
 // @return {(dict;string)|any} HTTP response (headers;body), or parsed if JSON
-.req.post:{parseresp okstatus[VERBOSE] send[`POST;x;y;z;VERBOSE]}
+.req.post:{parseresp okstatus[.req.VERBOSE] send[`POST;x;y;z;.req.VERBOSE]}
 
 // @kind function
 // @category public
@@ -164,7 +165,8 @@ parseresp:{[r]
 // @param y {dict} dictionary of custom HTTP headers to use
 // @param z {string} body for HTTP request
 // @return {(dict;string)|any} HTTP response (headers;body), or parsed if JSON
-.req.delete:{parseresp okstatus[VERBOSE] send[`DELETE;x;y;z;VERBOSE]}
+// @qlintsuppress RESERVED_NAME
+.req.delete:{parseresp okstatus[.req.VERBOSE] send[`DELETE;x;y;z;.req.VERBOSE]}
 
 // @kind function
 // @category public
@@ -173,12 +175,5 @@ parseresp:{[r]
 // @param y {dict} dictionary of custom HTTP headers to use
 // @return {(dict;string)|any} HTTP response (headers;body), or parsed if JSON
 .req.del:.req.delete[;;()]
-
-// @kind function
-// @category public
-// @fileoverview Send an HTTP DELETE request,no body or custom headers
-// @param x {symbol|string|#hsym} URL
-// @return {(dict;string)|any} HTTP response (headers;body), or parsed if JSON
-.req.d:.req.del[;()!()]
 
 \d .

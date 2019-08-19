@@ -23,7 +23,7 @@ addcookie:{[h;c]
   r[`httponly]:`httponly in key d;                                                  //check if HttpOnly attribute is set
   r[`samesite]:`$d`samesite;                                                        //check if SameSite attribute is set
   `.cookie.jar upsert enlist r;                                                     //add cookie to the jar
- }
+  }
 
 // @kind function
 // @category private
@@ -36,7 +36,7 @@ getcookies:{[q]
   t:select from .cookie.jar where h like/:host,p like/:path,(expires>.z.t)|null expires;  //select all cookies that apply
   if[not pr~"https://";t:delete from t where secure];                               //delete HTTPS only cookies if not HTTPS request
   :"; "sv"="sv'flip value exec name,val from t;                                     //compile cookies into string
- }
+  }
 
 // @kind function
 // @category private
@@ -46,7 +46,7 @@ getcookies:{[q]
 addcookies:{[q]
   if[count c:getcookies[q`url];q[`headers;`Cookie]:c];
   :q;
- }
+  }
 
 // @kind function
 // @category public
@@ -62,7 +62,7 @@ readjar:{[f]
   t:update secure:secure=`TRUE from t;                                              //convert secure to boolean
   t:update expires:?[0=expires;0Nz;`datetime$`timestamp$1970.01.01D00+1e9*expires] from t; //calculate expiry
   :delete tailmatch from update httponly:0b,maxage:0Nj,samesite:` from t;           //add extra fields for reQ cookiejar
- }
+  }
 
 // @kind function
 // @category public
@@ -79,7 +79,7 @@ writejar:{[f;j]
        `FALSE`TRUE "*"=first'[host],
        except\:[path;"*"],
        `FALSE`TRUE secure,
-       ?[null expires;0;`long$1e-9*(`timestamp$expires)-1970.01.01D0],              //convert expires back to epoch time
+       ?[null expires;0;`long$1e-9*(`timestamp$expires)-1970.01.01D00:00],          //convert expires back to epoch time
        name,
        val 
      from j;
