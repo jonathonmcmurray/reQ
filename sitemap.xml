@@ -1,90 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-    
     <url>
      <loc>http://jmcmurray.co.uk/reQ/</loc>
-     <lastmod>2019-08-17</lastmod>
+     <lastmod>2019-10-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
-    
-
-    
-        
     <url>
      <loc>http://jmcmurray.co.uk/reQ/features/cookies/</loc>
-     <lastmod>2019-08-17</lastmod>
+     <lastmod>2019-10-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
      <loc>http://jmcmurray.co.uk/reQ/features/headers/</loc>
-     <lastmod>2019-08-17</lastmod>
+     <lastmod>2019-10-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
      <loc>http://jmcmurray.co.uk/reQ/features/redirects/</loc>
-     <lastmod>2019-08-17</lastmod>
+     <lastmod>2019-10-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
      <loc>http://jmcmurray.co.uk/reQ/features/verbose/</loc>
-     <lastmod>2019-08-17</lastmod>
+     <lastmod>2019-10-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
-    
-
-    
-        
     <url>
      <loc>http://jmcmurray.co.uk/reQ/api/md/public/</loc>
-     <lastmod>2019-08-17</lastmod>
+     <lastmod>2019-10-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
      <loc>http://jmcmurray.co.uk/reQ/api/md/private/</loc>
-     <lastmod>2019-08-17</lastmod>
+     <lastmod>2019-10-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
      <loc>http://jmcmurray.co.uk/reQ/api/md/variable/</loc>
-     <lastmod>2019-08-17</lastmod>
+     <lastmod>2019-10-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
-    
-
-    
-        
     <url>
      <loc>http://jmcmurray.co.uk/reQ/examples/aoc/</loc>
-     <lastmod>2019-08-17</lastmod>
+     <lastmod>2019-10-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
      <loc>http://jmcmurray.co.uk/reQ/examples/github/</loc>
-     <lastmod>2019-08-17</lastmod>
+     <lastmod>2019-10-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
      <loc>http://jmcmurray.co.uk/reQ/examples/jira/</loc>
-     <lastmod>2019-08-17</lastmod>
+     <lastmod>2019-10-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
      <loc>http://jmcmurray.co.uk/reQ/examples/zoho/</loc>
-     <lastmod>2019-08-17</lastmod>
+     <lastmod>2019-10-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
-    
-
 </urlset>
