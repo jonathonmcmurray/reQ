@@ -14,11 +14,11 @@
 
 |Name|Type|Description|
 |---|---|---|
-||sting|decoded string|
+||string|decoded string|
 
 ## .b64.enc
 
- base64 encode a string
+ base64 encode a string. Where available, defaults to .Q.btoa built-in
 
 **Parameter(s):**
 
@@ -30,7 +30,7 @@
 
 |Name|Type|Description|
 |---|---|---|
-||sting|encoded string|
+||string|encoded string|
 
 ## .cookie.addcookie
 
@@ -69,21 +69,22 @@
 |---|---|---|
 |&lt;returns&gt;|table|cookie jar|
 
-## .req.d
+## .cookie.writejar
 
- Send an HTTP DELETE request,no body or custom headers
+ Write a Netscape/cURL format cookiejar
 
 **Parameter(s):**
 
 |Name|Type|Description|
 |---|---|---|
-|x|symbol \| string \| hsym|URL |
+|f|string \| symbol \| hsym|filename |
+|j|table|cookie jar|
 
 **Returns:**
 
 |Name|Type|Description|
 |---|---|---|
-||(dict; string) \| any|HTTP response (headers;body), or parsed if JSON|
+||hsym|cookie jar filename |
 
 ## .req.del
 

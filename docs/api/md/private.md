@@ -8,7 +8,7 @@
 
 |Name|Type|Description|
 |---|---|---|
-|h|headers|HTTP response headers|
+|h|dict|HTTP response headers|
 |u|string \| symbol \| hsym|URL |
 
 **Returns:**
@@ -205,7 +205,7 @@
 
 |Name|Type|Description|
 |---|---|---|
-|r|(dict;body)|HTTP respone|
+|r|(dict; string)|HTTP respone|
 
 **Returns:**
 
