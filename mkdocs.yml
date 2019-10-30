@@ -3,10 +3,10 @@ site_description: HTTP request library for q language
 site_url: http://jmcmurray.co.uk/reQ
 repo_url: https://github.com/jonathonmcmurray/reQ
 theme:
-    name: bootstrap
+    name: mkdocs
 google_analytics: ['UA-119708613-1', 'jmcmurray.co.uk']
 
-pages:
+nav:
 - Overview: 'index.md'
 - Features:
     - 'Cookies': 'features/cookies.md'
