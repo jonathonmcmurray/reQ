@@ -13,6 +13,7 @@ def:(!/) flip 2 cut (                                                           
   "User-Agent";     "kdb+/",string .Q.k;
   "Accept";         "*/*"
   )
+if[.z.K>=3.7;def["Accept-Encoding"]:"gzip"];                                        //accept gzip compressed responses on 3.7+
 query:`method`url`hsym`path`headers`body`bodytype!()                                //query object template
 
 // @kind data
@@ -130,6 +131,9 @@ send:{[m;u;hd;p;v]
 // @return {any} Parsed response
 parseresp:{[r]
   / TODO - add handling for other data types? /
+  eh:`$"Content-Encoding";
+  if[(.z.K>=3.7)&r[0][eh]like"gzip";:.z.s(enlist[eh]_;-35!)@'r];                    //decompress gzip response on 3.7+
+  if[eh in key r 0;'"Unsupported encoding: ",r[0]eh];                               //if other encoding, or not 3.7, signal
   :$[(`j in key`)&r[0][`$"Content-Type"]like .h.ty[`json],"*";.j.k;] r[1];          //check for JSON, parse if so
   }
 
