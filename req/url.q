@@ -86,3 +86,6 @@ enc:{[d]
 dec:{[x]
   :(!/)"S=&"0:.h.uh ssr[x;"+";" "];                                                 //parse incoming request into dict, replace escaped chars
   }
+
+\d .
+
