@@ -16,3 +16,4 @@ enc:@[value;`.Q.btoa;{[x;y]x}enc]
 dec:{(`char$0b sv'8 cut raze 2_'0b vs'`byte$.Q.b6?x) except "\000"}
 
 \d .
+
