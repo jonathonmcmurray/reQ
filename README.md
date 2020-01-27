@@ -83,3 +83,14 @@ $ q lint.q
 Loads package & lints `.req` & related namespaces. Some errors/warnings
 excluded. Adding an additional arg on cmd line will halt process to inspect
 output table `t`.
+
+## Building releases
+
+To build a release, `build.sh` is used. The script creates the unified, standalone
+`.q` script & the `.tar.gz` of qutil package.
+
+Argument is version number e.g.
+
+```bash
+$ ./build.sh 0.1.3
+```
