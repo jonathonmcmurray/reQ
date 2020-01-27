@@ -1,0 +1,24 @@
+package:
+  name: req
+  version: {{ RELEASE_TAG }}
+
+build:
+  number: 0
+  script_env:
+    - RELEASE_TAG 
+  noarch: true
+
+source:
+  git_url: https://github.com/jonathonmcmurray/reQ.git
+  git_rev: {{ RELEASE_TAG }}
+
+requirements:
+  run:
+    - qutil
+    - qhttps
+    - json
+
+about:
+  home: https://github.com/jonathonmcmurray/reQ
+  license: MIT
+  summary: HTTP requests library for Q, with support for custom headers, redirects & cookies
