@@ -12,4 +12,4 @@ source $CHOME/etc/profile.d/conda.sh                                # setup env 
 conda activate base                                                 # start base env (so QHOME is defined)
 echo $KCLIC | base64 --decode > $QHOME/kc.lic                       # write kc.lic from env var
 
-conda install --yes --channel jmcmurray qspec                       # install qutil & qspec via conda
+conda install --yes --channel jmcmurray qspec qhttps                # install qutil & qspec via conda
