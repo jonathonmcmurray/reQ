@@ -6,6 +6,6 @@
     "User-Agent": "kdb+/3.6"
   }, 
   "origin": "81.147.56.137", 
-  "url": "https://httpbin.org/get"
+  "url": "http://httpbin.org/get"
 }
 
