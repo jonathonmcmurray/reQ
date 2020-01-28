@@ -146,7 +146,10 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#b64dec">.b64.dec</a></li>
+        <li class="main active"><a href="#authcache">.auth.cache</a></li>
+        <li class="main "><a href="#authnetrcenabled">.auth.netrcenabled</a></li>
+        <li class="main "><a href="#authnetrclocation">.auth.netrclocation</a></li>
+        <li class="main "><a href="#b64dec">.b64.dec</a></li>
         <li class="main "><a href="#b64enc">.b64.enc</a></li>
         <li class="main "><a href="#cookieaddcookie">.cookie.addcookie</a></li>
         <li class="main "><a href="#cookiejar">.cookie.jar</a></li>
@@ -163,6 +166,12 @@
 </div></div>
                 <div class="col-md-9" role="main">
 
+<h2 id="authcache">.auth.cache</h2>
+<p>storage for basic auth credential cache</p>
+<h2 id="authnetrcenabled">.auth.netrcenabled</h2>
+<p>boolean flag to determine whether to use ~/.netrc by default</p>
+<h2 id="authnetrclocation">.auth.netrclocation</h2>
+<p>location of .netrc file, by default ~/.netrc</p>
 <h2 id="b64dec">.b64.dec</h2>
 <p>base64 decode a string</p>
 <p><strong>Parameter(s):</strong></p>
@@ -685,7 +694,7 @@
         </footer>
         <script>
             var base_url = "../../..",
-                shortcuts = {"search": 83, "help": 191, "next": 78, "previous": 80};
+                shortcuts = {"next": 78, "previous": 80, "help": 191, "search": 83};
         </script>
         <script src="../../../js/base.js" defer></script>
         <script src="../../../search/main.js" defer></script>

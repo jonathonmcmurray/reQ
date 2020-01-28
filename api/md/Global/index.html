@@ -6,12 +6,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        <link rel="canonical" href="http://jmcmurray.co.uk/reQ/features/redirects/">
-        <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>HTTP redirects - reQ</title>
-        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
-        <link href="../../css/font-awesome.min.css" rel="stylesheet">
-        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="canonical" href="http://jmcmurray.co.uk/reQ/api/md/Global/">
+        <link rel="shortcut icon" href="../../../img/favicon.ico">
+        <title>External libraries - reQ</title>
+        <link href="../../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -19,8 +19,8 @@
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
-        <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="../../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../../js/bootstrap-3.0.3.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script>
         <script>
@@ -48,7 +48,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="../..">reQ</a>
+                    <a class="navbar-brand" href="../../..">reQ</a>
                 </div>
 
                 <!-- Expanded navigation -->
@@ -56,26 +56,26 @@
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
                             <li >
-                                <a href="../..">Overview</a>
+                                <a href="../../..">Overview</a>
                             </li>
-                            <li class="dropdown active">
+                            <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Features <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li >
-    <a href="../cookies/">Cookies</a>
+    <a href="../../../features/cookies/">Cookies</a>
 </li>
                                     
 <li >
-    <a href="../headers/">Headers</a>
-</li>
-                                    
-<li class="active">
-    <a href="./">HTTP redirects</a>
+    <a href="../../../features/headers/">Headers</a>
 </li>
                                     
 <li >
-    <a href="../verbose/">Verbose mode</a>
+    <a href="../../../features/redirects/">HTTP redirects</a>
+</li>
+                                    
+<li >
+    <a href="../../../features/verbose/">Verbose mode</a>
 </li>
                                 </ul>
                             </li>
@@ -84,15 +84,15 @@
                                 <ul class="dropdown-menu">
                                     
 <li >
-    <a href="../../api/md/public/">Public functions</a>
+    <a href="../public/">Public functions</a>
 </li>
                                     
 <li >
-    <a href="../../api/md/private/">Private functions</a>
+    <a href="../private/">Private functions</a>
 </li>
                                     
 <li >
-    <a href="../../api/md/variable/">Variables</a>
+    <a href="../variable/">Variables</a>
 </li>
                                 </ul>
                             </li>
@@ -101,19 +101,19 @@
                                 <ul class="dropdown-menu">
                                     
 <li >
-    <a href="../../examples/aoc/">Advent of Code</a>
+    <a href="../../../examples/aoc/">Advent of Code</a>
 </li>
                                     
 <li >
-    <a href="../../examples/github/">GitHub</a>
+    <a href="../../../examples/github/">GitHub</a>
 </li>
                                     
 <li >
-    <a href="../../examples/jira/">JIRA</a>
+    <a href="../../../examples/jira/">JIRA</a>
 </li>
                                     
 <li >
-    <a href="../../examples/zoho/">Zoho</a>
+    <a href="../../../examples/zoho/">Zoho</a>
 </li>
                                 </ul>
                             </li>
@@ -125,18 +125,8 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li >
-                                <a rel="next" href="../headers/">
-                                    <i class="fa fa-arrow-left"></i> Previous
-                                </a>
-                            </li>
-                            <li >
-                                <a rel="prev" href="../verbose/">
-                                    Next <i class="fa fa-arrow-right"></i>
-                                </a>
-                            </li>
                             <li>
-                                <a href="https://github.com/jonathonmcmurray/reQ/edit/master/docs/features/redirects.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+                                <a href="https://github.com/jonathonmcmurray/reQ/edit/master/docs/api/md/Global.md"><i class="fa fa-github"></i> Edit on GitHub</a>
                             </li>
                     </ul>
                 </div>
@@ -146,152 +136,15 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#http-redirects">HTTP redirects</a></li>
-            <li><a href="#relative-redirect-example">Relative redirect example</a></li>
-            <li><a href="#absolute-redirect-example">Absolute redirect example</a></li>
+        <li class="main active"><a href="#external-libraries">External libraries</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="http-redirects">HTTP redirects</h1>
-<hr />
-<p>reQ will automatically follow redirects, both absolute &amp; relative. For example,</p>
-<h2 id="relative-redirect-example">Relative redirect example</h2>
-<pre><code>q).req.get[&quot;http://httpbin.org/relative-redirect/2&quot;;()!()];
--- REQUEST --
-GET /relative-redirect/2 HTTP/1.1
-Host: httpbin.org
-Connection: Close
-User-Agent: kdb+/3.5
-Accept: */*
-
-
--- RESPONSE --
-HTTP/1.1 302 FOUND
-Connection: close
-Server: gunicorn/19.8.1
-Date: Mon, 04 Jun 2018 22:41:53 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 0
-Location: /relative-redirect/1
-Access-Control-Allow-Origin: *
-Access-Control-Allow-Credentials: true
-Via: 1.1 vegur
-
-
--- REQUEST --
-GET /relative-redirect/1 HTTP/1.1
-Host: httpbin.org
-Connection: Close
-User-Agent: kdb+/3.5
-Accept: */*
-
-
--- RESPONSE --
-HTTP/1.1 302 FOUND
-Connection: close
-Server: gunicorn/19.8.1
-Date: Mon, 04 Jun 2018 22:41:54 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 0
-Location: /get
-Access-Control-Allow-Origin: *
-Access-Control-Allow-Credentials: true
-Via: 1.1 vegur
-
-
--- REQUEST --
-GET /get HTTP/1.1
-Host: httpbin.org
-Connection: Close
-User-Agent: kdb+/3.5
-Accept: */*
-
-
--- RESPONSE --
-HTTP/1.1 200 OK
-Connection: close
-Server: gunicorn/19.8.1
-Date: Mon, 04 Jun 2018 22:41:54 GMT
-Content-Type: application/json
-Content-Length: 162
-Access-Control-Allow-Origin: *
-Access-Control-Allow-Credentials: true
-Via: 1.1 vegur
-
-{&quot;args&quot;:{},&quot;headers&quot;:{&quot;Accept&quot;:&quot;*/*&quot;,&quot;Connection&quot;:&quot;close&quot;,&quot;Host&quot;:&quot;httpbin.org&quot;,&quot;User-Agent&quot;:&quot;kdb+/3.5&quot;},&quot;origin&quot;:&quot;146.199.80.196&quot;,&quot;url&quot;:&quot;http://httpbin.org/get&quot;}
-</code></pre>
-
-<h2 id="absolute-redirect-example">Absolute redirect example</h2>
-<pre><code>q).req.get[&quot;http://httpbin.org/absolute-redirect/2&quot;;()!()];
--- REQUEST --
-GET /absolute-redirect/2 HTTP/1.1
-Host: httpbin.org
-Connection: Close
-User-Agent: kdb+/3.5
-Accept: */*
-
-
--- RESPONSE --
-HTTP/1.1 302 FOUND
-Connection: close
-Server: gunicorn/19.8.1
-Date: Mon, 04 Jun 2018 22:42:02 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 283
-Location: http://httpbin.org/absolute-redirect/1
-Access-Control-Allow-Origin: *
-Access-Control-Allow-Credentials: true
-Via: 1.1 vegur
-
-&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 3.2 Final//EN&quot;&gt;
-&lt;title&gt;Redirecting...&lt;/title&gt;
-&lt;h1&gt;Redirecting...&lt;/h1&gt;
-&lt;p&gt;You should be redirected automatically to target URL: &lt;a href=&quot;http://httpbin.org/absolute-redirect/1&quot;&gt;http://httpbin.org/absolute-redirect/1&lt;/a&gt;.  If not click the link.
--- REQUEST --
-GET /absolute-redirect/1 HTTP/1.1
-Host: httpbin.org
-Connection: Close
-User-Agent: kdb+/3.5
-Accept: */*
-
-
--- RESPONSE --
-HTTP/1.1 302 FOUND
-Connection: close
-Server: gunicorn/19.8.1
-Date: Mon, 04 Jun 2018 22:42:02 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 251
-Location: http://httpbin.org/get
-Access-Control-Allow-Origin: *
-Access-Control-Allow-Credentials: true
-Via: 1.1 vegur
-
-&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 3.2 Final//EN&quot;&gt;
-&lt;title&gt;Redirecting...&lt;/h1&gt;
-&lt;p&gt;You should be redirected automatically to target URL: &lt;a href=&quot;http://httpbin.org/get&quot;&gt;http://httpbin.org/get&lt;/a&gt;.  If not click the link.
--- REQUEST --
-GET /get HTTP/1.1
-Host: httpbin.org
-Connection: Close
-User-Agent: kdb+/3.5
-Accept: */*
-
-
--- RESPONSE --
-HTTP/1.1 200 OK
-Connection: close
-Server: gunicorn/19.8.1
-Date: Mon, 04 Jun 2018 22:42:03 GMT
-Content-Type: application/json
-Content-Length: 162
-Access-Control-Allow-Origin: *
-Access-Control-Allow-Credentials: true
-Via: 1.1 vegur
-
-{&quot;args&quot;:{},&quot;headers&quot;:{&quot;Accept&quot;:&quot;*/*&quot;,&quot;Connection&quot;:&quot;close&quot;,&quot;Host&quot;:&quot;httpbin.org&quot;,&quot;User-Agent&quot;:&quot;kdb+/3.5&quot;},&quot;origin&quot;:&quot;146.199.80.196&quot;,&quot;url&quot;:&quot;http://httpbin.org/get&quot;}
-</code></pre></div>
+<h1 id="external-libraries">External libraries</h1>
+<p>This directory contains external libraries depeneded upon by reQ</p>
+<p>They are placed here to allow inclusion by build script etc. without
+having to rely on external git repos</p></div>
         </div>
 
         <footer class="col-md-12">
@@ -299,11 +152,11 @@ Via: 1.1 vegur
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
         <script>
-            var base_url = "../..",
+            var base_url = "../../..",
                 shortcuts = {"next": 78, "previous": 80, "help": 191, "search": 83};
         </script>
-        <script src="../../js/base.js" defer></script>
-        <script src="../../search/main.js" defer></script>
+        <script src="../../../js/base.js" defer></script>
+        <script src="../../../search/main.js" defer></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
     <div class="modal-dialog">

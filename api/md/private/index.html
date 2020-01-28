@@ -147,6 +147,9 @@
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
         <li class="main active"><a href="#authgetauth">.auth.getauth</a></li>
+        <li class="main "><a href="#authgetcache">.auth.getcache</a></li>
+        <li class="main "><a href="#authreadnetrc">.auth.readnetrc</a></li>
+        <li class="main "><a href="#authsetcache">.auth.setcache</a></li>
         <li class="main "><a href="#cookieaddcookies">.cookie.addcookies</a></li>
         <li class="main "><a href="#cookiegetcookies">.cookie.getcookies</a></li>
         <li class="main "><a href="#reqaddheaders">.req.addheaders</a></li>
@@ -212,6 +215,119 @@
 <td></td>
 <td>string</td>
 <td>updated URL with supplied credentials</td>
+</tr>
+</tbody>
+</table>
+<h2 id="authgetcache">.auth.getcache</h2>
+<p>get cached auth string for a given host</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>hst</td>
+<td>string</td>
+<td>hostname</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>string</td>
+<td>cached auth string</td>
+</tr>
+</tbody>
+</table>
+<h2 id="authreadnetrc">.auth.readnetrc</h2>
+<p>retrieve login from .netrc file</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>host</td>
+<td>string</td>
+<td>hostname to get login for</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>string</td>
+<td>auth string in format "user:pass"</td>
+</tr>
+</tbody>
+</table>
+<h2 id="authsetcache">.auth.setcache</h2>
+<p>cache auth string for a given host</p>
+<p><strong>Parameter(s):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>host</td>
+<td>string</td>
+<td>hostname</td>
+</tr>
+<tr>
+<td>auth</td>
+<td>string</td>
+<td>auth string in format "user:pass"</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td>null</td>
 </tr>
 </tbody>
 </table>
@@ -1076,7 +1192,7 @@
         </footer>
         <script>
             var base_url = "../../..",
-                shortcuts = {"search": 83, "help": 191, "next": 78, "previous": 80};
+                shortcuts = {"next": 78, "previous": 80, "help": 191, "search": 83};
         </script>
         <script src="../../../js/base.js" defer></script>
         <script src="../../../search/main.js" defer></script>
