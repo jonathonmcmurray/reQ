@@ -1,7 +1,7 @@
 .utl.require"req"
 
 // remove tracing header added by httpbin - messy to work with various types of return
-.req.rmhd:{if[`headers in k:key x;x:k#((1#`headers)_x),(1#`headers)!enlist(`$"X-Amzn-Trace-Id")_ x`headers];x};
+.req.rmhd:{if[`headers in k:key x;x:k#((1#`headers)_x),(1#`headers)!enlist(`$"X-Amzn-Trace-Id";`Authorization)_ x`headers];x};
 
 .tst.desc["Requests"]{
     before{
