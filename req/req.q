@@ -134,7 +134,7 @@ parseresp:{[r]
   eh:`$"Content-Encoding";
   if[(.z.K>=3.7)&r[0][eh]like"gzip";:.z.s(enlist[eh]_;-35!)@'r];                    //decompress gzip response on 3.7+
   if[eh in key r 0;'"Unsupported encoding: ",r[0]eh];                               //if other encoding, or not 3.7, signal
-  :$[(`j in key`)&r[0][`$"Content-Type"]like .h.ty[`json],"*";.j.k;] r[1];          //check for JSON, parse if so
+  :$[(`j in key`)&r[0][`$"Content-Type"]like .req.ty[`json],"*";.j.k;] r[1];        //check for JSON, parse if so
   }
 
 // @kind function
