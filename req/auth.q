@@ -34,7 +34,34 @@ setcache:{[host;auth]cache[`$host]:`auth`expires!(auth;.z.p+0D00:15:00)}
 // @fileoverview get cached auth string for a given host
 // @param hst {string} hostname
 // @return {string} cached auth string
-getcache:{[hst]exec first auth from cache where host=`$hst,expires>.z.p}
+getcache:{[hst]
+  r:exec first auth from cache where host=`$hst,expires>.z.p;
+  if[count r;:r];
+  if[netrcenabled;:readnetrc hst];
+  :();
+ }
+
+// @kind data
+// @category public
+// @fileoverview boolean flag to determine whether to use ~/.netrc by default
+netrcenabled:not()~key .os.hfile`.netrc
+
+// @kind data
+// @category public
+// @fileoverview location of .netrc file, by default ~/.netrc
+netrclocation:.os.hfile`.netrc
+
+// @kind function
+// @category private
+// @fileoverview retrieve login from .netrc file
+// @param host {string} hostname to get login for
+// @return {string} auth string in format "user:pass"
+readnetrc:{[host]
+  i:.os.read netrclocation;
+  t:(uj/){enlist(!/)"S*"$flip x} each (where i like "machine *") cut " " vs/:i;
+  if[0=count t:select from t where machine like host;:()];
+  :":"sv first[t]`login`password;
+ }
 
 \d .
 

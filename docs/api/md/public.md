@@ -4,6 +4,14 @@
 
  storage for basic auth credential cache
 
+## .auth.netrcenabled
+
+ boolean flag to determine whether to use ~/.netrc by default
+
+## .auth.netrclocation
+
+ location of .netrc file, by default ~/.netrc
+
 ## .b64.dec
 
  base64 decode a string

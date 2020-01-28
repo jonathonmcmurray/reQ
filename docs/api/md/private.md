@@ -33,6 +33,22 @@
 |---|---|---|
 ||string|cached auth string|
 
+## .auth.readnetrc
+
+ retrieve login from .netrc file
+
+**Parameter(s):**
+
+|Name|Type|Description|
+|---|---|---|
+|host|string|hostname to get login for|
+
+**Returns:**
+
+|Name|Type|Description|
+|---|---|---|
+||string|auth string in format "user:pass"|
+
 ## .auth.setcache
 
  cache auth string for a given host
