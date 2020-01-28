@@ -106,6 +106,8 @@ okstatus:{[v;x]
 // @return {(dict;string)} HTTP response (headers;body)
 send:{[m;u;hd;p;v]
   q:@[.req.query;`method`url`headers`body;:;(m;.url.parse0[0]u;hd;p)];              //parse URL into URL object & build query
+  if[a:count q[`url]`auth;.auth.setcache . q[`url]`host`auth];                      //cache credentials if set
+  if[not a;q[`url;`auth]:.auth.getcache q[`url]`host];                              //retrieve cached credentials if not set
   q:proxy q;                                                                        //check if we need to use proxy & get proxy address
   /nu:$[@[value;`.doh.ENABLED;0b];.doh.resolve;]u;                                   //resolve URL via DNS-over-HTTPS if enabled
   hs:.url.hsurl`$raze q ./:enlist[`url`protocol],$[`proxy in key q;1#`proxy;enlist`url`host]; //get hostname as handle

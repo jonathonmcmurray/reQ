@@ -16,5 +16,9 @@ getauth:{[h;u] /h-headers,u-URL
   :.url.format @[.url.parse0[0b] u;`auth;:;s,":",p];                                //update URL with supplied username & pass
   }
 
+cache:([host:`$()]auth:();expires:`timestamp$())
+setcache:{[host;auth]cache[`$host]:`auth`expires!(auth;.z.p+0D00:15:00)}
+getcache:{[hst]exec first auth from cache where host=`$hst,expires>.z.p}
+
 \d .
 
