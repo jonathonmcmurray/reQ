@@ -113,7 +113,7 @@ send:{[m;u;hd;p;v]
   q:addheaders[q];                                                                  //get dictionary of HTTP headers for request
   r:hs d:buildquery[q];                                                             //build query and execute
   if[v;-1"-- REQUEST --\n",string[hs],"\n",d];                                      //if verbose, log request
-  if[v;-1"-- RESPONSE --\n",r];                                                     //if verbose, log response
+  if[v;-1"-- RESPONSE --\n",r,("\n"<>last r)#"\n"];                                 //if verbose, log response
   r:formatresp r;                                                                   //format response to headers & body
   if[(sc:`$"Set-Cookie") in k:key r 0;                                              //check for Set-Cookie headers
       .cookie.addcookie[q[`url;`host]]'[value[r 0]where k=sc]];                     //set any cookies necessary
