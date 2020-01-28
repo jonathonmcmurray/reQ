@@ -1,5 +1,9 @@
 
 
+## .auth.cache
+
+ storage for basic auth credential cache
+
 ## .b64.dec
 
  base64 decode a string

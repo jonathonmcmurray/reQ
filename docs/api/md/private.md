@@ -17,6 +17,39 @@
 |---|---|---|
 ||string|updated URL with supplied credentials|
 
+## .auth.getcache
+
+ get cached auth string for a given host
+
+**Parameter(s):**
+
+|Name|Type|Description|
+|---|---|---|
+|hst|string|hostname|
+
+**Returns:**
+
+|Name|Type|Description|
+|---|---|---|
+||string|cached auth string|
+
+## .auth.setcache
+
+ cache auth string for a given host
+
+**Parameter(s):**
+
+|Name|Type|Description|
+|---|---|---|
+|host|string|hostname|
+|auth|string|auth string in format "user:pass"|
+
+**Returns:**
+
+|Name|Type|Description|
+|---|---|---|
+|||null|
+
 ## .cookie.addcookies
 
  Add stored cookie(s) relevant to current query
