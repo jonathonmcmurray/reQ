@@ -174,7 +174,7 @@
 <p>location of .netrc file, by default ~/.netrc</p>
 <h2 id="b64dec">.b64.dec</h2>
 <p>base64 decode a string</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameter:</strong></p>
 <table>
 <thead>
 <tr>
@@ -195,14 +195,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>string</td>
 <td>decoded string</td>
 </tr>
@@ -210,7 +208,7 @@
 </table>
 <h2 id="b64enc">.b64.enc</h2>
 <p>base64 encode a string. Where available, defaults to .Q.btoa built-in</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameter:</strong></p>
 <table>
 <thead>
 <tr>
@@ -231,14 +229,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>string</td>
 <td>encoded string</td>
 </tr>
@@ -246,7 +242,7 @@
 </table>
 <h2 id="cookieaddcookie">.cookie.addcookie</h2>
 <p>Add or update a cookie in the jar</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameters:</strong></p>
 <table>
 <thead>
 <tr>
@@ -272,14 +268,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>null</td>
 <td></td>
 </tr>
@@ -289,7 +283,7 @@
 <p>storage for cookies</p>
 <h2 id="cookiereadjar">.cookie.readjar</h2>
 <p>Read a Netscape/cURL format cookiejar</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameter:</strong></p>
 <table>
 <thead>
 <tr>
@@ -310,14 +304,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>&lt;returns&gt;</td>
 <td>table</td>
 <td>cookie jar</td>
 </tr>
@@ -325,7 +317,7 @@
 </table>
 <h2 id="cookiewritejar">.cookie.writejar</h2>
 <p>Write a Netscape/cURL format cookiejar</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameters:</strong></p>
 <table>
 <thead>
 <tr>
@@ -351,14 +343,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>hsym</td>
 <td>cookie jar filename</td>
 </tr>
@@ -366,7 +356,7 @@
 </table>
 <h2 id="reqdel">.req.del</h2>
 <p>Send an HTTP DELETE request, no body</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameters:</strong></p>
 <table>
 <thead>
 <tr>
@@ -392,14 +382,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>(dict; string) | any</td>
 <td>HTTP response (headers;body), or parsed if JSON</td>
 </tr>
@@ -407,7 +395,7 @@
 </table>
 <h2 id="reqdelete">.req.delete</h2>
 <p>Send an HTTP DELETE request</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameters:</strong></p>
 <table>
 <thead>
 <tr>
@@ -438,14 +426,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>(dict; string) | any</td>
 <td>HTTP response (headers;body), or parsed if JSON</td>
 </tr>
@@ -453,7 +439,7 @@
 </table>
 <h2 id="reqg">.req.g</h2>
 <p>Send an HTTP GET request (simple, no custom headers)</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameter:</strong></p>
 <table>
 <thead>
 <tr>
@@ -474,14 +460,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>(dict; string) | any</td>
 <td>HTTP response (headers;body), or parsed if JSON</td>
 </tr>
@@ -489,7 +473,7 @@
 </table>
 <h2 id="reqget">.req.get</h2>
 <p>Send an HTTP GET request</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameters:</strong></p>
 <table>
 <thead>
 <tr>
@@ -515,14 +499,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>(dict; string) | any</td>
 <td>HTTP response (headers;body), or parsed if JSON</td>
 </tr>
@@ -530,7 +512,7 @@
 </table>
 <h2 id="reqpost">.req.post</h2>
 <p>Send an HTTP POST request</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameters:</strong></p>
 <table>
 <thead>
 <tr>
@@ -561,14 +543,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>(dict; string) | any</td>
 <td>HTTP response (headers;body), or parsed if JSON</td>
 </tr>
@@ -576,7 +556,7 @@
 </table>
 <h2 id="reqsend">.req.send</h2>
 <p>Send an HTTP request</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameters:</strong></p>
 <table>
 <thead>
 <tr>
@@ -617,14 +597,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>(dict; string)</td>
 <td>HTTP response (headers;body)</td>
 </tr>
@@ -632,7 +610,7 @@
 </table>
 <h2 id="reqtimeout">.req.timeout</h2>
 <p><em>EXPERIMENTAL</em> send a request with a client-side timeout</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameters:</strong></p>
 <table>
 <thead>
 <tr>
@@ -673,14 +651,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>(dict; string)</td>
 <td>HTTP response (headers;body)</td>
 </tr>
@@ -694,7 +670,7 @@
         </footer>
         <script>
             var base_url = "../../..",
-                shortcuts = {"next": 78, "previous": 80, "help": 191, "search": 83};
+                shortcuts = {"next": 78, "help": 191, "search": 83, "previous": 80};
         </script>
         <script src="../../../js/base.js" defer></script>
         <script src="../../../search/main.js" defer></script>

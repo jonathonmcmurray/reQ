@@ -179,7 +179,7 @@
 
 <h2 id="authgetauth">.auth.getauth</h2>
 <p><em>EXPERIMENTAL</em> prompt for authorization if requested</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameters:</strong></p>
 <table>
 <thead>
 <tr>
@@ -205,14 +205,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>string</td>
 <td>updated URL with supplied credentials</td>
 </tr>
@@ -220,7 +218,7 @@
 </table>
 <h2 id="authgetcache">.auth.getcache</h2>
 <p>get cached auth string for a given host</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameter:</strong></p>
 <table>
 <thead>
 <tr>
@@ -241,14 +239,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>string</td>
 <td>cached auth string</td>
 </tr>
@@ -256,7 +252,7 @@
 </table>
 <h2 id="authreadnetrc">.auth.readnetrc</h2>
 <p>retrieve login from .netrc file</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameter:</strong></p>
 <table>
 <thead>
 <tr>
@@ -277,14 +273,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>string</td>
 <td>auth string in format "user:pass"</td>
 </tr>
@@ -292,7 +286,7 @@
 </table>
 <h2 id="authsetcache">.auth.setcache</h2>
 <p>cache auth string for a given host</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameters:</strong></p>
 <table>
 <thead>
 <tr>
@@ -318,14 +312,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td></td>
 <td>null</td>
 </tr>
@@ -333,7 +325,7 @@
 </table>
 <h2 id="cookieaddcookies">.cookie.addcookies</h2>
 <p>Add stored cookie(s) relevant to current query</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameter:</strong></p>
 <table>
 <thead>
 <tr>
@@ -354,14 +346,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>&lt;returns&gt;</td>
 <td>dict</td>
 <td>query objeect with added cookies</td>
 </tr>
@@ -369,7 +359,7 @@
 </table>
 <h2 id="cookiegetcookies">.cookie.getcookies</h2>
 <p>Get stored cookie(s) relevant to current query</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameter:</strong></p>
 <table>
 <thead>
 <tr>
@@ -390,14 +380,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>string</td>
 <td>cookie(s)</td>
 </tr>
@@ -405,7 +393,7 @@
 </table>
 <h2 id="reqaddheaders">.req.addheaders</h2>
 <p>Convert headers to strings &amp; add authorization and Content-Length</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameter:</strong></p>
 <table>
 <thead>
 <tr>
@@ -426,14 +414,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>&lt;returns&gt;</td>
 <td>dict</td>
 <td>Updated query object</td>
 </tr>
@@ -441,7 +427,7 @@
 </table>
 <h2 id="reqbuildquery">.req.buildquery</h2>
 <p>Construct full HTTP query string from query object</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameter:</strong></p>
 <table>
 <thead>
 <tr>
@@ -462,14 +448,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>string</td>
 <td>HTTP query string</td>
 </tr>
@@ -477,7 +461,7 @@
 </table>
 <h2 id="reqenchd">.req.enchd</h2>
 <p>Convert a KDB dictionary into HTTP headers</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameter:</strong></p>
 <table>
 <thead>
 <tr>
@@ -498,14 +482,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>string</td>
 <td>string HTTP headers</td>
 </tr>
@@ -513,7 +495,7 @@
 </table>
 <h2 id="reqformatresp">.req.formatresp</h2>
 <p>Split HTTP response into headers &amp; dict</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameter:</strong></p>
 <table>
 <thead>
 <tr>
@@ -534,22 +516,20 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
-<td>(dict; string)</td>
-<td>(response header;response body)</td>
+<td>(dict; string; string)</td>
+<td>(response header;response body;raw headers)</td>
 </tr>
 </tbody>
 </table>
 <h2 id="reqgb">.req.gb</h2>
 <p>Generate boundary marker</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameter:</strong></p>
 <table>
 <thead>
 <tr>
@@ -570,14 +550,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>string</td>
 <td>Boundary marker</td>
 </tr>
@@ -585,7 +563,7 @@
 </table>
 <h2 id="reqmkpt">.req.mkpt</h2>
 <p>Create one part for a multipart form</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameters:</strong></p>
 <table>
 <thead>
 <tr>
@@ -616,14 +594,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>string[]</td>
 <td>multipart form</td>
 </tr>
@@ -631,7 +607,7 @@
 </table>
 <h2 id="reqmult">.req.mult</h2>
 <p>Build multi-part object</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameters:</strong></p>
 <table>
 <thead>
 <tr>
@@ -657,14 +633,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>string</td>
 <td>Multipart form</td>
 </tr>
@@ -672,7 +646,7 @@
 </table>
 <h2 id="reqmulti">.req.multi</h2>
 <p>Convert a q dictionary to a multipart form</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameter:</strong></p>
 <table>
 <thead>
 <tr>
@@ -693,14 +667,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>(dict; string)</td>
 <td>(HTTP headers;body) to give to .req.post</td>
 </tr>
@@ -708,7 +680,7 @@
 </table>
 <h2 id="reqokstatus">.req.okstatus</h2>
 <p>Signal if not OK status, return unchanged response if OK</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameters:</strong></p>
 <table>
 <thead>
 <tr>
@@ -734,14 +706,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>(dict; string)</td>
 <td>HTTP response object</td>
 </tr>
@@ -749,7 +719,7 @@
 </table>
 <h2 id="reqparseresp">.req.parseresp</h2>
 <p>Parse to kdb object based on Content-Type header. Only supports JSON currently</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameter:</strong></p>
 <table>
 <thead>
 <tr>
@@ -770,14 +740,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>any</td>
 <td>Parsed response</td>
 </tr>
@@ -785,7 +753,7 @@
 </table>
 <h2 id="reqproxy">.req.proxy</h2>
 <p>Applies proxy if relevant</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameter:</strong></p>
 <table>
 <thead>
 <tr>
@@ -806,14 +774,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>&lt;returns&gt;</td>
 <td>dict</td>
 <td>Updated URL object</td>
 </tr>
@@ -821,7 +787,7 @@
 </table>
 <h2 id="statusclass">.status.class</h2>
 <p>get status "class" from status code, header dict or return object</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameter:</strong></p>
 <table>
 <thead>
 <tr>
@@ -842,14 +808,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>int</td>
 <td>status class</td>
 </tr>
@@ -857,7 +821,7 @@
 </table>
 <h2 id="urldec">.url.dec</h2>
 <p>decode a URL encoded string to a KDB dictionary</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameter:</strong></p>
 <table>
 <thead>
 <tr>
@@ -878,14 +842,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>&lt;returns&gt;</td>
 <td>dict</td>
 <td>kdb dictionary to encode</td>
 </tr>
@@ -893,7 +855,7 @@
 </table>
 <h2 id="urlenc">.url.enc</h2>
 <p>encode a KDB dictionary as a URL encoded string</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameter:</strong></p>
 <table>
 <thead>
 <tr>
@@ -914,14 +876,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>string</td>
 <td>URL encoded string</td>
 </tr>
@@ -929,7 +889,7 @@
 </table>
 <h2 id="urlformat">.url.format</h2>
 <p>format URL object into string</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameter:</strong></p>
 <table>
 <thead>
 <tr>
@@ -950,14 +910,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>string</td>
 <td>URL</td>
 </tr>
@@ -965,7 +923,7 @@
 </table>
 <h2 id="urlhsurl">.url.hsurl</h2>
 <p>return URL as an hsym</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameter:</strong></p>
 <table>
 <thead>
 <tr>
@@ -986,14 +944,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>hsym</td>
 <td>URL</td>
 </tr>
@@ -1001,7 +957,7 @@
 </table>
 <h2 id="urlhu">.url.hu</h2>
 <p>URI escaping for non-safe chars, RFC-3986</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameter:</strong></p>
 <table>
 <thead>
 <tr>
@@ -1022,14 +978,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>string</td>
 <td>URL</td>
 </tr>
@@ -1037,7 +991,7 @@
 </table>
 <h2 id="urlparse">.url.parse</h2>
 <p>parse a string/symbol/hsym URL into a URL dictionary &amp; parse query</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameter:</strong></p>
 <table>
 <thead>
 <tr>
@@ -1058,14 +1012,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>&lt;returns&gt;</td>
 <td>dict</td>
 <td>URL dictionary</td>
 </tr>
@@ -1073,7 +1025,7 @@
 </table>
 <h2 id="urlparse0">.url.parse0</h2>
 <p>parse a string/symbol/hsym URL into a URL dictionary</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameters:</strong></p>
 <table>
 <thead>
 <tr>
@@ -1099,14 +1051,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>&lt;returns&gt;</td>
 <td>dict</td>
 <td>URL dictionary</td>
 </tr>
@@ -1114,7 +1064,7 @@
 </table>
 <h2 id="urlquery">.url.query</h2>
 <p>Parse URL query; split on ?, urldecode query</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameter:</strong></p>
 <table>
 <thead>
 <tr>
@@ -1135,14 +1085,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>(string; dict)</td>
 <td>(URL;parsed query)</td>
 </tr>
@@ -1150,7 +1098,7 @@
 </table>
 <h2 id="urlsturl">.url.sturl</h2>
 <p>return URL as a string</p>
-<p><strong>Parameter(s):</strong></p>
+<p><strong>Parameter:</strong></p>
 <table>
 <thead>
 <tr>
@@ -1171,14 +1119,12 @@
 <table>
 <thead>
 <tr>
-<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>string</td>
 <td>URL</td>
 </tr>
@@ -1192,7 +1138,7 @@
         </footer>
         <script>
             var base_url = "../../..",
-                shortcuts = {"next": 78, "previous": 80, "help": 191, "search": 83};
+                shortcuts = {"next": 78, "help": 191, "search": 83, "previous": 80};
         </script>
         <script src="../../../js/base.js" defer></script>
         <script src="../../../search/main.js" defer></script>
