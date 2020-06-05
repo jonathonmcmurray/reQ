@@ -64,7 +64,8 @@ tab & extract to your `QPATH` directory.
 Using `qDoc` from Kx (included with Kx Developer)
 
 ```bash
-$ q $AXLIBRARIES_HOME/ws/qdoc.q_ -src req/ -out docs/api/
+$ # -norecurse so as not to go into ext/ dir
+$ q $AXLIBRARIES_HOME/ws/qdoc.q_ -src req/ -out docs/api/ -norecurse
 ..
 $ mkdocs serve # to preview locally
 ..

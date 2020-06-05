@@ -80,6 +80,7 @@ formatresp:{[r]
   p:(0,4+first r ss 4#"\r\n") cut r;                                                //split response headers & body
   p:@[p;0;"statustext:",];                                                          //add key for status text line
   d:trim enlist[`]_(!/)("S:\n")0:p[0]except"\r";                                    //create dictionary of response headers
+  d:lower[key d]!value d;                                                           //make headers always lower case
   d[`status]:"I"$(" "vs r)1;                                                        //add status code
   :(d;p[1]);                                                                        //return header dict & reponse body
   }
@@ -117,11 +118,11 @@ send:{[m;u;hd;p;v]
   if[v;-1"-- REQUEST --\n",string[hs],"\n",d];                                      //if verbose, log request
   if[v;-1"-- RESPONSE --\n",r,("\n"<>last r)#"\n"];                                 //if verbose, log response
   r:formatresp r;                                                                   //format response to headers & body
-  if[(sc:`$"Set-Cookie") in k:key r 0;                                              //check for Set-Cookie headers
+  if[(sc:`$"set-cookie") in k:key r 0;                                              //check for Set-Cookie headers
       .cookie.addcookie[q[`url;`host]]'[value[r 0]where k=sc]];                     //set any cookies necessary
   if[r[0][`status]=401;:.z.s[m;.auth.getauth[r 0;u];hd;p;v]];                       //if unauthorised prompt for user/pass FIX:should have some counter to prevent infinite loops
   if[.status.class[r] = 3;                                                          //if status is 3XX, redirect
-      lo:$["/"=r[0][`Location]0;.url.format[`protocol`auth`host#q`url],1_r[0]`Location;r[0]`Location]; //detect if relative or absolute redirect
+      lo:$["/"=r[0][`location]0;.url.format[`protocol`auth`host#q`url],1_r[0]`location;r[0]`location]; //detect if relative or absolute redirect
      :.z.s[m;lo;hd;p;v]];                                                           //perform redirections if needed
   :r;
   }
@@ -133,10 +134,10 @@ send:{[m;u;hd;p;v]
 // @return {any} Parsed response
 parseresp:{[r]
   / TODO - add handling for other data types? /
-  eh:`$"Content-Encoding";
+  eh:`$"content-encoding";
   if[(.z.K>=3.7)&r[0][eh]like"gzip";:.z.s(enlist[eh]_;-35!)@'r];                    //decompress gzip response on 3.7+
   if[eh in key r 0;'"Unsupported encoding: ",r[0]eh];                               //if other encoding, or not 3.7, signal
-  :$[(`j in key`)&r[0][`$"Content-Type"]like .req.ty[`json],"*";.j.k;] r[1];        //check for JSON, parse if so
+  :$[(`j in key`)&r[0][`$"content-type"]like .req.ty[`json],"*";.j.k;] r[1];        //check for JSON, parse if so
   }
 
 // @kind function
