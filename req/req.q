@@ -22,6 +22,12 @@ query:`method`url`hsym`path`headers`body`bodytype!()                            
 ty:@[.h.ty;`form;:;"application/x-www-form-urlencoded"]                             //add type for url encoded form, used for slash commands
 ty:@[ty;`json;:;"application/json"]                                                 //add type for JSON (missing in older versions of q)
 
+// @kind data
+// @category variable
+// @fileoverview Dictionary with decompress functions for Content-Encoding types
+decompress:()!()
+decompress[enlist"gzip"]:-35!
+
 // @kind function
 // @category private
 // @fileoverview Applies proxy if relevant
@@ -75,14 +81,18 @@ buildquery:{[q]
 // @category private
 // @fileoverview Split HTTP response into headers & dict
 // @param r {string} raw HTTP response
-// @return {(dict;string)} (response header;response body)
+// @return {(dict;string;string)} (response header;response body;raw headers)
 formatresp:{[r]
   p:(0,4+first r ss 4#"\r\n") cut r;                                                //split response headers & body
+  rh:p 0;                                                                           //keep raw headers to return as text
   p:@[p;0;"statustext:",];                                                          //add key for status text line
   d:trim enlist[`]_(!/)("S:\n")0:p[0]except"\r";                                    //create dictionary of response headers
   d:lower[key d]!value d;                                                           //make headers always lower case
   d[`status]:"I"$(" "vs r)1;                                                        //add status code
-  :(d;p[1]);                                                                        //return header dict & reponse body
+  if[(`$"content-encoding")in key d;
+      p[1]:.req.decompress[d`$"content-encoding"]p[1];                              //if compressed, decompress body based on content-encoding
+    ];
+  :(d;p[1];rh);                                                                     //return header dict, reponse body, raw headers string
   }
 
 // @kind function
@@ -116,8 +126,8 @@ send:{[m;u;hd;p;v]
   q:addheaders[q];                                                                  //get dictionary of HTTP headers for request
   r:hs d:buildquery[q];                                                             //build query and execute
   if[v;-1"-- REQUEST --\n",string[hs],"\n",d];                                      //if verbose, log request
-  if[v;-1"-- RESPONSE --\n",r,("\n"<>last r)#"\n"];                                 //if verbose, log response
   r:formatresp r;                                                                   //format response to headers & body
+  if[v;-1"-- RESPONSE --\n",r[2],"\n\n",r[1],("\n"<>last r[1])#"\n"];               //if verbose, log response
   if[(sc:`$"set-cookie") in k:key r 0;                                              //check for Set-Cookie headers
       .cookie.addcookie[q[`url;`host]]'[value[r 0]where k=sc]];                     //set any cookies necessary
   if[r[0][`status]=401;:.z.s[m;.auth.getauth[r 0;u];hd;p;v]];                       //if unauthorised prompt for user/pass FIX:should have some counter to prevent infinite loops
@@ -134,10 +144,8 @@ send:{[m;u;hd;p;v]
 // @return {any} Parsed response
 parseresp:{[r]
   / TODO - add handling for other data types? /
-  eh:`$"content-encoding";
-  if[(.z.K>=3.7)&r[0][eh]like"gzip";:.z.s(enlist[eh]_;-35!)@'r];                    //decompress gzip response on 3.7+
-  if[eh in key r 0;'"Unsupported encoding: ",r[0]eh];                               //if other encoding, or not 3.7, signal
-  :$[(`j in key`)&r[0][`$"content-type"]like .req.ty[`json],"*";.j.k;] r[1];        //check for JSON, parse if so
+  f:$[(`j in key`)&r[0][`$"content-type"]like .req.ty[`json],"*";.j.k;::];          //check for JSON, parse if so
+  :@[f;r[1];r[1]];                                                                   //error trap parsing, return raw if fail
   }
 
 // @kind function
