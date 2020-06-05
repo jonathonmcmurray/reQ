@@ -4,7 +4,7 @@
 
  *EXPERIMENTAL* prompt for authorization if requested
 
-**Parameter(s):**
+**Parameters:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -13,15 +13,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||string|updated URL with supplied credentials|
+|Type|Description|
+|---|---|
+|string|updated URL with supplied credentials|
 
 ## .auth.getcache
 
  get cached auth string for a given host
 
-**Parameter(s):**
+**Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -29,15 +29,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||string|cached auth string|
+|Type|Description|
+|---|---|
+|string|cached auth string|
 
 ## .auth.readnetrc
 
  retrieve login from .netrc file
 
-**Parameter(s):**
+**Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -45,15 +45,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||string|auth string in format "user:pass"|
+|Type|Description|
+|---|---|
+|string|auth string in format "user:pass"|
 
 ## .auth.setcache
 
  cache auth string for a given host
 
-**Parameter(s):**
+**Parameters:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -62,15 +62,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-|||null|
+|Type|Description|
+|---|---|
+||null|
 
 ## .cookie.addcookies
 
  Add stored cookie(s) relevant to current query
 
-**Parameter(s):**
+**Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -78,15 +78,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-|&lt;returns&gt;|dict|query objeect with added cookies|
+|Type|Description|
+|---|---|
+|dict|query objeect with added cookies|
 
 ## .cookie.getcookies
 
  Get stored cookie(s) relevant to current query
 
-**Parameter(s):**
+**Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -94,15 +94,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||string|cookie(s)|
+|Type|Description|
+|---|---|
+|string|cookie(s)|
 
 ## .req.addheaders
 
  Convert headers to strings & add authorization and Content-Length
 
-**Parameter(s):**
+**Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -110,15 +110,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-|&lt;returns&gt;|dict|Updated query object|
+|Type|Description|
+|---|---|
+|dict|Updated query object|
 
 ## .req.buildquery
 
  Construct full HTTP query string from query object
 
-**Parameter(s):**
+**Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -126,15 +126,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||string|HTTP query string|
+|Type|Description|
+|---|---|
+|string|HTTP query string|
 
 ## .req.enchd
 
  Convert a KDB dictionary into HTTP headers
 
-**Parameter(s):**
+**Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -142,15 +142,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||string|string HTTP headers|
+|Type|Description|
+|---|---|
+|string|string HTTP headers|
 
 ## .req.formatresp
 
  Split HTTP response into headers & dict
 
-**Parameter(s):**
+**Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -158,15 +158,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||(dict; string)|(response header;response body)|
+|Type|Description|
+|---|---|
+|(dict; string; string)|(response header;response body;raw headers)|
 
 ## .req.gb
 
  Generate boundary marker
 
-**Parameter(s):**
+**Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -174,15 +174,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||string|Boundary marker|
+|Type|Description|
+|---|---|
+|string|Boundary marker|
 
 ## .req.mkpt
 
  Create one part for a multipart form
 
-**Parameter(s):**
+**Parameters:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -192,15 +192,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||string[]|multipart form|
+|Type|Description|
+|---|---|
+|string[]|multipart form|
 
 ## .req.mult
 
  Build multi-part object
 
-**Parameter(s):**
+**Parameters:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -209,15 +209,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||string|Multipart form|
+|Type|Description|
+|---|---|
+|string|Multipart form|
 
 ## .req.multi
 
  Convert a q dictionary to a multipart form
 
-**Parameter(s):**
+**Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -225,15 +225,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||(dict; string)|(HTTP headers;body) to give to .req.post|
+|Type|Description|
+|---|---|
+|(dict; string)|(HTTP headers;body) to give to .req.post|
 
 ## .req.okstatus
 
  Signal if not OK status, return unchanged response if OK
 
-**Parameter(s):**
+**Parameters:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -242,15 +242,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||(dict; string)|HTTP response object|
+|Type|Description|
+|---|---|
+|(dict; string)|HTTP response object|
 
 ## .req.parseresp
 
  Parse to kdb object based on Content-Type header. Only supports JSON currently
 
-**Parameter(s):**
+**Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -258,15 +258,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||any|Parsed response|
+|Type|Description|
+|---|---|
+|any|Parsed response|
 
 ## .req.proxy
 
  Applies proxy if relevant
 
-**Parameter(s):**
+**Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -274,15 +274,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-|&lt;returns&gt;|dict|Updated URL object|
+|Type|Description|
+|---|---|
+|dict|Updated URL object|
 
 ## .status.class
 
  get status "class" from status code, header dict or return object
 
-**Parameter(s):**
+**Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -290,15 +290,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||int|status class|
+|Type|Description|
+|---|---|
+|int|status class|
 
 ## .url.dec
 
  decode a URL encoded string to a KDB dictionary
 
-**Parameter(s):**
+**Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -306,15 +306,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-|&lt;returns&gt;|dict|kdb dictionary to encode|
+|Type|Description|
+|---|---|
+|dict|kdb dictionary to encode|
 
 ## .url.enc
 
  encode a KDB dictionary as a URL encoded string
 
-**Parameter(s):**
+**Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -322,15 +322,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||string|URL encoded string|
+|Type|Description|
+|---|---|
+|string|URL encoded string|
 
 ## .url.format
 
  format URL object into string
 
-**Parameter(s):**
+**Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -338,15 +338,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||string|URL|
+|Type|Description|
+|---|---|
+|string|URL|
 
 ## .url.hsurl
 
  return URL as an hsym
 
-**Parameter(s):**
+**Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -354,15 +354,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||hsym|URL |
+|Type|Description|
+|---|---|
+|hsym|URL |
 
 ## .url.hu
 
  URI escaping for non-safe chars, RFC-3986
 
-**Parameter(s):**
+**Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -370,15 +370,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||string|URL|
+|Type|Description|
+|---|---|
+|string|URL|
 
 ## .url.parse
 
  parse a string/symbol/hsym URL into a URL dictionary & parse query
 
-**Parameter(s):**
+**Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -386,15 +386,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-|&lt;returns&gt;|dict|URL dictionary|
+|Type|Description|
+|---|---|
+|dict|URL dictionary|
 
 ## .url.parse0
 
  parse a string/symbol/hsym URL into a URL dictionary
 
-**Parameter(s):**
+**Parameters:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -403,15 +403,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-|&lt;returns&gt;|dict|URL dictionary|
+|Type|Description|
+|---|---|
+|dict|URL dictionary|
 
 ## .url.query
 
  Parse URL query; split on ?, urldecode query
 
-**Parameter(s):**
+**Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -419,15 +419,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||(string; dict)|(URL;parsed query)|
+|Type|Description|
+|---|---|
+|(string; dict)|(URL;parsed query)|
 
 ## .url.sturl
 
  return URL as a string
 
-**Parameter(s):**
+**Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -435,6 +435,6 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||string|URL|
+|Type|Description|
+|---|---|
+|string|URL|

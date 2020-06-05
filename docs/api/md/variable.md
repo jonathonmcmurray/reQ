@@ -4,6 +4,10 @@
 
  Flag for verbose mode
 
+## .req.decompress
+
+ Dictionary with decompress functions for Content-Encoding types
+
 ## .req.def
 
  Default headers added to all HTTP requests

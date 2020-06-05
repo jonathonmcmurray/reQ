@@ -16,7 +16,7 @@
 
  base64 decode a string
 
-**Parameter(s):**
+**Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -24,15 +24,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||string|decoded string|
+|Type|Description|
+|---|---|
+|string|decoded string|
 
 ## .b64.enc
 
  base64 encode a string. Where available, defaults to .Q.btoa built-in
 
-**Parameter(s):**
+**Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -40,15 +40,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||string|encoded string|
+|Type|Description|
+|---|---|
+|string|encoded string|
 
 ## .cookie.addcookie
 
  Add or update a cookie in the jar
 
-**Parameter(s):**
+**Parameters:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -57,9 +57,9 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||null||
+|Type|Description|
+|---|---|
+|null||
 
 ## .cookie.jar
 
@@ -69,7 +69,7 @@
 
  Read a Netscape/cURL format cookiejar
 
-**Parameter(s):**
+**Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -77,15 +77,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-|&lt;returns&gt;|table|cookie jar|
+|Type|Description|
+|---|---|
+|table|cookie jar|
 
 ## .cookie.writejar
 
  Write a Netscape/cURL format cookiejar
 
-**Parameter(s):**
+**Parameters:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -94,15 +94,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||hsym|cookie jar filename |
+|Type|Description|
+|---|---|
+|hsym|cookie jar filename |
 
 ## .req.del
 
  Send an HTTP DELETE request, no body
 
-**Parameter(s):**
+**Parameters:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -111,15 +111,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||(dict; string) \| any|HTTP response (headers;body), or parsed if JSON|
+|Type|Description|
+|---|---|
+|(dict; string) \| any|HTTP response (headers;body), or parsed if JSON|
 
 ## .req.delete
 
  Send an HTTP DELETE request
 
-**Parameter(s):**
+**Parameters:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -129,15 +129,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||(dict; string) \| any|HTTP response (headers;body), or parsed if JSON|
+|Type|Description|
+|---|---|
+|(dict; string) \| any|HTTP response (headers;body), or parsed if JSON|
 
 ## .req.g
 
  Send an HTTP GET request (simple, no custom headers)
 
-**Parameter(s):**
+**Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -145,15 +145,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||(dict; string) \| any|HTTP response (headers;body), or parsed if JSON|
+|Type|Description|
+|---|---|
+|(dict; string) \| any|HTTP response (headers;body), or parsed if JSON|
 
 ## .req.get
 
  Send an HTTP GET request
 
-**Parameter(s):**
+**Parameters:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -162,15 +162,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||(dict; string) \| any|HTTP response (headers;body), or parsed if JSON|
+|Type|Description|
+|---|---|
+|(dict; string) \| any|HTTP response (headers;body), or parsed if JSON|
 
 ## .req.post
 
  Send an HTTP POST request
 
-**Parameter(s):**
+**Parameters:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -180,15 +180,15 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||(dict; string) \| any|HTTP response (headers;body), or parsed if JSON|
+|Type|Description|
+|---|---|
+|(dict; string) \| any|HTTP response (headers;body), or parsed if JSON|
 
 ## .req.send
 
  Send an HTTP request
 
-**Parameter(s):**
+**Parameters:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -200,9 +200,9 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||(dict; string)|HTTP response (headers;body)|
+|Type|Description|
+|---|---|
+|(dict; string)|HTTP response (headers;body)|
 
 
 
@@ -210,7 +210,7 @@
 
  *EXPERIMENTAL* send a request with a client-side timeout
 
-**Parameter(s):**
+**Parameters:**
 
 |Name|Type|Description|
 |---|---|---|
@@ -222,6 +222,6 @@
 
 **Returns:**
 
-|Name|Type|Description|
-|---|---|---|
-||(dict; string)|HTTP response (headers;body)|
+|Type|Description|
+|---|---|
+|(dict; string)|HTTP response (headers;body)|
