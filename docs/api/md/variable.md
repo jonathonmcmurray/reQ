@@ -1,5 +1,13 @@
 
 
+## .req.PARSE
+
+ Flag for parsing output to q datatypes
+
+## .req.SIGNAL
+
+ Flag for signalling on HTTP errors
+
 ## .req.VERBOSE
 
  Flag for verbose mode

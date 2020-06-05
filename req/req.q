@@ -3,7 +3,17 @@
 // @kind data
 // @category variable
 // @fileoverview Flag for verbose mode
-VERBOSE:@[value;`.req.VERBOSE;$[count .z.x;"-verbose" in .z.x;0b]];                 //default to non-verbose output
+VERBOSE:@[value;`.req.VERBOSE;0i];                                                  //default to non-verbose output
+
+// @kind data
+// @category variable
+// @fileoverview Flag for parsing output to q datatypes
+PARSE:@[value;`.req.PARSE;1b];                                                      //default to parsing output
+
+// @kind data
+// @category variable
+// @fileoverview Flag for signalling on HTTP errors
+SIGNAL:@[value;`.req.SIGNAL;1b];                                                    //default to signalling for HTTP errors
 
 // @kind data
 // @category variable
@@ -102,7 +112,7 @@ formatresp:{[r]
 // @param x {(dict;string)} HTTP response object
 // @return {(dict;string)} HTTP response object
 okstatus:{[v;x]
-  if[v|x[0][`status] within 200 299;:x];                                            //if in verbose mode or OK status, return
+  if[not[.req.SIGNAL]|v|x[0][`status] within 200 299;:x];                           //if signalling disabled, in verbose mode or OK status, return
   'string x[0]`status;                                                              //signal if bad status FIX: handle different status codes - descriptive signals
   }
 
@@ -125,9 +135,9 @@ send:{[m;u;hd;p;v]
   q:.cookie.addcookies[q];                                                          //add cookie headers
   q:addheaders[q];                                                                  //get dictionary of HTTP headers for request
   r:hs d:buildquery[q];                                                             //build query and execute
-  if[v;-1"-- REQUEST --\n",string[hs],"\n",d];                                      //if verbose, log request
+  if[v;neg[`int$v]"-- REQUEST --\n",string[hs],"\n",d];                             //if verbose, log request
   r:formatresp r;                                                                   //format response to headers & body
-  if[v;-1"-- RESPONSE --\n",r[2],"\n\n",r[1],("\n"<>last r[1])#"\n"];               //if verbose, log response
+  if[v;neg[`int$v]"-- RESPONSE --\n",r[2],"\n\n",r[1],("\n"<>last r[1])#"\n"];      //if verbose, log response
   if[(sc:`$"set-cookie") in k:key r 0;                                              //check for Set-Cookie headers
       .cookie.addcookie[q[`url;`host]]'[value[r 0]where k=sc]];                     //set any cookies necessary
   if[r[0][`status]=401;:.z.s[m;.auth.getauth[r 0;u];hd;p;v]];                       //if unauthorised prompt for user/pass FIX:should have some counter to prevent infinite loops
@@ -144,8 +154,9 @@ send:{[m;u;hd;p;v]
 // @return {any} Parsed response
 parseresp:{[r]
   / TODO - add handling for other data types? /
+  if[not .req.PARSE;:2#r];                                                          //if parsing disabled, return "raw" response (incl. headers dict)
   f:$[(`j in key`)&r[0][`$"content-type"]like .req.ty[`json],"*";.j.k;::];          //check for JSON, parse if so
-  :@[f;r[1];r[1]];                                                                   //error trap parsing, return raw if fail
+  :@[f;r[1];r[1]];                                                                  //error trap parsing, return raw if fail
   }
 
 // @kind function
