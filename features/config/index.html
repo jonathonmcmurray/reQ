@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        <link rel="canonical" href="http://jmcmurray.co.uk/reQ/examples/aoc/">
+        <link rel="canonical" href="http://jmcmurray.co.uk/reQ/features/config/">
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Advent of Code - reQ</title>
+        <title>Configurable defaults - reQ</title>
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -58,28 +58,28 @@
                             <li >
                                 <a href="../..">Overview</a>
                             </li>
-                            <li class="dropdown">
+                            <li class="dropdown active">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Features <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li >
-    <a href="../../features/cookies/">Cookies</a>
+    <a href="../cookies/">Cookies</a>
 </li>
                                     
 <li >
-    <a href="../../features/headers/">Headers</a>
+    <a href="../headers/">Headers</a>
 </li>
                                     
 <li >
-    <a href="../../features/redirects/">HTTP redirects</a>
+    <a href="../redirects/">HTTP redirects</a>
 </li>
                                     
 <li >
-    <a href="../../features/verbose/">Verbose mode</a>
+    <a href="../verbose/">Verbose mode</a>
 </li>
                                     
-<li >
-    <a href="../../features/config/">Configurable defaults</a>
+<li class="active">
+    <a href="./">Configurable defaults</a>
 </li>
                                 </ul>
                             </li>
@@ -100,24 +100,24 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown active">
+                            <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Examples <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li class="active">
-    <a href="./">Advent of Code</a>
+<li >
+    <a href="../../examples/aoc/">Advent of Code</a>
 </li>
                                     
 <li >
-    <a href="../github/">GitHub</a>
+    <a href="../../examples/github/">GitHub</a>
 </li>
                                     
 <li >
-    <a href="../jira/">JIRA</a>
+    <a href="../../examples/jira/">JIRA</a>
 </li>
                                     
 <li >
-    <a href="../zoho/">Zoho</a>
+    <a href="../../examples/zoho/">Zoho</a>
 </li>
                                 </ul>
                             </li>
@@ -130,17 +130,17 @@
                             </a>
                         </li>
                             <li >
-                                <a rel="next" href="../../api/md/variable/">
+                                <a rel="next" href="../verbose/">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li >
-                                <a rel="prev" href="../github/">
+                                <a rel="prev" href="../../api/md/public/">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="https://github.com/jonathonmcmurray/reQ/edit/master/docs/examples/aoc.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+                                <a href="https://github.com/jonathonmcmurray/reQ/edit/master/docs/features/config.md"><i class="fa fa-github"></i> Edit on GitHub</a>
                             </li>
                     </ul>
                 </div>
@@ -150,12 +150,53 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#advent-of-code">Advent of Code</a></li>
+        <li class="main active"><a href="#configuring-default-behaviours">Configuring default behaviours</a></li>
+            <li><a href="#reqparse">.req.PARSE</a></li>
+            <li><a href="#reqsignal">.req.SIGNAL</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="advent-of-code">Advent of Code</h1></div>
+<h1 id="configuring-default-behaviours">Configuring default behaviours</h1>
+<hr />
+<h2 id="reqparse"><code>.req.PARSE</code></h2>
+<p>Controls whether standard functions (<code>.req.get</code> etc.) will attempt to parse
+response into kdb datatypes (e.g. parsing JSON response).</p>
+<p>If disabled, raw string response will be returned with headers</p>
+<p>By default, <code>.req.PARSE</code> is set to <code>1b</code>; to disable parsing, set to <code>0b</code>.</p>
+<p>e.g.</p>
+<pre><code class="q">q).req.PARSE:0b
+q).req.g&quot;http://httpbin.org/get&quot;
+`statustext`date`content-type`content-length`connection`server`access-control-allow-origin`access-control-allow-credentials`status!(&quot;HTTP/1.1 200 OK&quot;;&quot;Fri, 05 Jun 2020 17:08:08 GMT&quot;;&quot;application/json&quot;;&quot;328&quot;;&quot;close&quot;;&quot;gunicorn/19.9.0&quot;;,&quot;*..
+&quot;{\n  \&quot;args\&quot;: {}, \n  \&quot;headers\&quot;: {\n    \&quot;Accept\&quot;: \&quot;*/*\&quot;, \n    \&quot;Accept-Encoding\&quot;: \&quot;gzip\&quot;, \n    \&quot;Authorization\&quot;: \&quot;Basic cmVROnJlcXBhc3M=\&quot;, \n    \&quot;Host\&quot;: \&quot;httpbin.org\&quot;, \n    \&quot;User-Agent\&quot;: \&quot;kdb+/4\&quot;, \n    \&quot;X-Amzn..
+q).req.PARSE:1b
+q).req.g&quot;http://httpbin.org/get&quot;
+args   | (`symbol$())!()
+headers| `Accept`Accept-Encoding`Authorization`Host`User-Agent`X-Amzn-Trace-Id!(&quot;*/*&quot;;&quot;gzip&quot;;&quot;Basic cmVROnJlcXBhc3M=&quot;;&quot;httpbin.org&quot;;&quot;kdb+/4&quot;;&quot;Root=1-5eda7bfd-92527fb727e9b8b07de0bb8a&quot;)
+origin | &quot;90.249.66.28&quot;
+url    | &quot;http://httpbin.org/get&quot;
+</code></pre>
+
+<h2 id="reqsignal"><code>.req.SIGNAL</code></h2>
+<p>Controls whether reQ will throw a signal when encountering an HTTP error
+status (i.e. 4XX status code).</p>
+<p>By default, <code>.req.SIGNAL</code> is set to <code>1b</code>; to disable signalling, set to <code>0b</code>.</p>
+<p>e.g.</p>
+<pre><code class="q">q).req.SIGNAL:0b
+q).req.g&quot;http://httpbin.org/status/403&quot;
+&quot;&quot;
+q).req.SIGNAL:1b
+q).req.g&quot;http://httpbin.org/status/403&quot;
+'403
+  [2]  /home/jonny/git/reQ/req/req.q:116: .req.okstatus:
+  if[not[.req.SIGNAL]|v|x[0][`status] within 200 299;:x];                           //if signalling disabled, in verbose mode or OK status, return
+  'string x[0]`status;                                                              //signal if bad status FIX: handle different status codes - descriptive signals
+  ^
+  }
+  [1]  /home/jonny/git/reQ/req/req.q:169: .req.get:{parseresp okstatus[.req.VERBOSE] send[`GET;x;y;();.req.VERBOSE]}
+                                                              ^
+q.req))\
+</code></pre></div>
         </div>
 
         <footer class="col-md-12">

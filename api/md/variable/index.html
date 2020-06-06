@@ -77,6 +77,10 @@
 <li >
     <a href="../../../features/verbose/">Verbose mode</a>
 </li>
+                                    
+<li >
+    <a href="../../../features/config/">Configurable defaults</a>
+</li>
                                 </ul>
                             </li>
                             <li class="dropdown active">
@@ -146,7 +150,9 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#reqverbose">.req.VERBOSE</a></li>
+        <li class="main active"><a href="#reqparse">.req.PARSE</a></li>
+        <li class="main "><a href="#reqsignal">.req.SIGNAL</a></li>
+        <li class="main "><a href="#reqverbose">.req.VERBOSE</a></li>
         <li class="main "><a href="#reqdecompress">.req.decompress</a></li>
         <li class="main "><a href="#reqdef">.req.def</a></li>
         <li class="main "><a href="#reqty">.req.ty</a></li>
@@ -154,6 +160,10 @@
 </div></div>
                 <div class="col-md-9" role="main">
 
+<h2 id="reqparse">.req.PARSE</h2>
+<p>Flag for parsing output to q datatypes</p>
+<h2 id="reqsignal">.req.SIGNAL</h2>
+<p>Flag for signalling on HTTP errors</p>
 <h2 id="reqverbose">.req.VERBOSE</h2>
 <p>Flag for verbose mode</p>
 <h2 id="reqdecompress">.req.decompress</h2>
@@ -170,7 +180,7 @@
         </footer>
         <script>
             var base_url = "../../..",
-                shortcuts = {"next": 78, "help": 191, "search": 83, "previous": 80};
+                shortcuts = {"search": 83, "previous": 80, "help": 191, "next": 78};
         </script>
         <script src="../../../js/base.js" defer></script>
         <script src="../../../search/main.js" defer></script>

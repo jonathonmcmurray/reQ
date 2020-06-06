@@ -77,6 +77,10 @@
 <li class="active">
     <a href="./">Verbose mode</a>
 </li>
+                                    
+<li >
+    <a href="../config/">Configurable defaults</a>
+</li>
                                 </ul>
                             </li>
                             <li class="dropdown">
@@ -131,7 +135,7 @@
                                 </a>
                             </li>
                             <li >
-                                <a rel="prev" href="../../api/md/public/">
+                                <a rel="prev" href="../config/">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -157,43 +161,16 @@
 <p>reQ includes a verbose mode which displays the raw HTTP requests &amp; responses.
 This can be useful for debugging purposes, to view the full headers on both the
 request &amp; response.</p>
-<p>To enable this mode, either start the process with <code>-verbose</code> on the command
-line, or else set <code>.req.VERBOSE:1b</code> before making the requests.</p>
+<p>To enable this mode, set <code>.req.VERBOSE</code> before making the requests. The value
+should be the handle to which output should be written (e.g. <code>1</code> for stdout,
+<code>2</code> for stderr).</p>
 <h2 id="examples">Examples</h2>
-<p>Setting <code>-verbose</code> on command line &amp; performing a basic HTTP request:</p>
-<pre><code>jonny@kodiak ~/reQ (master) $ q req.q -verbose
-KDB+ 3.5 2018.04.25 Copyright (C) 1993-2018 Kx Systems
-l64/ 4(16)core 7360MB jonny kodiak 127.0.1.1 EXPIRE 2019.05.21 jonathon.mcmurray@aquaq.co.uk KOD #4160315
-
-q).req.get[&quot;http://httpbin.org/get&quot;;()!()];
--- REQUEST --
-GET /get HTTP/1.1
-Host: httpbin.org
-Connection: Close
-User-Agent: kdb+/3.5
-Accept: */*
-
-
--- RESPONSE --
-HTTP/1.1 200 OK
-Connection: close
-Server: gunicorn/19.8.1
-Date: Mon, 04 Jun 2018 22:35:50 GMT
-Content-Type: application/json
-Content-Length: 162
-Access-Control-Allow-Origin: *
-Access-Control-Allow-Credentials: true
-Via: 1.1 vegur
-
-{&quot;args&quot;:{},&quot;headers&quot;:{&quot;Accept&quot;:&quot;*/*&quot;,&quot;Connection&quot;:&quot;close&quot;,&quot;Host&quot;:&quot;httpbin.org&quot;,&quot;User-Agent&quot;:&quot;kdb+/3.5&quot;},&quot;origin&quot;:&quot;146.199.80.196&quot;,&quot;url&quot;:&quot;http://httpbin.org/get&quot;}
-</code></pre>
-
-<p>An example including <a href="../redirects/">HTTP redirects</a> i.e. multiple requests &amp; responses, and setting <code>.req.VERBOSE:1b</code> within q session:</p>
+<p>An example including <a href="../redirects/">HTTP redirects</a> i.e. multiple requests &amp; responses, and setting <code>.req.VERBOSE:1</code> within q session:</p>
 <pre><code>jonny@kodiak ~/reQ (master) $ q req.q
 KDB+ 3.5 2018.04.25 Copyright (C) 1993-2018 Kx Systems
 l64/ 4(16)core 7360MB jonny kodiak 127.0.1.1 EXPIRE 2019.05.21 jonathon.mcmurray@aquaq.co.uk KOD #4160315
 
-q).req.VERBOSE:1b
+q).req.VERBOSE:1
 q).req.get[&quot;http://httpbin.org/redirect/2&quot;;()!()];
 -- REQUEST --
 GET /redirect/2 HTTP/1.1
@@ -269,7 +246,7 @@ Via: 1.1 vegur
         </footer>
         <script>
             var base_url = "../..",
-                shortcuts = {"next": 78, "help": 191, "search": 83, "previous": 80};
+                shortcuts = {"search": 83, "previous": 80, "help": 191, "next": 78};
         </script>
         <script src="../../js/base.js" defer></script>
         <script src="../../search/main.js" defer></script>
