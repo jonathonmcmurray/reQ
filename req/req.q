@@ -35,8 +35,9 @@ ty:@[ty;`json;:;"application/json"]                                             
 // @kind data
 // @category variable
 // @fileoverview Dictionary with decompress functions for Content-Encoding types
-decompress:()!()
-decompress[enlist"gzip"]:-35!
+decompress:enlist[enlist""]!enlist(::)
+// use native gzip decompression where available
+if[.z.K>=3.7;decompress[enlist"gzip"]:-35!];
 
 // @kind function
 // @category private
