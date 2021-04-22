@@ -20,8 +20,8 @@ parse0:{[q;x]
   uf:("@"in x)&first[ss[x;"@"]]<first ss[pn _ x;"/"];                               //user flag - true if username present
   un:pn;                                                                            //default to no user:pass
   u:-1_$[uf;(pn _ x) til (un:1+first ss[x;"@"])-pn;""];                             //user:pass
-  d:x til dn:count[x]^first ss[x:un _ x;"/"];                                       //domain
-  a:$[dn=count x;enlist"/";dn _ x];                                                 //absolute path
+  d:x til dn:count[x]^first ss[x:un _ x;"[/?]"];                                    //domain
+  a:$[(dn=count x)|"?"=x[dn];"/",;] dn _ x;                                         //absolute path (add leading slash if necessary)
   o:`protocol`auth`host`path!(p;u;d;a);                                             //create URL object
   :$[q;@[o;`path`query;:;query o`path];o];                                          //split path into path & query if flag set, return
   }
