@@ -13,11 +13,6 @@
         <link href="../../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
-        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
 
         <script src="../../../js/jquery-1.10.2.min.js" defer></script>
         <script src="../../../js/bootstrap-3.0.3.min.js" defer></script>
@@ -155,6 +150,7 @@
         <li class="main "><a href="#reqverbose">.req.VERBOSE</a></li>
         <li class="main "><a href="#reqdecompress">.req.decompress</a></li>
         <li class="main "><a href="#reqdef">.req.def</a></li>
+        <li class="main "><a href="#reqtx">.req.tx</a></li>
         <li class="main "><a href="#reqty">.req.ty</a></li>
     </ul>
 </div></div>
@@ -170,6 +166,8 @@
 <p>Dictionary with decompress functions for Content-Encoding types</p>
 <h2 id="reqdef">.req.def</h2>
 <p>Default headers added to all HTTP requests</p>
+<h2 id="reqtx">.req.tx</h2>
+<p>Dictionary with Content-Type encoders</p>
 <h2 id="reqty">.req.ty</h2>
 <p>Dictionary with Content-Types</p></div>
         </div>
@@ -180,7 +178,7 @@
         </footer>
         <script>
             var base_url = "../../..",
-                shortcuts = {"search": 83, "previous": 80, "help": 191, "next": 78};
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
         <script src="../../../js/base.js" defer></script>
         <script src="../../../search/main.js" defer></script>
