@@ -2,6 +2,7 @@
 
 [![Anaconda-Server Badge](https://anaconda.org/jmcmurray/req/badges/version.svg)](https://anaconda.org/jmcmurray/req)
 [![Anaconda-Server Badge](https://anaconda.org/jmcmurray/req/badges/downloads.svg)](https://anaconda.org/jmcmurray/req)
+[![Build Status](https://travis-ci.com/jonathonmcmurray/reQ.svg?branch=master)](https://travis-ci.com/jonathonmcmurray/reQ)
 
 HTTP requests library in kdb+/q
 
