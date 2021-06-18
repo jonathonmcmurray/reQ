@@ -195,7 +195,7 @@ parseresp:{[r]
 // @category public
 // @fileoverview Send an HTTP POST request (no custom headers)
 // @param x {symbol|string|#hsym} URL
-// @param y {dict} symbol of encoding to use (e.g. `json `csv)
+// @param y {dict} symbol of encoding to use (e.g. `` `json `csv``)
 // @param z {string|any} body for HTTP request (if non-string, must be an encoder in .req.tx)
 // @return {(dict;string)|any} HTTP response (headers;body), or parsed if JSON
 .req.p:{[x;y;z]

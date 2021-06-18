@@ -2,14 +2,14 @@
 
 ## .auth.getauth
 
- *EXPERIMENTAL* prompt for authorization if requested
+*EXPERIMENTAL* prompt for authorization if requested
 
 **Parameters:**
 
 |Name|Type|Description|
 |---|---|---|
 |h|dict|HTTP response headers|
-|u|string \| symbol \| hsym|URL |
+|u|string \| symbol \| hsym|URL File symbol|
 
 **Returns:**
 
@@ -19,7 +19,7 @@
 
 ## .auth.getcache
 
- get cached auth string for a given host
+get cached auth string for a given host
 
 **Parameter:**
 
@@ -35,7 +35,7 @@
 
 ## .auth.readnetrc
 
- retrieve login from .netrc file
+retrieve login from .netrc file
 
 **Parameter:**
 
@@ -51,7 +51,7 @@
 
 ## .auth.setcache
 
- cache auth string for a given host
+cache auth string for a given host
 
 **Parameters:**
 
@@ -68,7 +68,7 @@
 
 ## .cookie.addcookies
 
- Add stored cookie(s) relevant to current query
+Add stored cookie(s) relevant to current query
 
 **Parameter:**
 
@@ -84,7 +84,7 @@
 
 ## .cookie.getcookies
 
- Get stored cookie(s) relevant to current query
+Get stored cookie(s) relevant to current query
 
 **Parameter:**
 
@@ -100,7 +100,7 @@
 
 ## .req.addheaders
 
- Convert headers to strings & add authorization and Content-Length
+Convert headers to strings & add authorization and Content-Length
 
 **Parameter:**
 
@@ -116,7 +116,7 @@
 
 ## .req.buildquery
 
- Construct full HTTP query string from query object
+Construct full HTTP query string from query object
 
 **Parameter:**
 
@@ -132,7 +132,7 @@
 
 ## .req.enchd
 
- Convert a KDB dictionary into HTTP headers
+Convert a KDB dictionary into HTTP headers
 
 **Parameter:**
 
@@ -148,7 +148,7 @@
 
 ## .req.formatresp
 
- Split HTTP response into headers & dict
+Split HTTP response into headers & dict
 
 **Parameter:**
 
@@ -164,7 +164,7 @@
 
 ## .req.gb
 
- Generate boundary marker
+Generate boundary marker
 
 **Parameter:**
 
@@ -180,7 +180,7 @@
 
 ## .req.mkpt
 
- Create one part for a multipart form
+Create one part for a multipart form
 
 **Parameters:**
 
@@ -198,7 +198,7 @@
 
 ## .req.mult
 
- Build multi-part object
+Build multi-part object
 
 **Parameters:**
 
@@ -215,7 +215,7 @@
 
 ## .req.multi
 
- Convert a q dictionary to a multipart form
+Convert a q dictionary to a multipart form
 
 **Parameter:**
 
@@ -231,7 +231,7 @@
 
 ## .req.okstatus
 
- Signal if not OK status, return unchanged response if OK
+Signal if not OK status, return unchanged response if OK
 
 **Parameters:**
 
@@ -248,7 +248,7 @@
 
 ## .req.parseresp
 
- Parse to kdb object based on Content-Type header. Only supports JSON currently
+Parse to kdb object based on Content-Type header. Only supports JSON currently
 
 **Parameter:**
 
@@ -264,7 +264,7 @@
 
 ## .req.proxy
 
- Applies proxy if relevant
+Applies proxy if relevant
 
 **Parameter:**
 
@@ -280,7 +280,7 @@
 
 ## .status.class
 
- get status "class" from status code, header dict or return object
+get status "class" from status code, header dict or return object
 
 **Parameter:**
 
@@ -296,7 +296,7 @@
 
 ## .url.dec
 
- decode a URL encoded string to a KDB dictionary
+decode a URL encoded string to a KDB dictionary
 
 **Parameter:**
 
@@ -312,7 +312,7 @@
 
 ## .url.enc
 
- encode a KDB dictionary as a URL encoded string
+encode a KDB dictionary as a URL encoded string
 
 **Parameter:**
 
@@ -328,7 +328,7 @@
 
 ## .url.format
 
- format URL object into string
+format URL object into string
 
 **Parameter:**
 
@@ -344,23 +344,23 @@
 
 ## .url.hsurl
 
- return URL as an hsym
+return URL as an hsym
 
 **Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
-|x|string \| symbol \| hsym|URL |
+|x|string \| symbol \| hsym|URL File symbol|
 
 **Returns:**
 
 |Type|Description|
 |---|---|
-|hsym|URL |
+|hsym|URL File symbol|
 
 ## .url.hu
 
- URI escaping for non-safe chars, RFC-3986
+URI escaping for non-safe chars, RFC-3986
 
 **Parameter:**
 
@@ -376,13 +376,13 @@
 
 ## .url.parse
 
- parse a string/symbol/hsym URL into a URL dictionary & parse query
+parse a string/symbol/hsym URL into a URL dictionary & parse query
 
 **Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
-|x|string \| symbol \| hsym|URL containing query |
+|x|string \| symbol \| hsym|URL containing query File symbol|
 
 **Returns:**
 
@@ -392,14 +392,14 @@
 
 ## .url.parse0
 
- parse a string/symbol/hsym URL into a URL dictionary
+parse a string/symbol/hsym URL into a URL dictionary
 
 **Parameters:**
 
 |Name|Type|Description|
 |---|---|---|
 |q|boolean|parse URL query to kdb dict|
-|x|string \| symbol \| hsym|URL containing query |
+|x|string \| symbol \| hsym|URL containing query File symbol|
 
 **Returns:**
 
@@ -409,7 +409,7 @@
 
 ## .url.query
 
- Parse URL query; split on ?, urldecode query
+Parse URL query; split on ?, urldecode query
 
 **Parameter:**
 
@@ -425,13 +425,13 @@
 
 ## .url.sturl
 
- return URL as a string
+return URL as a string
 
 **Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
-|x|string \| symbol \| hsym|URL |
+|x|string \| symbol \| hsym|URL File symbol|
 
 **Returns:**
 

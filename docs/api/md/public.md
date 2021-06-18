@@ -2,19 +2,19 @@
 
 ## .auth.cache
 
- storage for basic auth credential cache
+storage for basic auth credential cache
 
 ## .auth.netrcenabled
 
- boolean flag to determine whether to use ~/.netrc by default
+boolean flag to determine whether to use ~/.netrc by default
 
 ## .auth.netrclocation
 
- location of .netrc file, by default ~/.netrc
+location of .netrc file, by default ~/.netrc
 
 ## .b64.dec
 
- base64 decode a string
+base64 decode a string
 
 **Parameter:**
 
@@ -30,7 +30,7 @@
 
 ## .b64.enc
 
- base64 encode a string. Where available, defaults to .Q.btoa built-in
+base64 encode a string. Where available, defaults to .Q.btoa built-in
 
 **Parameter:**
 
@@ -46,7 +46,7 @@
 
 ## .cookie.addcookie
 
- Add or update a cookie in the jar
+Add or update a cookie in the jar
 
 **Parameters:**
 
@@ -63,17 +63,17 @@
 
 ## .cookie.jar
 
- storage for cookies
+storage for cookies
 
 ## .cookie.readjar
 
- Read a Netscape/cURL format cookiejar
+Read a Netscape/cURL format cookiejar
 
 **Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
-|f|string \| symbol \| hsym|filename |
+|f|string \| symbol \| hsym|filename File symbol|
 
 **Returns:**
 
@@ -83,30 +83,30 @@
 
 ## .cookie.writejar
 
- Write a Netscape/cURL format cookiejar
+Write a Netscape/cURL format cookiejar
 
 **Parameters:**
 
 |Name|Type|Description|
 |---|---|---|
-|f|string \| symbol \| hsym|filename |
+|f|string \| symbol \| hsym|filename File symbol|
 |j|table|cookie jar|
 
 **Returns:**
 
 |Type|Description|
 |---|---|
-|hsym|cookie jar filename |
+|hsym|cookie jar filename File symbol|
 
 ## .req.del
 
- Send an HTTP DELETE request, no body
+Send an HTTP DELETE request, no body
 
 **Parameters:**
 
 |Name|Type|Description|
 |---|---|---|
-|x|symbol \| string \| hsym|URL |
+|x|symbol \| string \| hsym|URL File symbol|
 |y|dict|dictionary of custom HTTP headers to use|
 
 **Returns:**
@@ -117,13 +117,13 @@
 
 ## .req.delete
 
- Send an HTTP DELETE request
+Send an HTTP DELETE request
 
 **Parameters:**
 
 |Name|Type|Description|
 |---|---|---|
-|x|symbol \| string \| hsym|URL |
+|x|symbol \| string \| hsym|URL File symbol|
 |y|dict|dictionary of custom HTTP headers to use|
 |z|string|body for HTTP request|
 
@@ -135,13 +135,13 @@
 
 ## .req.g
 
- Send an HTTP GET request (simple, no custom headers)
+Send an HTTP GET request (simple, no custom headers)
 
 **Parameter:**
 
 |Name|Type|Description|
 |---|---|---|
-|x|symbol \| string \| hsym|URL |
+|x|symbol \| string \| hsym|URL File symbol|
 
 **Returns:**
 
@@ -151,14 +151,32 @@
 
 ## .req.get
 
- Send an HTTP GET request
+Send an HTTP GET request
 
 **Parameters:**
 
 |Name|Type|Description|
 |---|---|---|
-|x|symbol \| string \| hsym|URL |
+|x|symbol \| string \| hsym|URL File symbol|
 |y|dict|dictionary of custom HTTP headers to use|
+
+**Returns:**
+
+|Type|Description|
+|---|---|
+|(dict; string) \| any|HTTP response (headers;body), or parsed if JSON|
+
+## .req.p
+
+Send an HTTP POST request (no custom headers)
+
+**Parameters:**
+
+|Name|Type|Description|
+|---|---|---|
+|x|symbol \| string \| hsym|URL File symbol|
+|y|dict|symbol of encoding to use (e.g. `` `json `csv``)|
+|z|string \| any|body for HTTP request (if non-string, must be an encoder in .req.tx)|
 
 **Returns:**
 
@@ -168,13 +186,13 @@
 
 ## .req.post
 
- Send an HTTP POST request
+Send an HTTP POST request
 
 **Parameters:**
 
 |Name|Type|Description|
 |---|---|---|
-|x|symbol \| string \| hsym|URL |
+|x|symbol \| string \| hsym|URL File symbol|
 |y|dict|dictionary of custom HTTP headers to use|
 |z|string|body for HTTP request|
 
@@ -186,14 +204,14 @@
 
 ## .req.send
 
- Send an HTTP request
+Send an HTTP request
 
 **Parameters:**
 
 |Name|Type|Description|
 |---|---|---|
 |m|symbol|HTTP method/verb|
-|u|symbol \| string \| hsym|URL |
+|u|symbol \| string \| hsym|URL File symbol|
 |hd|dict|dictionary of custom HTTP headers to use|
 |p|string|payload/body (for POST requests)|
 |v|boolean|verbose flag|
@@ -208,7 +226,7 @@
 
 ## .req.timeout
 
- *EXPERIMENTAL* send a request with a client-side timeout
+*EXPERIMENTAL* send a request with a client-side timeout
 
 **Parameters:**
 
@@ -216,7 +234,7 @@
 |---|---|---|
 |t|int \| long|timeout (seconds)|
 |m|symbol|HTTP method/verb|
-|u|symbol \| string \| hsym|URL |
+|u|symbol \| string \| hsym|URL File symbol|
 |hd|dict|dictionary of custom HTTP headers to use|
 |p|string|payload/body (for POST requests)|
 

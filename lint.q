@@ -1,5 +1,5 @@
 .utl.require"req";                                                                  //import module
-system"l ",getenv[`AXLIBRARIES_HOME],"/ws/qlint.q_";                                //load linter
+system"l ",getenv[`DEVELOPER_HOME],"/ws/qlint.q_";                                //load linter
 rt:delete from .qlint.rules.defaultRules where label in `MISSING_DEPENDENCY`RESERVED_NAME`VAR_Q_ERROR`DEPRECATED_DATETIME;
 / MISSING_DEPENDENCY - doesn't properly handle dependencies in other namespaces
 / RESERVED_NAME - .req.get, .req.delete, .url.parse ...

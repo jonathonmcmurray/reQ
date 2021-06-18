@@ -2,8 +2,9 @@
   "args": {}, 
   "headers": {
     "Accept": "*/*", 
+    "Accept-Encoding":"gzip",
     "Host": "httpbin.org", 
-    "User-Agent": "kdb+/3.6"
+    "User-Agent": "kdb+/reQ-testing"
   }, 
   "origin": "81.147.56.137", 
   "url": "https://httpbin.org/get"

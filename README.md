@@ -65,7 +65,7 @@ Using `qDoc` from Kx (included with Kx Developer)
 
 ```bash
 $ # -norecurse so as not to go into ext/ dir
-$ q $AXLIBRARIES_HOME/ws/qdoc.q_ -src req/ -out docs/api/ -norecurse
+$ q $DEVELOPER_HOME/ws/qdoc.q_ -src req/ -out docs/api/ -norecurse
 ..
 $ mkdocs serve # to preview locally
 ..
@@ -74,7 +74,7 @@ $ mkdocs gh-deploy # to deploy to github
 
 ## Linting with qlint
 
-Uses `qlint.q_` from Kx (included with Kx Developer). Assumes `AXLIBRARIES_HOME`
+Uses `qlint.q_` from Kx (included with Kx Developer). Assumes `DEVELOPER_HOME`
 env var is set
 
 ```bash

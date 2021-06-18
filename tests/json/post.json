@@ -5,10 +5,11 @@
   "form": {}, 
   "headers": {
     "Accept": "*/*", 
+    "Accept-Encoding":"gzip",
     "Content-Length": "16", 
     "Content-Type": "application/json", 
     "Host": "httpbin.org", 
-    "User-Agent": "kdb+/3.6"
+    "User-Agent": "kdb+/reQ-testing"
   }, 
   "json": {
     "text": "hello"
