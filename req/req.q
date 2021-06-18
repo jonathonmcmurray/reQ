@@ -34,6 +34,12 @@ ty:@[ty;`json;:;"application/json"]                                             
 
 // @kind data
 // @category variable
+// @fileoverview Dictionary with Content-Type encoders
+tx:@[.h.tx;`form;:;.url.enc]                                                        //add encoder for url encoded form
+tx:@[tx;`json;:;.j.j]                                                               //encode with .j.j rather than json lines encoder
+
+// @kind data
+// @category variable
 // @fileoverview Dictionary with decompress functions for Content-Encoding types
 decompress:enlist[enlist""]!enlist(::)
 // use native gzip decompression where available
@@ -184,6 +190,21 @@ parseresp:{[r]
 // @param z {string} body for HTTP request
 // @return {(dict;string)|any} HTTP response (headers;body), or parsed if JSON
 .req.post:{parseresp okstatus[.req.VERBOSE] send[`POST;x;y;z;.req.VERBOSE]}
+
+// @kind function
+// @category public
+// @fileoverview Send an HTTP POST request (no custom headers)
+// @param x {symbol|string|#hsym} URL
+// @param y {dict} symbol of encoding to use (e.g. `json `csv)
+// @param z {string|any} body for HTTP request (if non-string, must be an encoder in .req.tx)
+// @return {(dict;string)|any} HTTP response (headers;body), or parsed if JSON
+.req.p:{[x;y;z]
+  if[10h<>type z;
+    if[not y in key .req.tx;'type];
+    z:.req.tx[y] z;
+  ];
+  y:enlist["Content-Type"]!enlist .req.ty y;
+  parseresp okstatus[.req.VERBOSE] send[`POST;x;y;z;.req.VERBOSE]}
 
 // @kind function
 // @category public
