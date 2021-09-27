@@ -133,11 +133,13 @@ okstatus:{[v;x]
 // @param v {boolean} verbose flag
 // @return {(dict;string)} HTTP response (headers;body)
 send:{[m;u;hd;p;v]
-  q:@[.req.query;`method`url`headers`body;:;(m;.url.parse0[0]u;hd;p)];              //parse URL into URL object & build query
+  u:$[type u;enlist;]u;                                                             //allow URL to contain query dict as 2nd element of the list
+  q:@[.req.query;`method`url`headers`body;:;(m;.url.parse0[0]u 0;hd;p)];            //parse URL into URL object & build query
+  if[count u 1; q[`url;`path]:.url.format `path`query!(q[`url;`path];u 1)];         //if query dict supplied, incorporate it in the URL path
   if[a:count q[`url]`auth;.auth.setcache . q[`url]`host`auth];                      //cache credentials if set
   if[not a;q[`url;`auth]:.auth.getcache q[`url]`host];                              //retrieve cached credentials if not set
   q:proxy q;                                                                        //check if we need to use proxy & get proxy address
-  /nu:$[@[value;`.doh.ENABLED;0b];.doh.resolve;]u;                                   //resolve URL via DNS-over-HTTPS if enabled
+  /nu:$[@[value;`.doh.ENABLED;0b];.doh.resolve;]u 0;                                //resolve URL via DNS-over-HTTPS if enabled
   hs:.url.hsurl`$raze q ./:enlist[`url`protocol],$[`proxy in key q;1#`proxy;enlist`url`host]; //get hostname as handle
   q:.cookie.addcookies[q];                                                          //add cookie headers
   q:addheaders[q];                                                                  //get dictionary of HTTP headers for request
@@ -147,7 +149,7 @@ send:{[m;u;hd;p;v]
   if[v;neg[`int$v]"-- RESPONSE --\n",r[2],"\n\n",r[1],("\n"<>last r[1])#"\n"];      //if verbose, log response
   if[(sc:`$"set-cookie") in k:key r 0;                                              //check for Set-Cookie headers
       .cookie.addcookie[q[`url;`host]]'[value[r 0]where k=sc]];                     //set any cookies necessary
-  if[r[0][`status]=401;:.z.s[m;.auth.getauth[r 0;u];hd;p;v]];                       //if unauthorised prompt for user/pass FIX:should have some counter to prevent infinite loops
+  if[r[0][`status]=401;:.z.s[m;.auth.getauth[r 0;u 0];hd;p;v]];                     //if unauthorised prompt for user/pass FIX:should have some counter to prevent infinite loops
   if[.status.class[r] = 3;                                                          //if status is 3XX, redirect
       lo:$["/"=r[0][`location]0;.url.format[`protocol`auth`host#q`url],1_r[0]`location;r[0]`location]; //detect if relative or absolute redirect
      :.z.s[m;lo;hd;p;v]];                                                           //perform redirections if needed
