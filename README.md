@@ -89,7 +89,7 @@ output table `t`.
 ## Building releases
 
 To build a release, `build.sh` is used. The script creates the unified, standalone
-`.q` script & the `.tar.gz` of qutil package.
+`.q` script (with qdoc comments stripped)  & the `.tar.gz` of qutil package.
 
 Argument is version number e.g.
 
