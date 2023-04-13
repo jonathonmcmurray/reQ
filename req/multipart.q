@@ -24,10 +24,10 @@ mult:{[b;d] "\r\n" sv mkpt[b]'[string key d;value d],enlist"--",b,"--"}         
 mkpt:{[b;n;v]
   f:-11=type v;                                                                     //check for file
   t:"";                                                                             //placeholder for Content-Type
-  if[f;t:"Content-Type: ",$[0<count t:.h.ty last` vs`$.url.sturl v;t;"application/octet-stream"],"\n"];     //get content-type for part
-  r :"--",b,"\n";                                                                   //opening boundary
-  r,:"Content-Disposition: form-data; name=\"",n,"\"",$[f;"; filename=",1_string v;""],"\n";
-  r,:t,"\n",$[f;`char$read1 v;v];                                                   //insert file contents or passed value
+  if[f;t:"Content-Type: ",$[0<count t:.h.ty last` vs`$.url.sturl v;t;"application/octet-stream"],"\r\n"];   //get content-type for part
+  r :"--",b,"\r\n";                                                                 //opening boundary
+  r,:"Content-Disposition: form-data; name=\"",n,"\"",$[f;"; filename=",1_string v;""],"\r\n";
+  r,:t,"\r\n",$[f;`char$read1 v;v];                                                 //insert file contents or passed value
   :r;
   }
 
