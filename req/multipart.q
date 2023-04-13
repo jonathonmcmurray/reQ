@@ -39,10 +39,10 @@ mkpt:{[b;n;v]
 multi:{[d]
   b:gb[];                                                                           //get boundary value
   m:mult[b;d];                                                                      //make multipart form from dictionary
-  :((1#`$"Content-Type")!enlist"multipart/form-data; boundary=",b;m);               //return HTTP header & multipart form
+  :((enlist"Content-Type")!enlist"multipart/form-data; boundary=",b;m);             //return HTTP header & multipart form
   }
 
-postmulti:{post[x] . multi y}                                                       //send HTTP POST report with multipart form
+postmulti:{post[x] . @[multi z;0;y,]}                                               //send HTTP POST report with multipart form
 
 \d .
 
